@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #201244;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+.Cart {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 50%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 3px solid black;
+  background-color: #ebead5;
+  color: #201244;
+  text-shadow: #1eb1d4 2px 2px 2px;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+}
+
+.title {
+  text-align: right;
+}
+
+.button {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  background-color: #ebead5;
+  padding: 10px;
+  text-align: center;
+}
