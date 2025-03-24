@@ -1,26 +1,33 @@
+import React, { useState } from 'react';
 
 function Cart(){
-    const Articles = [
-    {Nom: "T-shirt", Prix: 8},
-    {Nom: "Pull", Prix: 10},
-    {Nom: "Pantalon", Prix: 15}
-    ];
+    const [cartItems, setCartItems] = useState([]);
+
+    function resetCart() {
+        setCartItems([]);
+    }
+
+    let total = 0;
+    cartItems.forEach(article => {
+        total += article.price;
+    });
 
     return (
         <div className="Cart">
-            <h1>Panier</h1>
-            <ul>
-                {Articles.map((article, index) => (
-                    <li key={index}>{article.Nom} : {article.Prix}€</li>
-                ))}
-            </ul>
-            <p>
-                Total : {Articles.reduce((total, article) => total + article.Prix, 0)}€
-            </p>
-            <button className="button">Vider le panier</button>
+            <div className="cart">
+                <h1>Panier</h1>
+                <ul>
+                    {cartItems.map((article, index) => (
+                        <li key={article.id}>{article.name} : {article.price}€</li>
+                    ))}
+                </ul>
+                <p>
+                    Total : {total.toFixed(2)}€
+                </p>
+                <button className="button" onClick={resetCart}>Vider le panier</button>
+            </div>
         </div>
     )
-
 }
 
 export default Cart;
