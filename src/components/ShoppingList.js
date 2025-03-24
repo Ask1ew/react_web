@@ -1,19 +1,21 @@
+import React from 'react';
 import '../styles/index.css';
 import { itemList } from "../datas/itemList";
 import Item from "./Item";
 
-function ShoppingList() {
+function ShoppingList({ addToCart }) {
     return (
         <div className="shopping-list">
             <ul className='item-list'>
                 {itemList.map((item) => (
-                    <li className="item">
+                    <li key={item.id} className="item">
                         {item.onSale && <div className='sales'>Soldes</div>}
                         <Item
                             image={item.image}
                             name={item.name}
                             price={item.price}
                         />
+                        <button onClick={() => addToCart(item)}>Ajouter</button>
                     </li>
                 ))}
             </ul>
