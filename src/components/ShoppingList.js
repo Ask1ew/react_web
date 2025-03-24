@@ -9,11 +9,11 @@ function ShoppingList({ addToCart }) {
             <ul className='item-list'>
                 {itemList.map((item) => (
                     <li key={item.id} className="item">
+                        <div className="price-tag">{item.price}€</div>
                         {item.onSale && <div className='sales'>Soldes</div>}
                         <Item
                             image={item.image}
                             name={item.name}
-                            price={item.price}
                         />
                         <button onClick={() => addToCart(item)}>Ajouter</button>
                     </li>

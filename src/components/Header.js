@@ -1,11 +1,8 @@
 import '../styles/index.css';
 import logo from '../assets/galactic_burgers_logo.jpg';
+import { Link } from 'react-router-dom';
 
 function Header() {
-    const navigateTo = (path) => {
-        window.location.href = path;
-    };
-
     return (
         <div className='header'>
             <img src={logo} className='logo' alt="logo" />
@@ -13,18 +10,10 @@ function Header() {
                 <h1>Galactic Burgers</h1>
             </div>
             <nav className='nav-links'>
-                <button className="nav-button" onClick={() => navigateTo('/')}>
-                    Accueil
-                </button>
-                <button className="nav-button" onClick={() => navigateTo('/menu')}>
-                    Menu
-                </button>
-                <button className="nav-button" onClick={() => navigateTo('/about')}>
-                    À propos
-                </button>
-                <button className="nav-button" onClick={() => navigateTo('/contact')}>
-                    Contact
-                </button>
+                <Link to="/" className="nav-button">Accueil</Link>
+                <Link to="/menu" className="nav-button">Menu</Link>
+                <Link to="/about" className="nav-button">À propos</Link>
+                <Link to="/contact" className="nav-button">Contact</Link>
             </nav>
         </div>
     );

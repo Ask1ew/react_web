@@ -5,10 +5,16 @@ import Cart from "../components/Cart";
 import ShoppingList from "../components/ShoppingList";
 
 function Home() {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState({});
 
     const addToCart = (item) => {
-        setCartItems((prevItems) => [...prevItems, item]);
+        setCartItems((prevItems) => ({
+            ...prevItems,
+            [item.name]: {
+                ...item,
+                count: prevItems[item.name]?.count ? prevItems[item.name].count + 1 : 1
+            }
+        }));
     };
 
     return (

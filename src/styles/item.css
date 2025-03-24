@@ -1,3 +1,12 @@
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
 .img {
     width: 200px;
     height: 200px;
@@ -8,4 +17,5 @@
 
 p {
     text-align: center;
+    margin: 5px 0;
 }
