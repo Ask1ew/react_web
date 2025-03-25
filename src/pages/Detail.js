@@ -25,7 +25,9 @@ function Detail() {
         <div>
             <Header />
             <div className="detail-container">
-                <h1>Détails de {item.name}</h1>
+                <div className="detail-title">
+                    <h1>Détails de {item.name}</h1>
+                </div>
                 <div className="detail-content">
                     <img src={item.image} alt={item.name} className="detail-image" />
                     <div className="detail-info">
