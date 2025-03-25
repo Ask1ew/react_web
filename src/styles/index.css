@@ -1,21 +1,18 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #201244;
 }
 
-#root {
-  position: relative;
-  min-height: 100vh;
-}
+#root { min-height: 100vh; position: relative; }
 
+code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
+
+/* Header et Footer */
 .header, .footer {
   background-color: #ebead5;
   color: #201244;
@@ -30,53 +27,35 @@ body {
   text-shadow: #1eb1d4 2px 2px 2px;
 }
 
-.hamburger {
-  display: none;
-  background: none;
+/* Navigation */
+.nav-links { display: flex; gap: 15px; }
+
+.nav-button, .button {
   border: none;
-  font-size: 30px;
   cursor: pointer;
+}
+
+.nav-button {
+  background-color: transparent;
   color: #201244;
+  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 5px;
+  border: 2px solid #1eb1d4;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 900px) {
-  .header {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .hamburger {
-    display: block;
-    order: 1;
-  }
-
-  .nav-links:not(.mobile) {
-    display: none;
-  }
-
-  .nav-links.mobile {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 10px 0;
-    gap: 8px;
-  }
-
-  .nav-links.mobile .nav-button {
-    width: 100%;
-    text-align: left;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-left: 4px solid #1eb1d4;
-    border-radius: 0;
-  }
-
-  .nav-links.mobile .nav-button:hover {
-    background-color: rgba(30, 177, 212, 0.1);
-  }
+.nav-button:hover {
+  background-color: #1eb1d4;
+  color: white;
 }
 
+.nav-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 177, 212, 0.5);
+}
+
+/* Contenu principal */
 .main-content {
   flex-grow: 1;
   display: flex;
@@ -85,10 +64,12 @@ body {
 
 .container {
   display: flex;
-  flex-direction: row;
   flex-grow: 1;
 }
 
+.content { flex-grow: 1; }
+
+/* Carte, liste de courses et éléments */
 .cart, .shopping-list, .item-list .item {
   background-color: white;
   border-radius: 10px;
@@ -133,14 +114,13 @@ body {
   color: white;
 }
 
-.content { flex-grow: 1; }
-
 .shopping-list {
   padding: 20px;
   border: 1px solid #ddd;
   margin: 20px;
 }
 
+/* Liste d'articles */
 .item-list {
   list-style: none;
   padding: 0;
@@ -148,24 +128,6 @@ body {
   display: grid;
   gap: 20px;
   grid-template-columns: 1fr;
-}
-
-@media (min-width: 600px) {
-  .item-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 900px) {
-  .item-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1200px) {
-  .item-list {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 
 .item-list .item {
@@ -183,6 +145,57 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
+.item-list .item button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #1eb1d4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.item-list .item button:hover { background-color: #167a94; }
+
+/* Éléments spécifiques */
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+.title { text-align: right; }
+
+.button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.info-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #1eb1d4;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.info-icon:hover { background-color: #0056b3; }
+
 .price-tag {
   position: absolute;
   top: 10px;
@@ -196,110 +209,64 @@ body {
   z-index: 1;
 }
 
-.logo {
-  width: 150px;
-  height: auto;
+.price-tag.on-sale { background-color: #ff0000; }
+
+.sale-label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  margin-top: 5px;
 }
 
-.title { text-align: right; }
+/* Media Queries */
+@media (max-width: 900px) {
+  .header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-.nav-links {
-  display: flex;
-  gap: 15px;
+  .hamburger {
+    display: block;
+    order: 1;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #201244;
+  }
+
+  .nav-links:not(.mobile) { display: none; }
+
+  .nav-links.mobile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+    gap: 8px;
+  }
+
+  .nav-links.mobile .nav-button {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-left: 4px solid #1eb1d4;
+    border-radius: 0;
+  }
+
+  .nav-links.mobile .nav-button:hover {
+    background-color: rgba(30, 177, 212, 0.1);
+  }
 }
 
-.nav-button, .button {
-  border: none;
-  cursor: pointer;
+@media (min-width: 600px) {
+  .item-list { grid-template-columns: repeat(2, 1fr); }
 }
 
-.nav-button {
-  background-color: transparent;
-  color: #201244;
-  font-size: 18px;
-  padding: 8px 16px;
-  border-radius: 5px;
-  border: 2px solid #1eb1d4;
-  transition: all 0.3s ease;
+@media (min-width: 900px) {
+  .item-list { grid-template-columns: repeat(3, 1fr); }
 }
 
-.nav-button:hover {
-  background-color: #1eb1d4;
-  color: white;
-}
-
-.nav-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(30, 177, 212, 0.5);
-}
-
-.button {
-  background-color: #04AA6D;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.sales {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-weight: 500;
-  color: white;
-  padding: 5px 10px;
-  background-color: #e69946;
-  z-index: 1;
-}
-
-.item-list .item button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #1eb1d4;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.item-list .item button:hover {
-  background-color: #167a94;
-}
-
-.error-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 200px);
-  background-color: #201244;
-  color: white;
-  padding: 20px;
-}
-
-.error-page h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
-}
-
-.error-page p {
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-
-.error-page a {
-  text-decoration: none;
-  color: #1eb1d4;
-}
-
-.error-page a:hover {
-  text-decoration: underline;
+@media (min-width: 1200px) {
+  .item-list { grid-template-columns: repeat(4, 1fr); }
 }

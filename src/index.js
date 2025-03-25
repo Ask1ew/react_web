@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Error from "./pages/Error";
+import Detail from "./pages/Detail";
+import Preferences from "./pages/Preferences";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,8 +15,10 @@ root.render(
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/preferences" element={<Preferences />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/detail" element={<Detail />} />
                 <Route path="*" element={<Error />} />
             </Routes>
         </Router>
