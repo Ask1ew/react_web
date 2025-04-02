@@ -1,12 +1,12 @@
 import React from "react";
+import { useLocation } from 'react-router-dom';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import '../styles/detail.css';
-import { useLocation } from 'react-router-dom';
 
 function Detail() {
     const location = useLocation();
-    const item = location.state?.selectedItem;
+    const item = location.state?.item;
 
     if (!item) {
         return (
@@ -33,7 +33,7 @@ function Detail() {
                     <div className="detail-info">
                         <p><strong>Nom :</strong> {item.name}</p>
                         <p><strong>Prix :</strong> {item.price.toFixed(2)}€</p>
-                        {item.onSale && <p className="sale-alert">🏷️ Article en solde !</p>}
+                        {!!item.onSale && <p className="sale-alert">🏷️ Article en solde !</p>}
                         <p><strong>Description :</strong> {item.description || "Description non disponible"}</p>
                     </div>
                 </div>

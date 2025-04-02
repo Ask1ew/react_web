@@ -31,7 +31,9 @@ function ShoppingList() {
                                     {(item.price / 2).toFixed(2)}€
                                     <div className="sale-label">solde</div>
                                 </>
-                            ) : `${item.price.toFixed(2)}€`}
+                            ) : (
+                                <>{item.price.toFixed(2)}€</>
+                            )}
                         </div>
                         <Item image={item.image} name={item.name} />
                         <button onClick={() => addToCart(item)}>Ajouter</button>
