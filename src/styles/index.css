@@ -27,6 +27,15 @@ code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', mon
   text-shadow: #1eb1d4 2px 2px 2px;
 }
 
+.logo-container {
+  cursor: pointer;
+}
+
+.title {
+  cursor: pointer;
+  text-align: right;
+}
+
 /* Navigation */
 .nav-links { display: flex; gap: 15px; }
 

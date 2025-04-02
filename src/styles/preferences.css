@@ -1,0 +1,60 @@
+/* Boutons Toggle */
+.theme-options {
+    list-style: none;
+    padding: 0;
+}
+
+.theme-options li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.theme-options strong {
+    margin-right: 10px;
+}
+
+.toggle-button {
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.toggle-button.on {
+    background-color: #04AA6D; /* Vert pour ON */
+    color: white;
+}
+
+.toggle-button.off {
+    background-color: #ddd; /* Gris pour OFF */
+    color: black;
+}
+
+.toggle-button:hover {
+    opacity: 0.8;
+}
+
+/* Thèmes */
+.main-content.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.main-content.dark-mode h1 {
+    color: white;
+}
+
+.main-content.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.main-content {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+

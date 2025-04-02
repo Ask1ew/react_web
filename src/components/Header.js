@@ -19,9 +19,12 @@ function Header() {
 
     return (
         <div className='header'>
-            <img src={logo} className='logo' alt="logo" />
-            <div className='title'>
-                <h1>Galactic Burgers</h1>
+            <div className="logo-container" onClick={() => navigateTo('/')}>
+                <img src={logo} className='logo' alt="logo" />
+            </div>
+
+            <div className='title' onClick={() => navigateTo('/')}>
+                <h1>GALACTIC BURGERS</h1>
             </div>
 
             {isMobile ? (
