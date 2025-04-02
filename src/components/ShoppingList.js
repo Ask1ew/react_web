@@ -1,62 +1,45 @@
-import React from 'react';
-import '../styles/index.css';
-// import { itemList } from "../datas/itemList";
-import { useState, useEffect } from 'react'
-import Item from "./Item";
+import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useCart} from '../context/CartContext';
+import Item from "./Item";
+import '../styles/index.css';
 
-function ShoppingList({ addToCart }) {
-
+function ShoppingList() {
+    const { addToCart } = useCart();
     const navigate = useNavigate();
+    const [itemList, setItemsList] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/')
+            .then(res => res.json())
+            .then(data => setItemsList(data));
+    }, []);
 
     const showDetails = (item) => {
-        navigate('/detail', { state: { selectedItem: item } });
+        navigate('/detail', { state: { item } });
     };
-
-    const calculateDiscountedPrice = (price, onSale) => {
-        return onSale ? price / 2 : price;
-    };
-
-    const [itemList, setItemsList] = useState([])
-    useEffect(() => {
-        fetch(`http://localhost:3001/`)
-            .then((response) => response.json())
-            .then((data) => {
-                setItemsList(data)
-                console.log(data)
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la récupération des vêtements:', error);
-            })
-    }, [])
 
     return (
         <div className="shopping-list">
             <ul className='item-list'>
-                {itemList.map((item) => (
+                {itemList.map(item => (
                     <li key={item.id} className="item">
                         <div className="info-icon" onClick={() => showDetails(item)}>i</div>
                         <div className={`price-tag ${item.onSale ? 'on-sale' : ''}`}>
                             {item.onSale ? (
                                 <>
-                                    {calculateDiscountedPrice(item.price, item.onSale).toFixed(2)}€
+                                    {(item.price / 2).toFixed(2)}€
                                     <div className="sale-label">solde</div>
                                 </>
-                            ) : (
-                                `${item.price.toFixed(2)}€`
-                            )}
+                            ) : `${item.price.toFixed(2)}€`}
                         </div>
-
-                        <Item
-                            image={item.image}
-                            name={item.name}
-                        />
+                        <Item image={item.image} name={item.name} />
                         <button onClick={() => addToCart(item)}>Ajouter</button>
                     </li>
                 ))}
             </ul>
         </div>
-    )
+    );
 }
 
 export default ShoppingList;

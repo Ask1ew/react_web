@@ -10,11 +10,13 @@ import Detail from "./pages/Detail";
 import Preferences from "./pages/Preferences";
 import Connexion from "./pages/Connexion";
 import {PreferencesProvider} from "./context/PreferencesContext";
+import {CartProvider} from "./context/CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <PreferencesProvider>
+            <CartProvider>
             <Router>
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -26,6 +28,7 @@ root.render(
                     <Route path="*" element={<Error />} />
                 </Routes>
             </Router>
+            </CartProvider>
         </PreferencesProvider>
     </React.StrictMode>
 );
