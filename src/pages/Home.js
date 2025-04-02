@@ -1,32 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Cart from "../components/Cart";
 import ShoppingList from "../components/ShoppingList";
+import { PreferencesContext } from "../context/PreferencesContext";
 
 function Home() {
-    const [cartItems, setCartItems] = useState({});
-
-    const addToCart = (item) => {
-        setCartItems((prevItems) => ({
-            ...prevItems,
-            [item.name]: {
-                ...item,
-                count: prevItems[item.name]?.count ? prevItems[item.name].count + 1 : 1
-            }
-        }));
-    };
+    const { darkMode } = useContext(PreferencesContext);
 
     return (
-        <div>
+        <div className={darkMode ? "dark-mode" : "light-mode"}>
             <Header />
             <div className="main-content">
                 <div className="container">
                     <div className="content">
-                        <ShoppingList addToCart={addToCart} />
+                        <ShoppingList />
                     </div>
                 </div>
-                <Cart cartItems={cartItems} setCartItems={setCartItems} />
+                <Cart />
             </div>
             <Footer />
         </div>

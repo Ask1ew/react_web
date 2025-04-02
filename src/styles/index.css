@@ -12,58 +12,6 @@ body {
 
 code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
 
-/* Header et Footer */
-.header, .footer {
-  background-color: #ebead5;
-  color: #201244;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 3px solid black;
-  text-shadow: #1eb1d4 2px 2px 2px;
-}
-
-.logo-container {
-  cursor: pointer;
-}
-
-.title {
-  cursor: pointer;
-  text-align: right;
-}
-
-/* Navigation */
-.nav-links { display: flex; gap: 15px; }
-
-.nav-button, .button {
-  border: none;
-  cursor: pointer;
-}
-
-.nav-button {
-  background-color: transparent;
-  color: #201244;
-  font-size: 18px;
-  padding: 8px 16px;
-  border-radius: 5px;
-  border: 2px solid #1eb1d4;
-  transition: all 0.3s ease;
-}
-
-.nav-button:hover {
-  background-color: #1eb1d4;
-  color: white;
-}
-
-.nav-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(30, 177, 212, 0.5);
-}
-
 /* Contenu principal */
 .main-content {
   flex-grow: 1;
@@ -224,58 +172,4 @@ code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', mon
   font-size: 0.8em;
   text-transform: uppercase;
   margin-top: 5px;
-}
-
-/* Media Queries */
-@media (max-width: 900px) {
-  .header {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .hamburger {
-    display: block;
-    order: 1;
-    background: none;
-    border: none;
-    font-size: 30px;
-    cursor: pointer;
-    color: #201244;
-  }
-
-  .nav-links:not(.mobile) { display: none; }
-
-  .nav-links.mobile {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 10px 0;
-    gap: 8px;
-  }
-
-  .nav-links.mobile .nav-button {
-    width: 100%;
-    text-align: left;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-left: 4px solid #1eb1d4;
-    border-radius: 0;
-  }
-
-  .nav-links.mobile .nav-button:hover {
-    background-color: rgba(30, 177, 212, 0.1);
-  }
-}
-
-@media (min-width: 600px) {
-  .item-list { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 900px) {
-  .item-list { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (min-width: 1200px) {
-  .item-list { grid-template-columns: repeat(4, 1fr); }
 }

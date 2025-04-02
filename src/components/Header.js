@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/index.css';
+import '../styles/header.css';
 import logo from '../assets/galactic_burgers_logo.jpg';
 
 function Header() {

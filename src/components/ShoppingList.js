@@ -37,9 +37,16 @@ function ShoppingList({ addToCart }) {
                     <li key={item.id} className="item">
                         <div className="info-icon" onClick={() => showDetails(item)}>i</div>
                         <div className={`price-tag ${item.onSale ? 'on-sale' : ''}`}>
-                            {calculateDiscountedPrice(item.price, item.onSale).toFixed(2)}€
-                            {item.onSale && <div className="sale-label">solde</div>}
+                            {item.onSale ? (
+                                <>
+                                    {calculateDiscountedPrice(item.price, item.onSale).toFixed(2)}€
+                                    <div className="sale-label">solde</div>
+                                </>
+                            ) : (
+                                `${item.price.toFixed(2)}€`
+                            )}
                         </div>
+
                         <Item
                             image={item.image}
                             name={item.name}

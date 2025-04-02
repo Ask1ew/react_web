@@ -1,25 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { PreferencesContext } from "../context/PreferencesContext";
 import '../styles/preferences.css';
 
 function Preferences() {
-    const [darkMode, setDarkMode] = useState(false);
-    const [lightMode, setLightMode] = useState(true); // Mode clair activé par défaut
+    const { darkMode, setDarkMode } = useContext(PreferencesContext);
 
     const handleThemeChange = (theme) => {
         setDarkMode(theme === "dark");
-        setLightMode(theme === "light");
     };
 
     return (
         <div>
             <Header />
-            <div
-                className={`main-content about-page ${
-                    darkMode ? "dark-mode" : lightMode ? "light-mode" : ""
-                }`}
-            >
+            <div className={`main-content about-page ${darkMode ? "dark-mode" : "light-mode"}`}>
                 <h1>Préférences utilisateurs</h1>
 
                 <h2>Thème</h2>
@@ -36,10 +31,10 @@ function Preferences() {
                     <li>
                         <strong>Clair :</strong>
                         <button
-                            className={`toggle-button ${lightMode ? "on" : "off"}`}
+                            className={`toggle-button ${!darkMode ? "on" : "off"}`}
                             onClick={() => handleThemeChange("light")}
                         >
-                            {lightMode ? "ON" : "OFF"}
+                            {!darkMode ? "ON" : "OFF"}
                         </button>
                     </li>
                 </ul>
