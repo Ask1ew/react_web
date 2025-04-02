@@ -10,7 +10,7 @@ function Cart() {
         <div className="cart">
             <h1>Panier</h1>
             {Object.values(cartItems).length === 0 ? (
-                <p>Votre panier est vide</p>
+                <p>Votre panier est vide 😭</p>
             ) : (
                 <>
                     <ul>
