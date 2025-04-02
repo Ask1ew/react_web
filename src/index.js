@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Error from "./pages/Error";
 import Detail from "./pages/Detail";
 import Preferences from "./pages/Preferences";
+import Connexion from "./pages/Connexion";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/detail" element={<Detail />} />
+                <Route path="/connexion" element={<Connexion />} />
                 <Route path="*" element={<Error />} />
             </Routes>
         </Router>

@@ -1,16 +1,83 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import '../styles/error.css';
+import '../styles/connexion.css';
 
 function Connexion() {
+    const handleLogin = (event) => {
+        event.preventDefault();
+        console.log("Connexion en cours...");
+    };
+
+    const handleSignup = (event) => {
+        event.preventDefault();
+        console.log("Inscription en cours...");
+    };
+
     return (
         <div>
             <Header />
-            <div className="error-page">
-                <h1>Erreur 404</h1>
-                <p>La page que vous cherchez n'existe pas.</p>
-                <p>Vous pouvez retourner à l'<a href="/">accueil</a> ou essayer une autre page.</p>
+            <div className="connexion-inscription-page">
+                <div className="form-container">
+                    <div className="form-box">
+                        <h2>Connexion</h2>
+                        <form className="connexion-form" onSubmit={handleLogin}>
+                            <label htmlFor="login-email">Adresse e-mail :</label>
+                            <input
+                                type="email"
+                                id="login-email"
+                                name="email"
+                                placeholder="Entrez votre adresse e-mail"
+                                required
+                            />
+
+                            <label htmlFor="login-password">Mot de passe :</label>
+                            <input
+                                type="password"
+                                id="login-password"
+                                name="password"
+                                placeholder="Entrez votre mot de passe"
+                                required
+                            />
+
+                            <button type="submit" className="connexion-button">Se connecter</button>
+                        </form>
+                    </div>
+
+                    <div className="form-box">
+                        <h2>Inscription</h2>
+                        <form className="inscription-form" onSubmit={handleSignup}>
+                            <label htmlFor="signup-name">Nom :</label>
+                            <input
+                                type="text"
+                                id="signup-name"
+                                name="name"
+                                placeholder="Entrez votre nom"
+                                required
+                            />
+
+                            <label htmlFor="signup-email">Adresse e-mail :</label>
+                            <input
+                                type="email"
+                                id="signup-email"
+                                name="email"
+                                placeholder="Entrez votre adresse e-mail"
+                                required
+                            />
+
+                            <label htmlFor="signup-password">Mot de passe :</label>
+                            <input
+                                type="password"
+                                id="signup-password"
+                                name="password"
+                                placeholder="Créez un mot de passe"
+                                required
+                            />
+
+                            <button type="submit" className="inscription-button">S'inscrire</button>
+                        </form>
+                    </div>
+                </div>
             </div>
             <Footer />
         </div>
