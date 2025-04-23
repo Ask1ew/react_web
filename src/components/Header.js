@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../styles/header.css';
 import logo from '../assets/galactic_burgers_logo.jpg';
+import { PreferencesContext } from '../context/PreferencesContext';
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+    const { darkMode } = useContext(PreferencesContext);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 900);
@@ -18,7 +20,7 @@ function Header() {
     };
 
     return (
-        <div className='header'>
+        <div className={`header${darkMode ? ' dark-mode' : ''}`}>
             <div className="logo-container" onClick={() => navigateTo('/')}>
                 <img src={logo} className='logo' alt="logo" />
             </div>

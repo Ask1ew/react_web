@@ -104,3 +104,41 @@
 @media (min-width: 1200px) {
     .item-list { grid-template-columns: repeat(4, 1fr); }
 }
+
+.header.dark-mode {
+    background-color: #2c2c54;
+    color: #fff;
+    border-bottom: 3px solid #1eb1d4;
+    text-shadow: #1eb1d4 2px 2px 2px;
+}
+
+.header.dark-mode .title {
+    color: #fff;
+}
+
+.header.dark-mode .nav-button {
+    background-color: transparent;
+    color: #fff;
+    border-color: #1eb1d4;
+}
+
+.header.dark-mode .nav-button:hover {
+    background-color: #1eb1d4;
+    color: #fff;
+}
+
+.header.dark-mode .hamburger {
+    color: #fff;
+}
+
+@media (max-width: 900px) {
+    .header.dark-mode .nav-links.mobile .nav-button {
+        border-left: 4px solid #1eb1d4;
+        color: #fff;
+        background: none;
+    }
+    .header.dark-mode .nav-links.mobile .nav-button:hover {
+        background-color: rgba(30, 177, 212, 0.1);
+        color: #1eb1d4;
+    }
+}
