@@ -58,3 +58,33 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Dark mode pour la page de préférences */
+.preferences-root.dark-mode .main-content.about-page {
+    background-color: #2c2c54;
+    color: #fff;
+}
+
+.preferences-root.dark-mode .main-content.about-page h1,
+.preferences-root.dark-mode .main-content.about-page h2 {
+    color: #1eb1d4;
+}
+
+.preferences-root.dark-mode .toggle-button.on {
+    background-color: #04AA6D;
+    color: #fff;
+}
+
+.preferences-root.dark-mode .toggle-button.off {
+    background-color: #3a3a6d;
+    color: #fff;
+}
+
+.preferences-root.dark-mode .toggle-button:hover {
+    opacity: 0.8;
+}
+
+.preferences-root.dark-mode .theme-options strong {
+    color: #fff;
+}
+
+

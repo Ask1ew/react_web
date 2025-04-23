@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { PreferencesContext } from '../context/PreferencesContext';
 import '../styles/contact.css';
 
 function Contact() {
+    const { darkMode } = useContext(PreferencesContext);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -18,9 +21,7 @@ function Contact() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form Data Submitted:', formData);
         setSubmitted(true);
-        // Réinitialiser le formulaire après soumission
         setFormData({
             name: '',
             email: '',
@@ -29,7 +30,7 @@ function Contact() {
     };
 
     return (
-        <div>
+        <div className={`contact-root ${darkMode ? "dark-mode" : "light-mode"}`}>
             <Header />
             <div className="contact-page">
                 <h1>Contactez-nous</h1>

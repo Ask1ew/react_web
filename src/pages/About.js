@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { PreferencesContext } from '../context/PreferencesContext';
 import '../styles/about.css';
 
 function About() {
+    const { darkMode } = useContext(PreferencesContext);
+
     return (
-        <div>
+        <div className={`about-root ${darkMode ? 'dark-mode' : ''}`}>
             <Header />
             <div className="main-content about-page">
                 <h1>À propos de Galactic Burgers</h1>

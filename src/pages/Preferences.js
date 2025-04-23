@@ -12,7 +12,7 @@ function Preferences() {
     };
 
     return (
-        <div>
+        <div className={`preferences-root ${darkMode ? "dark-mode" : "light-mode"}`}>
             <Header />
             <div className={`main-content about-page ${darkMode ? "dark-mode" : "light-mode"}`}>
                 <h1>Préférences utilisateurs</h1>

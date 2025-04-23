@@ -32,3 +32,26 @@
 .about-page ul li {
     margin-bottom: 10px;
 }
+
+/* --- DARK MODE --- */
+.dark-mode .about-page {
+    background-color: #2c2c54;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(30, 177, 212, 0.15);
+}
+
+.dark-mode .about-page h1 {
+    color: #1eb1d4;
+}
+
+.dark-mode .about-page p {
+    color: #e0e0e0;
+}
+
+.dark-mode .about-page h2 {
+    color: #04AA6D;
+}
+
+.dark-mode .about-page ul li {
+    color: #fff;
+}

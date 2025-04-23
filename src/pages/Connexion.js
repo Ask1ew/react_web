@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { PreferencesContext } from '../context/PreferencesContext';
 import '../styles/connexion.css';
 
 function Connexion() {
+    const { darkMode } = useContext(PreferencesContext);
+
     const handleLogin = (event) => {
         event.preventDefault();
         console.log("Connexion en cours...");
@@ -15,7 +18,7 @@ function Connexion() {
     };
 
     return (
-        <div>
+        <div className={`connexion-root ${darkMode ? "dark-mode" : "light-mode"}`}>
             <Header />
             <div className="connexion-inscription-page">
                 <div className="form-container">
