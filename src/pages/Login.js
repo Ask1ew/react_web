@@ -1,15 +1,16 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LoginDetail from '../components/LoginDetail';
 import { PreferencesContext } from '../context/PreferencesContext';
-import '../styles/connexion.css';
+import '../styles/login.css';
 
-function Connexion() {
+function Login() {
     const { darkMode } = useContext(PreferencesContext);
 
     const handleLogin = (event) => {
         event.preventDefault();
-        console.log("Connexion en cours...");
+        console.log("Login en cours...");
     };
 
     const handleSignup = (event) => {
@@ -17,9 +18,17 @@ function Connexion() {
         console.log("Inscription en cours...");
     };
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = '/profile';
+        }
+    }, []);
+
     return (
         <div className={`connexion-root ${darkMode ? "dark-mode" : "light-mode"}`}>
             <Header />
+            <LoginDetail />
             <div className="connexion-inscription-page">
                 <div className="form-container">
                     <div className="form-box">
@@ -87,4 +96,4 @@ function Connexion() {
     );
 }
 
-export default Connexion;
+export default Login;

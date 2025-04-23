@@ -40,7 +40,7 @@ function Header() {
                             <button className="nav-button" onClick={() => navigateTo('/preferences')}>Préférences</button>
                             <button className="nav-button" onClick={() => navigateTo('/about')}>À propos</button>
                             <button className="nav-button" onClick={() => navigateTo('/contact')}>Contact</button>
-                            <button className="nav-button" onClick={() => navigateTo('/connexion')}>Se connecter</button>
+                            <button className="nav-button" onClick={() => navigateTo('/login')}>Se connecter</button>
                         </nav>
                     )}
                 </>
@@ -50,7 +50,7 @@ function Header() {
                     <button className="nav-button" onClick={() => navigateTo('/preferences')}>Préférences</button>
                     <button className="nav-button" onClick={() => navigateTo('/about')}>À propos</button>
                     <button className="nav-button" onClick={() => navigateTo('/contact')}>Contact</button>
-                    <button className="nav-button" onClick={() => navigateTo('/connexion')}>Se connecter</button>
+                    <button className="nav-button" onClick={() => navigateTo('/login')}>Se connecter</button>
                 </nav>
             )}
         </div>

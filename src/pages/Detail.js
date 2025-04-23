@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { useLocation } from 'react-router-dom';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -14,6 +14,16 @@ function Detail() {
     const [isEditing, setIsEditing] = useState(false);
     const [updatedItem, setUpdatedItem] = useState(item);
     const [image, setImage] = useState(null);
+
+    // Récupération de l'userId connecté
+    const [userId, setUserId] = useState('');
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token ) {
+            const userId = localStorage.getItem('userId');
+            setUserId(userId);
+        }
+    }, []);
 
     if (!item) {
         return (
@@ -108,9 +118,12 @@ function Detail() {
                                 <p><strong>Prix :</strong> {Number(updatedItem.price).toFixed(2)}€</p>
                                 {!!updatedItem.onSale && <p className="sale-alert">🏷️ Article en solde !</p>}
                                 <p><strong>Description :</strong> {updatedItem.description || "Description non disponible"}</p>
-                                <button className="button-Add" onClick={() => setIsEditing(true)}>
-                                    Modifier
-                                </button>
+                                {/* Affiche le bouton Modifier seulement si userId === '1' */}
+                                {userId === '1' && (
+                                    <button className="button-Add" onClick={() => setIsEditing(true)}>
+                                        Modifier
+                                    </button>
+                                )}
                             </>
                         ) : (
                             <div>
