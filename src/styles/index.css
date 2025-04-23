@@ -11,6 +11,44 @@ body {
 #root { min-height: 100vh; position: relative; }
 
 code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
+/* Thème sombre */
+body.dark-mode {
+  background-color: #201244; /* Fond sombre global */
+  color: #ffffff; /* Texte clair global */
+}
+
+.shopping-list.dark-mode,
+.cart.dark-mode {
+  background-color: #2c2c54; /* Fond sombre pour la shopping list et le panier */
+  color: #ffffff; /* Texte clair */
+}
+
+.shopping-list .item button,
+.cart .button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.shopping-list .item button.dark-mode,
+.cart .button.dark-mode {
+  background-color: #5a5a89;
+}
+
+.shopping-list .item button:hover.dark-mode,
+.cart .button:hover.dark-mode {
+  background-color: #ff6347;
+}
+
+.item-list .item.dark-mode {
+  background-color: #3a3a6d; /* Fond sombre pour les items */
+  border: 1px solid #555; /* Bordure plus sombre */
+}
+
+.price-tag.dark-mode {
+  background-color: #ff6347; /* Rouge pour les prix en mode sombre */
+  color: white;
+}
 
 /* Contenu principal */
 .main-content {
@@ -53,7 +91,13 @@ code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', mon
   border-bottom: 1px solid #eee;
 }
 
+/* Boutons et interactions */
+
 .quantity-controls { gap: 8px; }
+
+.quantity-btn.dark-mode:hover {
+  background-color: #ff6347; /* Rouge pour le hover en mode sombre */
+}
 
 .quantity-btn {
   width: 28px;
@@ -78,6 +122,12 @@ code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', mon
 }
 
 /* Liste d'articles */
+
+.item-list .item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+}
+
 .item-list {
   list-style: none;
   padding: 0;
@@ -132,6 +182,14 @@ code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', mon
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
+}
+
+.info-icon.dark-mode {
+  background-color: #5a5a89;
+}
+
+.info-icon:hover.dark-mode {
+  background-color: #ff6347;
 }
 
 .info-icon {

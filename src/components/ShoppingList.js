@@ -1,11 +1,13 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useCart} from '../context/CartContext';
+import { useCart } from '../context/CartContext';
+import { PreferencesContext } from '../context/PreferencesContext';
 import Item from "./Item";
 import '../styles/index.css';
 
 function ShoppingList() {
     const { addToCart } = useCart();
+    const { darkMode } = useContext(PreferencesContext); // Accès au contexte des préférences
     const navigate = useNavigate();
     const [itemList, setItemsList] = useState([]);
 
@@ -20,23 +22,23 @@ function ShoppingList() {
     };
 
     return (
-        <div className="shopping-list">
-            <ul className='item-list'>
-                {itemList.map(item => (
-                    <li key={item.id} className="item">
-                        <div className="info-icon" onClick={() => showDetails(item)}>i</div>
-                        <div className={`price-tag ${item.onSale ? 'on-sale' : ''}`}>
+        <div className={`shopping-list ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+            <ul className="item-list">
+                {itemList.map((item) => (
+                    <li key={item.id} className={`item ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+                        <div className={`info-icon ${darkMode ? 'dark-mode' : ''}`} onClick={() => showDetails(item)}>i</div>
+                        <div className={`price-tag ${darkMode ? 'dark-mode' : ''} ${item.onSale ? 'on-sale' : ''}`}>
                             {item.onSale ? (
                                 <>
                                     {(item.price / 2).toFixed(2)}€
                                     <div className="sale-label">solde</div>
                                 </>
                             ) : (
-                                <>{item.price.toFixed(2)}€</>
+                                `${item.price.toFixed(2)}€`
                             )}
                         </div>
                         <Item image={item.image} name={item.name} />
-                        <button onClick={() => addToCart(item)}>Ajouter</button>
+                        <button className={`${darkMode ? 'dark-mode' : ''}`} onClick={() => addToCart(item)}>Ajouter</button>
                     </li>
                 ))}
             </ul>
