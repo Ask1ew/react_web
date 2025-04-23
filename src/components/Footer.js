@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import '../styles/footer.css';
 import { Link } from 'react-router-dom';
+import { PreferencesContext } from '../context/PreferencesContext';
 
 function Footer() {
+    const { darkMode } = useContext(PreferencesContext);
+
     return (
-        <footer className="footer">
+        <footer className={`footer${darkMode ? ' dark-mode' : ''}`}>
             <div className="footer-content">
                 <div className="footer-section">
                     <h3>À propos de Galactic Burgers</h3>
