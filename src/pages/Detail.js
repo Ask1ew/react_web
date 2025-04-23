@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useLocation } from 'react-router-dom';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { PreferencesContext } from '../context/PreferencesContext';
 import '../styles/detail.css';
 
 function Detail() {
     const location = useLocation();
     const item = location.state?.item;
+    const { darkMode } = useContext(PreferencesContext);
 
-    // États pour l'édition
+    // États pour l’édition
     const [isEditing, setIsEditing] = useState(false);
     const [updatedItem, setUpdatedItem] = useState(item);
     const [image, setImage] = useState(null);
 
     if (!item) {
         return (
-            <div>
+            <div className={`detail-page ${darkMode ? 'dark-mode' : ''}`}>
                 <Header />
                 <div className="detail-container">
                     <h1>Aucun article sélectionné</h1>
@@ -26,11 +28,8 @@ function Detail() {
         );
     }
 
-    // Gère les changements dans les champs texte
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-
-        // Traitement spécial pour la checkbox
         if (type === 'checkbox') {
             setUpdatedItem(prev => ({
                 ...prev,
@@ -44,12 +43,10 @@ function Detail() {
         }
     };
 
-    // Gère la sélection d'une nouvelle image
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
     };
 
-    // Met à jour le texte (nom/prix/description/onSale)
     const handleUpdateBurger = () => {
         fetch(`http://localhost:3001/burgers/${updatedItem.id}`, {
             method: 'PUT',
@@ -68,7 +65,6 @@ function Detail() {
             .catch(error => console.error('Erreur lors de la requête PUT :', error));
     };
 
-    // Upload l'image et met à jour l'URL de l'image dans le state
     const handleImageUpload = () => {
         if (!image) return;
         const formData = new FormData();
@@ -88,7 +84,6 @@ function Detail() {
             });
     };
 
-    // Quand on clique sur "Enregistrer"
     const handleSave = () => {
         handleUpdateBurger();
         if (image) {
@@ -98,7 +93,7 @@ function Detail() {
     };
 
     return (
-        <div>
+        <div className={`detail-page ${darkMode ? 'dark-mode' : ''}`}>
             <Header />
             <div className="detail-container">
                 <div className="detail-title">
@@ -137,7 +132,6 @@ function Detail() {
                                     step="0.01"
                                 />
                                 <br />
-                                {/* Ajout de la checkbox pour onSale */}
                                 <label>
                                     En solde:
                                     <input

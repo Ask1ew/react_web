@@ -1,13 +1,31 @@
+/* Conteneur principal de la page détail */
 .detail-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 2rem;
     animation: slideIn 0.3s ease-out;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 
 @keyframes slideIn {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
+/* Titre de la fiche */
+.detail-title {
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Contenu principal en grille */
 .detail-content {
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -16,36 +34,142 @@
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-.detail-title {
-    padding: 2rem;
-    animation: slideIn 0.3s ease-out;
-    gap: 2rem;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    margin-bottom: 10px;
+    align-items: flex-start;
 }
 
 .detail-image {
     width: 100%;
-    height: auto;
+    height: 300px;
     border-radius: 10px;
     object-fit: cover;
+    box-shadow: 0 2px 8px rgba(30, 177, 212, 0.07);
 }
 
+/* Bloc d'informations */
 .detail-info {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    font-size: 1.1em;
 }
 
+.detail-info label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.detail-info input[type="text"],
+.detail-info input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    background: #fafafa;
+}
+
+.detail-info input[type="checkbox"] {
+    margin-left: 10px;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.detail-info input[type="file"] {
+    margin: 10px 0;
+    padding: 10px 0;
+}
+
+/* Boutons */
+.button-Add {
+    margin-top: 15px;
+    padding: 10px 22px;
+    background-color: #1eb1d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.button-Add:hover {
+    background-color: #167a94;
+}
+
+.button-Add:last-child {
+    margin-left: 10px;
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.button-Add:last-child:hover {
+    background-color: #ddd;
+}
+
+/* Etiquette de solde */
 .sale-alert {
     color: #ff4757;
     font-weight: bold;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     background: #ffe8e8;
     border-radius: 5px;
     display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+    .detail-container {
+        padding: 1rem;
+    }
+    .detail-content {
+        padding: 1rem;
+        grid-template-columns: 1fr;
+    }
+    .detail-image {
+        max-height: 250px;
+        width: 100%;
+        object-fit: contain;
+    }
+}
+
+/* Mode sombre */
+.dark-mode .detail-container,
+.dark-mode .detail-title,
+.dark-mode .detail-content {
+    background-color: #2c2c54;
+    color: #ffffff;
+}
+
+.dark-mode .detail-info input[type="text"],
+.dark-mode .detail-info input[type="number"] {
+    background-color: #3a3a6d;
+    color: #fff;
+    border-color: #555;
+}
+
+.dark-mode .button-Add {
+    background-color: #5a5a89;
+}
+
+.dark-mode .button-Add:hover {
+    background-color: #ff6347;
+}
+
+.dark-mode .button-Add:last-child {
+    background-color: #3a3a6d;
+    color: #ffffff;
+}
+
+.dark-mode .button-Add:last-child:hover {
+    background-color: #ff6347;
+}
+
+.dark-mode .sale-alert {
+    background-color: #3a3a3a;
+    color: #ff6347;
 }
