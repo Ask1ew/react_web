@@ -118,7 +118,6 @@ function Detail() {
                                 <p><strong>Prix :</strong> {Number(updatedItem.price).toFixed(2)}€</p>
                                 {!!updatedItem.onSale && <p className="sale-alert">🏷️ Article en solde !</p>}
                                 <p><strong>Description :</strong> {updatedItem.description || "Description non disponible"}</p>
-                                {/* Affiche le bouton Modifier seulement si userId === '1' */}
                                 {userId === '1' && (
                                     <button className="button-Add" onClick={() => setIsEditing(true)}>
                                         Modifier
