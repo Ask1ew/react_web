@@ -47,6 +47,7 @@ function Header() {
             </div>
             <div className='title' onClick={() => navigateTo('/')}>
                 <h1>GALACTIC BURGERS</h1>
+                <p className="slogan">Des burgers cosmiques pour des saveurs stellaires&nbsp;!</p>
             </div>
             {isMobile ? (
                 <>
