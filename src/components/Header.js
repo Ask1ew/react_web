@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../styles/header.css';
-import logo from '../assets/galactic_burgers_logo.jpg';
+import logo from '../assets/galactic_burgers_logo.png';
 import { PreferencesContext } from '../context/PreferencesContext';
 
 function Header() {
@@ -27,7 +27,7 @@ function Header() {
         setIsMenuOpen(false);
     };
 
-    const loginButtonText = isLoggedIn ? "Votre Profil" : "Se connecter";
+    const loginButtonText = isLoggedIn ? "Votre profil" : "Se connecter";
     const loginButtonPath = isLoggedIn ? "/profile" : "/login";
 
     const renderNavButtons = () => (
