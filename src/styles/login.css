@@ -35,6 +35,7 @@ form label {
     font-size: 1em;
     margin-bottom: 5px;
     color: #201244;
+    display: block;
 }
 
 form input {
@@ -43,6 +44,7 @@ form input {
     margin-bottom: 15px;
     border-radius: 5px;
     border: none;
+    display: block;
 }
 
 form input:focus {
@@ -58,11 +60,38 @@ form input:focus {
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .connexion-button:hover,
 .inscription-button:hover {
     background-color: #038e59;
+}
+
+.toggle-button {
+    background: none;
+    color: #201244;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1em;
+    margin-top: 5px;
+}
+
+.toggle-button:hover {
+    color: #1eb1d4;
+}
+
+.toggle-text {
+    margin-top: 10px;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
 }
 
 /* --- DARK MODE --- */
@@ -105,3 +134,34 @@ form input:focus {
 .dark-mode .inscription-button:hover {
     background-color: #ff6347;
 }
+
+.dark-mode .toggle-button {
+    color: #1eb1d4;
+}
+
+.logout-button {
+    background-color: #ff6347;
+    color: #fff;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background 0.2s;
+}
+
+.logout-button:hover {
+    background-color: #d13c1f;
+}
+
+.dark-mode .logout-button {
+    background-color: #ff6347;
+    color: #fff;
+}
+
+.dark-mode .logout-button:hover {
+    background-color: #b92d0c;
+}
+
