@@ -1,15 +1,11 @@
-import '../styles/item.css'
+import '../styles/item.css';
 
 function Item(props) {
-    const imageValue = props.image
-    const nameValue = props.name
     return (
         <div>
-            <img className="img" src={imageValue} alt={nameValue}/>
-            <p>
-            {nameValue}<br/>
-            </p>
+            <img className="img" src={props.image} alt={props.name}/>
+            <p>{props.name}</p>
         </div>
-    )
+    );
 }
-export default Item
+export default Item;
