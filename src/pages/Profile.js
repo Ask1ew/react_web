@@ -13,9 +13,7 @@ function Profile() {
             <Header />
             <div className="connexion-inscription-page">
                 <div className="form-container">
-                    <div className="form-box">
-                        <ProfileDetail />
-                    </div>
+                    <ProfileDetail />
                 </div>
             </div>
             <Footer />

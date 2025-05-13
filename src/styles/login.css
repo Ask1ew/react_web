@@ -38,6 +38,13 @@
     margin-bottom: 20px;
 }
 
+.form-box img {
+    display: block;
+    margin: 0 auto 12px auto;
+    border-radius: 50%;
+    background: #201244;
+}
+
 form label {
     font-size: 1em;
     margin-bottom: 5px;
