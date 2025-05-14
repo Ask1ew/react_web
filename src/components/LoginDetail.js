@@ -1,4 +1,3 @@
-// src/components/LoginDetail.js
 import React, { useState, useEffect } from 'react';
 
 function useRedirectIfAuthenticated() {
@@ -11,7 +10,6 @@ function useRedirectIfAuthenticated() {
 }
 
 function validateEmail(email) {
-    // Simple regex for demonstration
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
@@ -23,13 +21,12 @@ function LoginDetail() {
     const [isSignup, setIsSignup] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage('');
 
-        // Validation côté client
         if (!validateEmail(email)) {
             setErrorMessage("Adresse e-mail invalide.");
             return;
@@ -60,6 +57,21 @@ function LoginDetail() {
             }
 
             const data = await response.json();
+
+            // Connexion automatique après inscription
+            if (isSignup) {
+                if (data.token && data.userId) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userId', data.userId);
+                }
+                setShowConfirmationMessage(true);
+                setLoading(false);
+                setEmail('');
+                setPassword('');
+                return;
+            }
+
+            // Connexion classique
             localStorage.setItem('token', data.token);
             localStorage.setItem('userId', data.userId);
             window.location.href = '/profile';
@@ -69,6 +81,22 @@ function LoginDetail() {
         }
         setLoading(false);
     };
+
+    if (showConfirmationMessage) {
+        return (
+            <div className="confirmation-message">
+                <h2>Inscription réussie !</h2>
+                <p>
+                    Vous êtes maintenant connecté.<br />
+                    <br />
+                    <br />
+                </p>
+                <a href="/profile" className="connexion-button">
+                    Accéder à mon espace
+                </a>
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -92,28 +120,17 @@ function LoginDetail() {
                 />
 
                 <label htmlFor="password">Mot de passe :</label>
-                <div style={{ position: 'relative' }}>
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        id="password"
-                        autoComplete={isSignup ? "new-password" : "current-password"}
-                        placeholder={isSignup ? "Créez un mot de passe" : "Entrez votre mot de passe"}
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        required
-                        minLength={6}
-                        aria-label="Mot de passe"
-                    />
-                    <button
-                        type="button"
-                        className="show-password-btn"
-                        onClick={() => setShowPassword(v => !v)}
-                        tabIndex={-1}
-                        aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                    >
-                        {showPassword ? "🙈" : "👁️"}
-                    </button>
-                </div>
+                <input
+                    type="password"
+                    id="password"
+                    autoComplete={isSignup ? "new-password" : "current-password"}
+                    placeholder={isSignup ? "Créez un mot de passe" : "Entrez votre mot de passe"}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    aria-label="Mot de passe"
+                />
 
                 <button
                     type="submit"
