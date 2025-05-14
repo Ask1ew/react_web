@@ -1,10 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../styles/footer.css';
 import { Link } from 'react-router-dom';
 import { PreferencesContext } from '../context/PreferencesContext';
 
 function Footer() {
     const { darkMode } = useContext(PreferencesContext);
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+
+    useEffect(() => {
+        const checkLogin = () => setIsLoggedIn(!!localStorage.getItem('token'));
+        window.addEventListener('storage', checkLogin);
+        checkLogin();
+        return () => window.removeEventListener('storage', checkLogin);
+    }, []);
 
     return (
         <footer className={`footer${darkMode ? ' dark-mode' : ''}`}>
@@ -17,7 +25,7 @@ function Footer() {
                     <h3>Liens rapides</h3>
                     <ul>
                         <li><Link to="/">Accueil</Link></li>
-                        <li><Link to="/preferences">Préférences</Link></li>
+                        {isLoggedIn && <li><Link to="/preferences">Préférences</Link></li>}
                         <li><Link to="/about">À propos</Link></li>
                         <li><Link to="/contact">Contact</Link></li>
                         <li><Link to="/login">Connexion</Link></li>

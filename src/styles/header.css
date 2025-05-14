@@ -153,4 +153,37 @@
         background-color: rgba(30, 177, 212, 0.1);
         color: #1eb1d4;
     }
+
+    /* Bouton toggle thème sombre/clair dans le header */
+    .dark-mode-toggle {
+        background-color: transparent;
+        border: 2px solid #1eb1d4;
+        color: #201244;
+        font-size: 18px;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-left: 10px;
+    }
+
+    .dark-mode-toggle.on {
+        background-color: #1eb1d4;
+        color: white;
+    }
+
+    .dark-mode-toggle.off {
+        background-color: transparent;
+        color: #201244;
+    }
+
+    .dark-mode-toggle:hover {
+        background-color: #1eb1d4;
+        color: white;
+    }
+
+    .dark-mode-toggle:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(30, 177, 212, 0.5);
+    }
 }

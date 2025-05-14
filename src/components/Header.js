@@ -7,7 +7,7 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-    const { darkMode } = useContext(PreferencesContext);
+    const { darkMode, setDarkMode } = useContext(PreferencesContext);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 900);
@@ -30,10 +30,14 @@ function Header() {
     const loginButtonText = isLoggedIn ? "Votre profil" : "Se connecter";
     const loginButtonPath = isLoggedIn ? "/profile" : "/login";
 
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+    };
+
     const renderNavButtons = () => (
         <>
             <button className="nav-button" onClick={() => navigateTo('/')}>Accueil</button>
-            <button className="nav-button" onClick={() => navigateTo('/preferences')}>Préférences</button>
+            {isLoggedIn && (<button className="nav-button" onClick={() => navigateTo('/preferences')}>Préférences</button>)}
             <button className="nav-button" onClick={() => navigateTo('/about')}>À propos</button>
             <button className="nav-button" onClick={() => navigateTo('/contact')}>Contact</button>
             <button className="nav-button" onClick={() => navigateTo(loginButtonPath)}>{loginButtonText}</button>
@@ -64,6 +68,15 @@ function Header() {
                 <nav className='nav-links'>
                     {renderNavButtons()}
                 </nav>
+            )}
+            {!isLoggedIn && (
+                <button
+                    className={`dark-mode-toggle ${darkMode ? 'on' : 'off'}`}
+                    onClick={toggleDarkMode}
+                    aria-label="Toggle dark mode"
+                >
+                    {darkMode ? '🌙' : '☀️'}
+                </button>
             )}
         </div>
     );
