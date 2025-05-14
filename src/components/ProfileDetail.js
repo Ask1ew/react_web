@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { PreferencesContext } from '../context/PreferencesContext';
+import { LanguageContext } from '../context/LanguageContext';
+import { DeviseContext } from '../context/DeviseContext';
 
 function ProfileDetail() {
     const [user, setUser] = useState(null);
@@ -8,6 +12,9 @@ function ProfileDetail() {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [saving, setSaving] = useState(false);
+    const { resetPreferences } = useContext(PreferencesContext);
+    const { resetLanguage } = useContext(LanguageContext);
+    const { resetDevise } = useContext(DeviseContext);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -106,6 +113,9 @@ function ProfileDetail() {
         if (window.confirm("Voulez-vous vraiment vous déconnecter ?")) {
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
+            resetPreferences();
+            resetLanguage();
+            resetDevise();
             window.location.href = '/login';
         }
     };

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const PreferencesContext = createContext();
 
@@ -12,8 +12,13 @@ export const PreferencesProvider = ({ children }) => {
         localStorage.setItem("darkMode", darkMode);
     }, [darkMode]);
 
+    const resetPreferences = () => {
+        setDarkMode(false); // Theme clair
+        localStorage.setItem("darkMode", "false");
+    };
+
     return (
-        <PreferencesContext.Provider value={{ darkMode, setDarkMode }}>
+        <PreferencesContext.Provider value={{ darkMode, setDarkMode, resetPreferences }}>
             {children}
         </PreferencesContext.Provider>
     );

@@ -11,8 +11,13 @@ export const LanguageProvider = ({ children }) => {
         localStorage.setItem('language', language);
     }, [language]);
 
+    const resetLanguage = () => {
+        setLanguage('fr');
+        localStorage.setItem('language', 'fr');
+    };
+
     return (
-        <LanguageContext.Provider value={{ language, setLanguage }}>
+        <LanguageContext.Provider value={{ language, setLanguage, resetLanguage }}>
             {children}
         </LanguageContext.Provider>
     );

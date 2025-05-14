@@ -13,27 +13,30 @@ import { PreferencesProvider } from "./context/PreferencesContext";
 import { CartProvider } from "./context/CartContext";
 import { LanguageProvider } from "./context/LanguageContext"; // <-- Ajout
 import Profile from "./pages/Profile";
+import {DeviseProvider} from "./context/DeviseContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <LanguageProvider>
-            <PreferencesProvider>
-                <CartProvider>
-                    <Router>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/preferences" element={<Preferences />} />
-                            <Route path="/contact" element={<Contact />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/detail" element={<Detail />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="*" element={<Error />} />
-                        </Routes>
-                    </Router>
-                </CartProvider>
-            </PreferencesProvider>
-        </LanguageProvider>
+        <DeviseProvider>
+            <LanguageProvider>
+                <PreferencesProvider>
+                    <CartProvider>
+                        <Router>
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/preferences" element={<Preferences />} />
+                                <Route path="/contact" element={<Contact />} />
+                                <Route path="/about" element={<About />} />
+                                <Route path="/detail" element={<Detail />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/profile" element={<Profile />} />
+                                <Route path="*" element={<Error />} />
+                            </Routes>
+                        </Router>
+                    </CartProvider>
+                </PreferencesProvider>
+            </LanguageProvider>
+        </DeviseProvider>
     </React.StrictMode>
 );

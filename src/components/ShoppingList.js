@@ -2,12 +2,17 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { PreferencesContext } from '../context/PreferencesContext';
+import { DeviseContext } from '../context/DeviseContext';
 import Item from "./Item";
 import '../styles/index.css';
+
+const DEVISE_SYMBOLS = { EUR: '€', USD: '$', GBP: '£' };
+const DEVISE_RATES = { EUR: 1, USD: 1.1, GBP: 0.85 }; // exemple de taux
 
 function ShoppingList() {
     const { addToCart } = useCart();
     const { darkMode } = useContext(PreferencesContext);
+    const { devise } = useContext(DeviseContext);
     const navigate = useNavigate();
 
     const [itemList, setItemsList] = useState([]);
@@ -19,35 +24,29 @@ function ShoppingList() {
     });
     const [sort, setSort] = useState('default');
 
-    // Récupération des articles
     useEffect(() => {
         fetch('http://localhost:3001/')
             .then(res => res.json())
             .then(data => setItemsList(data));
     }, []);
 
-    // Application des filtres, recherche et tri
     useEffect(() => {
         let items = [...itemList];
 
-        // Recherche
         if (search.trim() !== '') {
             items = items.filter(item =>
                 item.name.toLowerCase().includes(search.toLowerCase())
             );
         }
 
-        // Filtre par solde
         if (filters.onSale) {
             items = items.filter(item => item.onSale);
         }
 
-        // Filtre par catégorie
         if (filters.category !== 'all') {
             items = items.filter(item => item.category === filters.category);
         }
 
-        // Tri
         if (sort === 'price-asc') {
             items.sort((a, b) => (a.onSale ? a.price / 2 : a.price) - (b.onSale ? b.price / 2 : b.price));
         } else if (sort === 'price-desc') {
@@ -61,7 +60,6 @@ function ShoppingList() {
         setFilteredItems(items);
     }, [itemList, search, filters, sort]);
 
-    // Récupération des catégories uniques
     const categories = ['all', ...Array.from(new Set(itemList.map(item => item.category).filter(Boolean)))];
 
     const showDetails = (item) => {
@@ -80,6 +78,12 @@ function ShoppingList() {
         setSearch('');
         setFilters({ onSale: false, category: 'all' });
         setSort('default');
+    };
+
+    // Conversion prix
+    const convertPrice = (price) => {
+        const rate = DEVISE_RATES[devise] || 1;
+        return (price * rate).toFixed(2);
     };
 
     return (
@@ -135,11 +139,11 @@ function ShoppingList() {
                             <div className={`price-tag ${darkMode ? 'dark-mode' : ''} ${item.onSale ? 'on-sale' : ''}`}>
                                 {item.onSale ? (
                                     <>
-                                        {(item.price / 2).toFixed(2)}€
+                                        {convertPrice(item.price / 2)}{DEVISE_SYMBOLS[devise]}
                                         <div className="sale-label">solde</div>
                                     </>
                                 ) : (
-                                    `${item.price.toFixed(2)}€`
+                                    `${convertPrice(item.price)}${DEVISE_SYMBOLS[devise]}`
                                 )}
                             </div>
                             <Item image={item.image} name={item.name} />
