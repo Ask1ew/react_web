@@ -1,5 +1,7 @@
 /* === GLOBALS === */
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
@@ -7,6 +9,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #201244;
+    color: #fff;
 }
 
 body.dark-mode {
@@ -14,229 +17,436 @@ body.dark-mode {
     color: #fff;
 }
 
-#root { min-height: 100vh; position: relative; }
+#root {
+    min-height: 100vh;
+    position: relative;
+}
 
-/* === LISTE DE SERVICES (grille 3 colonnes) === */
+/* === LAYOUT PRINCIPAL === */
+.services-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.services-list-section {
+    flex: 0 1 70%;
+    min-width: 0;
+}
+
+.agenda-section {
+    flex: 0 1 30%;
+    min-width: 300px;
+    max-width: 420px;
+    position: sticky;
+    align-self: flex-start;
+}
+
+/* === SHOPPING LIST === */
 .services-item-list {
     display: grid;
-    gap: 20px;
     grid-template-columns: repeat(3, 1fr);
     list-style: none;
     padding: 0;
     margin: 0;
 }
+
 @media (max-width: 900px) {
-    .services-item-list { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-    .services-item-list { grid-template-columns: 1fr; }
+    .services-item-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.services-item,
-.item-list .item {
+@media (max-width: 600px) {
+    .services-item-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.services-item {
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(30, 18, 68, 0.09);
-    padding: 16px;
+    box-shadow: 0 2px 8px rgba(30, 18, 68, 0.07);
+    padding: 18px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    min-height: 320px;
+    min-height: 300px;
     position: relative;
     border: 1px solid #ddd;
-    transition: transform 0.3s, box-shadow 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.2s;
 }
 
-.services-item.dark-mode,
-.item-list .item.dark-mode {
+.services-item.dark-mode {
     background-color: #3a3a6d;
     border: 1px solid #555;
 }
 
-.services-item:hover,
-.item-list .item:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 8px 24px rgba(30, 18, 68, 0.13);
+.services-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(30, 18, 68, 0.12);
 }
 
-/* === IMAGE === */
-.services-image img,
-.item-list .item img {
+/* === IMAGES === */
+.services-image img {
     max-width: 100%;
     border-radius: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 /* === TITRE & DESCRIPTION === */
-.services-title,
-.item-list .item h3 {
-    margin: 8px 0 4px 0;
-    font-size: 1.25em;
+.services-title {
+    margin: 6px 0 4px 0;
+    font-size: 1.2em;
     color: #201244;
 }
-.services-item.dark-mode .services-title,
-.item-list .item.dark-mode h3 {
+
+.services-item.dark-mode .services-title {
     color: #fff;
 }
-.services-description,
-.item-list .item p {
-    margin: 0 0 10px 0;
+
+.services-description {
+    margin: 0 0 8px 0;
     color: #444;
-    font-size: 1em;
+    font-size: 0.95em;
 }
-.services-item.dark-mode .services-description,
-.item-list .item.dark-mode p {
+
+.services-item.dark-mode .services-description {
     color: #ddd;
 }
 
-/* === INFOS (prix, durée, catégorie, dispo) === */
+/* === INFOS === */
 .services-info-row {
     display: flex;
-    gap: 18px;
-    margin-bottom: 6px;
+    gap: 12px;
+    margin-bottom: 4px;
 }
+
 .services-info-block {
     display: flex;
     flex-direction: column;
     min-width: 0;
     flex: 1;
 }
+
 .services-label {
-    font-size: 0.92em;
+    font-size: 0.9em;
     color: #888;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
+
 .services-price {
     font-weight: bold;
     color: #1eb1d4;
-    font-size: 1.1em;
+    font-size: 1em;
 }
+
 .services-duree,
 .services-categorie,
 .services-dispo {
-    font-size: 1em;
+    font-size: 0.95em;
     border-radius: 4px;
-    padding: 2px 7px;
+    padding: 2px 6px;
     background: #ebead5;
     color: #201244;
     display: inline-block;
-    margin-top: 2px;
+    margin-top: 1px;
 }
-.services-dispo.dispo-ok { background: #04AA6D; color: #fff; }
-.services-dispo.dispo-ko { background: #ff6347; color: #fff; }
 
-/* === BOUTON === */
+.services-dispo.dispo-ok {
+    background: #04AA6D;
+    color: #fff;
+}
+
+.services-dispo.dispo-ko {
+    background: #ff6347;
+    color: #fff;
+}
+
+/* === BOUTONS === */
 .services-detail-btn,
 .item-list .item button {
-    margin-top: 14px;
+    margin-top: 12px;
     background: #1eb1d4;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 0;
-    font-size: 1em;
+    padding: 8px 0;
+    font-size: 0.95em;
     cursor: pointer;
     transition: background 0.2s;
 }
+
 .services-detail-btn:hover,
-.item-list .item button:hover { background: #167a94; }
+.item-list .item button:hover {
+    background: #167a94;
+}
+
 .services-detail-btn.dark-mode,
-.item-list .item button.dark-mode { background: #5a5a89; }
+.item-list .item button.dark-mode {
+    background: #5a5a89;
+}
+
 .services-detail-btn.dark-mode:hover,
-.item-list .item button:hover.dark-mode { background: #ff6347; }
+.item-list .item button:hover.dark-mode {
+    background: #ff6347;
+}
 
 /* === BARRE DE FILTRES === */
 .services-filters-bar,
 .filters-bar {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 15px;
     align-items: center;
     background: #f8f8f8;
-    padding: 16px 12px;
+    padding: 12px 10px;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(30, 18, 68, 0.05);
+    box-shadow: 0 2px 5px rgba(30, 18, 68, 0.05);
+    color: #000000
 }
+
 body.dark-mode .services-filters-bar,
 body.dark-mode .filters-bar {
     background: #2c2c54;
     color: #fff;
-    box-shadow: 0 2px 6px rgba(30, 177, 212, 0.05);
+    box-shadow: 0 2px 5px rgba(30, 177, 212, 0.05);
 }
 
-/* Inputs filtres */
+.search-input,
 .services-search-input,
+.filter-select,
 .services-filter-select,
-.services-sort-select,
-.search-input, .filter-select, .sort-select {
-    padding: 8px;
+.sort-select,
+.services-sort-select {
+    padding: 6px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 1em;
+    font-size: 0.95em;
 }
-body.dark-mode .services-search-input,
-body.dark-mode .services-filter-select,
-body.dark-mode .services-sort-select,
+
 body.dark-mode .search-input,
+body.dark-mode .services-search-input,
 body.dark-mode .filter-select,
-body.dark-mode .sort-select {
+body.dark-mode .services-filter-select,
+body.dark-mode .sort-select,
+body.dark-mode .services-sort-select {
     background: #3a3a6d;
     color: #fff;
     border: 1px solid #555;
 }
 
-/* Bouton reset */
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.95em;
+}
+
 .services-reset-btn,
 .reset-btn {
     background: #ff6347;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 8px 14px;
+    padding: 6px 12px; /* réduit padding */
     cursor: pointer;
     transition: background 0.2s;
-    font-size: 1em;
-}
-.services-reset-btn:hover,
-.reset-btn:hover { background: #d13c1f; }
-
-/* Filtres combinés */
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-right: 12px;
-}
-.filter-label {
-    font-size: 1em;
-    color: #201244;
-    margin-right: 4px;
-}
-.filter-input-short {
-    width: 60px;
-    padding: 6px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1em;
-}
-.filter-sep {
-    margin: 0 2px;
-    color: #888;
-}
-.filter-unit {
-    margin-left: 2px;
     font-size: 0.95em;
-    color: #888;
 }
 
-/* Message aucun résultat */
+.services-reset-btn:hover,
+.reset-btn:hover {
+    background: #d13c1f;
+}
+
+/* === MESSAGE AUCUN RÉSULTAT === */
 .services-no-result,
 .no-result {
     grid-column: 1 / -1;
     text-align: center;
     color: #ff6347;
     font-weight: bold;
-    padding: 40px 0;
-    font-size: 1.1em;
+    padding: 20px 0; /* réduit padding */
+    font-size: 1em;
+}
+
+/* === AGENDA === */
+.agenda {
+    margin: 20px 0 0 0; /* réduit marge haute */
+    max-width: 420px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(30, 18, 68, 0.08);
+    padding: 15px 12px;
+    position: relative;
+    z-index: 1;
+    color: #000000
+}
+
+.agenda.dark-mode {
+    background: #2c2c54;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(30, 177, 212, 0.13);
+}
+
+.agenda-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+.agenda-header button {
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    padding: 4px 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.agenda-header button:hover {
+    background: #167a94;
+}
+
+.agenda-header h2 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.agenda-calendar {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+}
+
+.agenda-calendar th,
+.agenda-calendar td {
+    text-align: center;
+    padding: 6px 0;
+    border: 1px solid #eee;
+    min-width: 50px;
+    height: 50px;
+    vertical-align: top;
+    background: #fafafa;
+    font-size: 0.85em;
+}
+
+.agenda-calendar .other-month {
+    background: #f0f0f0;
+    color: #aaa;
+}
+
+.agenda-calendar .current-month {
+    background: #fff;
+}
+
+.agenda-calendar .day-number {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.reservation {
+    margin: 1px 0;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    background: #1eb1d4;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.reservation.à-venir {
+    background: #04AA6D;
+}
+
+.reservation.effectuée {
+    background: #888;
+}
+
+.reservation.annulée {
+    background: #ff6347;
+}
+
+.agenda-login-btn {
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 24px;
+    font-size: 0.95em;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.agenda-login-btn:hover {
+    background: #167a94;
+}
+
+.agenda-reservations-list {
+    margin-top: 16px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.agenda-reservations-list h3 {
+    margin: 0 0 8px 0;
+    font-size: 1em;
+    color: #04AA6D;
+}
+
+.agenda-reservations-list ul {
+    list-style: disc inside;
+    margin: 0;
+    padding: 0;
+}
+
+.agenda-reservations-list li {
+    margin-bottom: 6px;
+    font-size: 0.9em;
+}
+
+.agenda-reservation-comment {
+    color: #888;
+    font-style: italic;
+}
+
+.agenda.dark-mode .agenda-reservations-list h3 {
+    color: #1eb1d4;
+}
+
+.agenda.dark-mode .agenda-reservation-comment {
+    color: #b0e0ff;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1100px) {
+    .services-layout {
+        flex-direction: column;
+        gap: 0;
+    }
+    .services-list-section,
+    .agenda-section {
+        flex: 1 1 100%;
+        max-width: 100%;
+        min-width: 0;
+        position: static;
+    }
+    .agenda-section {
+        margin-top: 24px;
+    }
 }
