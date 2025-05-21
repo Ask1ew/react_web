@@ -36,9 +36,9 @@ function Header() {
 
     const renderNavButtons = () => (
         <>
-            <button className="nav-button" onClick={() => navigateTo('/')}>Accueil</button>
+            <button className="nav-button" onClick={() => navigateTo('/products')}>Produits</button>
+            <button className="nav-button" onClick={() => navigateTo('/services')}>Prestations</button>
             {isLoggedIn && (<button className="nav-button" onClick={() => navigateTo('/preferences')}>Préférences</button>)}
-            <button className="nav-button" onClick={() => navigateTo('/about')}>À propos</button>
             <button className="nav-button" onClick={() => navigateTo('/contact')}>Contact</button>
             <button className="nav-button" onClick={() => navigateTo(loginButtonPath)}>{loginButtonText}</button>
         </>
@@ -69,7 +69,7 @@ function Header() {
                     {renderNavButtons()}
                 </nav>
             )}
-            {!isLoggedIn && (
+            {/*!isLoggedIn && (
                 <button
                     className={`dark-mode-toggle ${darkMode ? 'on' : 'off'}`}
                     onClick={toggleDarkMode}
@@ -77,7 +77,7 @@ function Header() {
                 >
                     {darkMode ? '🌙' : '☀️'}
                 </button>
-            )}
+            )*/}
         </div>
     );
 }

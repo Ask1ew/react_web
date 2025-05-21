@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext';
 import { PreferencesContext } from '../context/PreferencesContext';
 import { DeviseContext } from '../context/DeviseContext';
 import Item from "./Item";
-import '../styles/index.css';
+import '../styles/products.css';
 
 const DEVISE_SYMBOLS = { EUR: '€', USD: '$', GBP: '£' };
 const DEVISE_RATES = { EUR: 1, USD: 1.1, GBP: 0.85 }; // exemple de taux

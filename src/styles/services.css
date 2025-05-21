@@ -1,0 +1,242 @@
+/* === GLOBALS === */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #201244;
+}
+
+body.dark-mode {
+    background-color: #201244;
+    color: #fff;
+}
+
+#root { min-height: 100vh; position: relative; }
+
+/* === LISTE DE SERVICES (grille 3 colonnes) === */
+.services-item-list {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+@media (max-width: 900px) {
+    .services-item-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+    .services-item-list { grid-template-columns: 1fr; }
+}
+
+.services-item,
+.item-list .item {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(30, 18, 68, 0.09);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 320px;
+    position: relative;
+    border: 1px solid #ddd;
+    transition: transform 0.3s, box-shadow 0.2s;
+}
+
+.services-item.dark-mode,
+.item-list .item.dark-mode {
+    background-color: #3a3a6d;
+    border: 1px solid #555;
+}
+
+.services-item:hover,
+.item-list .item:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(30, 18, 68, 0.13);
+}
+
+/* === IMAGE === */
+.services-image img,
+.item-list .item img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+/* === TITRE & DESCRIPTION === */
+.services-title,
+.item-list .item h3 {
+    margin: 8px 0 4px 0;
+    font-size: 1.25em;
+    color: #201244;
+}
+.services-item.dark-mode .services-title,
+.item-list .item.dark-mode h3 {
+    color: #fff;
+}
+.services-description,
+.item-list .item p {
+    margin: 0 0 10px 0;
+    color: #444;
+    font-size: 1em;
+}
+.services-item.dark-mode .services-description,
+.item-list .item.dark-mode p {
+    color: #ddd;
+}
+
+/* === INFOS (prix, durée, catégorie, dispo) === */
+.services-info-row {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 6px;
+}
+.services-info-block {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+.services-label {
+    font-size: 0.92em;
+    color: #888;
+    margin-bottom: 2px;
+}
+.services-price {
+    font-weight: bold;
+    color: #1eb1d4;
+    font-size: 1.1em;
+}
+.services-duree,
+.services-categorie,
+.services-dispo {
+    font-size: 1em;
+    border-radius: 4px;
+    padding: 2px 7px;
+    background: #ebead5;
+    color: #201244;
+    display: inline-block;
+    margin-top: 2px;
+}
+.services-dispo.dispo-ok { background: #04AA6D; color: #fff; }
+.services-dispo.dispo-ko { background: #ff6347; color: #fff; }
+
+/* === BOUTON === */
+.services-detail-btn,
+.item-list .item button {
+    margin-top: 14px;
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 0;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.services-detail-btn:hover,
+.item-list .item button:hover { background: #167a94; }
+.services-detail-btn.dark-mode,
+.item-list .item button.dark-mode { background: #5a5a89; }
+.services-detail-btn.dark-mode:hover,
+.item-list .item button:hover.dark-mode { background: #ff6347; }
+
+/* === BARRE DE FILTRES === */
+.services-filters-bar,
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    background: #f8f8f8;
+    padding: 16px 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(30, 18, 68, 0.05);
+}
+body.dark-mode .services-filters-bar,
+body.dark-mode .filters-bar {
+    background: #2c2c54;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(30, 177, 212, 0.05);
+}
+
+/* Inputs filtres */
+.services-search-input,
+.services-filter-select,
+.services-sort-select,
+.search-input, .filter-select, .sort-select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+body.dark-mode .services-search-input,
+body.dark-mode .services-filter-select,
+body.dark-mode .services-sort-select,
+body.dark-mode .search-input,
+body.dark-mode .filter-select,
+body.dark-mode .sort-select {
+    background: #3a3a6d;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+/* Bouton reset */
+.services-reset-btn,
+.reset-btn {
+    background: #ff6347;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 1em;
+}
+.services-reset-btn:hover,
+.reset-btn:hover { background: #d13c1f; }
+
+/* Filtres combinés */
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 12px;
+}
+.filter-label {
+    font-size: 1em;
+    color: #201244;
+    margin-right: 4px;
+}
+.filter-input-short {
+    width: 60px;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+.filter-sep {
+    margin: 0 2px;
+    color: #888;
+}
+.filter-unit {
+    margin-left: 2px;
+    font-size: 0.95em;
+    color: #888;
+}
+
+/* Message aucun résultat */
+.services-no-result,
+.no-result {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #ff6347;
+    font-weight: bold;
+    padding: 40px 0;
+    font-size: 1.1em;
+}
