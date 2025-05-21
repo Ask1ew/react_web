@@ -1,12 +1,18 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { PreferencesContext } from '../context/PreferencesContext';
-import '../styles/index.css';
+import '../styles/products.css';
 
 function Cart() {
-    const { cartItems, updateQuantity, clearCart } = useContext(CartContext);
+    const { cartItems, updateQuantity } = useContext(CartContext);
     const { darkMode } = useContext(PreferencesContext);
+    const navigate = useNavigate();
     const total = Object.values(cartItems).reduce((sum, item) => sum + item.price * item.count, 0);
+
+    const handleValidateOrder = () => {
+        navigate('/checkout');
+    };
 
     return (
         <div className={`cart${darkMode ? ' dark-mode' : ''}`}>
@@ -37,9 +43,9 @@ function Cart() {
                     <p>Total : {total.toFixed(2)}€</p>
                     <button
                         className={`button${darkMode ? ' dark-mode' : ''}`}
-                        onClick={clearCart}
+                        onClick={handleValidateOrder}
                     >
-                        Vider le panier
+                        Valider ma commande
                     </button>
                 </>
             )}

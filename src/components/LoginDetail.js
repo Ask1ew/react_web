@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function useRedirectIfAuthenticated() {
     useEffect(() => {
@@ -22,6 +23,10 @@ function LoginDetail() {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
+
+    // Ajout pour la redirection intelligente
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -74,7 +79,13 @@ function LoginDetail() {
             // Connexion classique
             localStorage.setItem('token', data.token);
             localStorage.setItem('userId', data.userId);
-            window.location.href = '/profile';
+
+            // --- Redirection intelligente après connexion ---
+            if (location.state && location.state.from === "checkout") {
+                navigate("/checkout", { replace: true });
+            } else {
+                window.location.href = '/profile';
+            }
         } catch (error) {
             setErrorMessage('Erreur réseau. Veuillez réessayer.');
             setPassword('');
