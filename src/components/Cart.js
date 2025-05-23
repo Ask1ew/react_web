@@ -37,20 +37,20 @@ function Cart() {
                                 : item.price;
 
                             return (
-                                <li key={item.id}>
-                                    <span>{item.name}</span>
-                                    <div className="quantity-controls">
+                                <li key={item.id} className="cart-row">
+                                    <span className="cart-col cart-name">{item.name}</span>
+                                    <div className="cart-col cart-qty">
                                         <button
                                             className={`quantity-btn${darkMode ? ' dark-mode' : ''}`}
                                             onClick={() => updateQuantity(item.id, item.count - 1)}
                                         >-</button>
-                                        <span>{item.count}</span>
+                                        <span className="cart-count">{item.count}</span>
                                         <button
                                             className={`quantity-btn${darkMode ? ' dark-mode' : ''}`}
                                             onClick={() => updateQuantity(item.id, item.count + 1)}
                                         >+</button>
                                     </div>
-                                    <span>
+                                    <span className="cart-col cart-price">
                                         {reduction ? (
                                             <>
                                                 <span className="old-price" style={{ marginRight: 6 }}>
@@ -73,6 +73,7 @@ function Cart() {
                             );
                         })}
                     </ul>
+
                     <p>Total : {total.toFixed(2)}€</p>
                     <button
                         className={`button${darkMode ? ' dark-mode' : ''}`}

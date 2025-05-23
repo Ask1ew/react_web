@@ -150,25 +150,32 @@ function ShoppingList() {
                         return (
                             <li key={item.id} className={`item ${darkMode ? 'dark-mode' : 'light-mode'}`}>
                                 <div className={`info-icon ${darkMode ? 'dark-mode' : ''}`} onClick={() => showDetails(item)}>i</div>
-                                <div className={`price-tag ${darkMode ? 'dark-mode' : ''} ${reduction ? 'on-sale' : ''}`}>
-                                    {reduction ? (
-                                        <>
-                                            <span className="old-price">
-                                                <del>{priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}</del>
-                                            </span>
-                                            <span className="new-price">
-                                                {priceFinal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
-                                            </span>
-                                            <span className="discount-badge">-{reduction}%</span>
-                                        </>
-                                    ) : (
-                                        <span className="new-price">
-                                            {priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
-                                        </span>
-                                    )}
-                                </div>
                                 <Item image={item.image} name={item.name} />
-                                <button className={`${darkMode ? 'dark-mode' : ''}`} onClick={() => addToCart(item)}>Ajouter</button>
+                                <div className={`price-zone`}>
+                                    <div className={`price-tag ${darkMode ? 'dark-mode' : ''} ${reduction ? 'on-sale' : ''}`}>
+                                        {reduction ? (
+                                            <>
+                                    <span className="old-price">
+                                        <del>{priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}</del>
+                                    </span>
+                                                <span className="new-price">
+                                        {priceFinal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
+                                    </span>
+                                                <span className="discount-badge">-{reduction}%</span>
+                                            </>
+                                        ) : (
+                                            <span className="new-price">
+                                    {priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
+                                </span>
+                                        )}
+                                    </div>
+                                </div>
+                                <button
+                                    className={`add-btn ${darkMode ? 'dark-mode' : ''}`}
+                                    onClick={() => addToCart(item)}
+                                >
+                                    Ajouter
+                                </button>
                             </li>
                         );
                     })
