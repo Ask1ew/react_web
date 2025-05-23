@@ -226,11 +226,11 @@ function ServiceList() {
                                 <p className="services-description">{service.description}</p>
                                 <div className="services-info-row">
                                     <div className="services-info-block">
-                                        <span className="services-label">Prix</span>
+                                        <span className="services-label">Prix </span>
                                         <span className="services-price">{convertPrice(service.prix)}{DEVISE_SYMBOLS[devise]}</span>
                                     </div>
                                     <div className="services-info-block">
-                                        <span className="services-label">Durée</span>
+                                        <span className="services-label">Durée </span>
                                         <span className="services-duree">{service.duree} min</span>
                                     </div>
                                 </div>

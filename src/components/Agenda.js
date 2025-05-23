@@ -3,81 +3,85 @@ import { PreferencesContext } from '../context/PreferencesContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles/services.css';
 
+// Génère la structure d'un mois (pour mini-agenda)
+function generateMonthCalendar(year, month) {
+    const weeks = [];
+    const firstDay = new Date(year, month - 1, 1);
+    const lastDay = new Date(year, month, 0);
+    let startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - startDate.getDay());
+
+    while (startDate <= lastDay || startDate.getDay() !== 0) {
+        const week = [];
+        for (let i = 0; i < 7; i++) {
+            week.push(new Date(startDate));
+            startDate.setDate(startDate.getDate() + 1);
+        }
+        weeks.push(week);
+    }
+    return weeks;
+}
+
+// Retourne la date au format YYYY-MM-DD
+function formatDate(date) {
+    return date.toISOString().slice(0, 10);
+}
+
 function Agenda() {
     const { darkMode } = useContext(PreferencesContext);
-    const [reservations, setReservations] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [prestations, setPrestations] = useState([]);
+    const [selectedPrestation, setSelectedPrestation] = useState(null);
+    const [slots, setSlots] = useState([]);
+    const [selectedSlot, setSelectedSlot] = useState(null);
+    const [loadingSlots, setLoadingSlots] = useState(false);
+    const [selectedDate, setSelectedDate] = useState('');
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // 1-12
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+    const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState(''); // 'success' ou 'error'
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setReservations([]);
-            setIsLoggedIn(false);
-            setLoading(false);
-            return;
-        }
-        setIsLoggedIn(true);
-        fetch('http://localhost:3001/reservations', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        fetch('http://localhost:3001/prestations')
             .then(res => res.json())
-            .then(data => {
-                setReservations(data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setReservations([]);
-                setLoading(false);
-            });
+            .then(data => setPrestations(data));
     }, []);
 
-    // Génère la structure du mois en semaines
-    const generateMonthCalendar = (year, month) => {
-        const weeks = [];
-        const firstDay = new Date(year, month - 1, 1);
-        const lastDay = new Date(year, month, 0);
-        let startDate = new Date(firstDay);
-        startDate.setDate(startDate.getDate() - startDate.getDay());
-
-        while (startDate <= lastDay || startDate.getDay() !== 0) {
-            const week = [];
-            for (let i = 0; i < 7; i++) {
-                week.push(new Date(startDate));
-                startDate.setDate(startDate.getDate() + 1);
-            }
-            weeks.push(week);
+    useEffect(() => {
+        if (selectedPrestation) {
+            setLoadingSlots(true);
+            fetch(`http://localhost:3001/slots?prestationId=${selectedPrestation.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    setSlots(data);
+                    setLoadingSlots(false);
+                });
+        } else {
+            setSlots([]);
         }
-        return weeks;
-    };
+    }, [selectedPrestation]);
 
-    // Filtre les réservations du mois affiché
-    const filterReservationsByMonth = (reservations, year, month) => {
-        return reservations.filter(r => {
-            const dt = new Date(r.date_reservation);
-            return dt.getFullYear() === year && dt.getMonth() + 1 === month;
-        });
-    };
-
-    // Groupe les réservations par jour
-    const groupReservationsByDay = (reservations) => {
-        const grouped = {};
-        reservations.forEach(r => {
-            const day = new Date(r.date_reservation).getDate();
-            if (!grouped[day]) grouped[day] = [];
-            grouped[day].push(r);
-        });
-        return grouped;
-    };
-
+    // Pour le mini-agenda
     const weeks = generateMonthCalendar(currentYear, currentMonth);
-    const monthReservations = filterReservationsByMonth(reservations, currentYear, currentMonth);
-    const groupedReservations = groupReservationsByDay(monthReservations);
+
+    // On veut pouvoir cliquer sur toutes les dates >= aujourd'hui
+    const todayStr = formatDate(new Date());
+
+    // Pour l'input date (filtre jour)
+    const minDate = todayStr;
+    const maxDate = slots.length > 0 ? slots[slots.length - 1].date : '';
+
+    // Si aucune date sélectionnée, on propose aujourd'hui si dispo dans la plage
+    useEffect(() => {
+        if (!selectedDate && slots.length > 0) {
+            setSelectedDate(todayStr);
+        }
+    }, [slots, selectedDate, todayStr]);
+
+    // Créneaux du jour sélectionné (tous, disponibles ou non)
+    const slotsForDay = selectedDate
+        ? slots.filter(s => s.date === selectedDate)
+        : [];
 
     const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
@@ -99,82 +103,169 @@ function Agenda() {
         }
     };
 
-    if (!isLoggedIn) {
-        return (
-            <div className={`agenda ${darkMode ? 'dark-mode' : ''}`}>
-                <p>Vous devez être connecté pour consulter votre agenda de réservations.</p>
-                <button className="agenda-login-btn" onClick={() => navigate('/login')}>Se connecter</button>
-            </div>
-        );
-    }
+    const handlePrestationChange = (e) => {
+        const prestation = prestations.find(p => p.id === Number(e.target.value));
+        setSelectedPrestation(prestation);
+        setSelectedSlot(null);
+        setSelectedDate('');
+        setMessage('');
+        setMessageType('');
+    };
 
-    if (loading) {
-        return (
-            <div className={`agenda ${darkMode ? 'dark-mode' : ''}`}>
-                <p>Chargement de l'agenda...</p>
-            </div>
-        );
-    }
+    const handleSlotSelect = (slot) => {
+        if (!slot.disponible) return;
+        setSelectedSlot(slot);
+        setMessage('');
+        setMessageType('');
+    };
+
+    const handleValidate = () => {
+        if (!selectedSlot || !selectedSlot.disponible) return;
+        fetch('http://localhost:3001/reservations', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            body: JSON.stringify({
+                prestation_id: selectedPrestation.id,
+                date_reservation: `${selectedSlot.date} ${selectedSlot.heure}`
+            })
+        })
+            .then(async res => {
+                const data = await res.json();
+                if (res.ok) {
+                    setMessage("Votre réservation a bien été prise en compte !");
+                    setMessageType('success');
+                    setSelectedSlot(null);
+                } else {
+                    setMessage(data.error || "Erreur lors de la réservation.");
+                    setMessageType('error');
+                }
+            })
+            .catch(() => {
+                setMessage("Erreur réseau lors de la réservation.");
+                setMessageType('error');
+            });
+    };
 
     return (
         <div className={`agenda ${darkMode ? 'dark-mode' : ''}`}>
-            <div className="agenda-header">
-                <button onClick={prevMonth} aria-label="Mois précédent">&lt;</button>
-                <h2>{monthNames[currentMonth - 1]} {currentYear}</h2>
-                <button onClick={nextMonth} aria-label="Mois suivant">&gt;</button>
+            <h2>Réserver une prestation</h2>
+            <div className="agenda-prestation-select">
+                <label htmlFor="prestation-select">Choisissez une prestation :</label>
+                <select id="prestation-select" onChange={handlePrestationChange} value={selectedPrestation ? selectedPrestation.id : ''}>
+                    <option value="">-- Sélectionner --</option>
+                    {prestations.map(p => (
+                        <option key={p.id} value={p.id}>{p.titre}</option>
+                    ))}
+                </select>
             </div>
-            <table className="agenda-calendar">
-                <thead>
-                <tr>
-                    <th>Dim</th>
-                    <th>Lun</th>
-                    <th>Mar</th>
-                    <th>Mer</th>
-                    <th>Jeu</th>
-                    <th>Ven</th>
-                    <th>Sam</th>
-                </tr>
-                </thead>
-                <tbody>
-                {weeks.map((week, i) => (
-                    <tr key={i}>
-                        {week.map((day, idx) => {
-                            const isCurrentMonth = day.getMonth() + 1 === currentMonth;
-                            const dayNumber = day.getDate();
-                            const dayReservations = isCurrentMonth ? (groupedReservations[dayNumber] || []) : [];
-                            return (
-                                <td key={idx} className={isCurrentMonth ? 'current-month' : 'other-month'}>
-                                    <div className="day-number">{isCurrentMonth ? dayNumber : ''}</div>
-                                    {dayReservations.map((r, idx) => (
-                                        <div
-                                            key={r.id}
-                                            className={`reservation ${r.statut.replace(/\s/g, '-')}`}
-                                            title={`${r.prestation_titre} - ${r.statut}`}
+            {/* Mini-agenda mensuel */}
+            {selectedPrestation && (
+                <div className="mini-calendar">
+                    <div className="agenda-header">
+                        <button onClick={prevMonth} aria-label="Mois précédent">&lt;</button>
+                        <h3>{monthNames[currentMonth - 1]} {currentYear}</h3>
+                        <button onClick={nextMonth} aria-label="Mois suivant">&gt;</button>
+                    </div>
+                    <table className="agenda-calendar">
+                        <thead>
+                        <tr>
+                            <th>Dim</th>
+                            <th>Lun</th>
+                            <th>Mar</th>
+                            <th>Mer</th>
+                            <th>Jeu</th>
+                            <th>Ven</th>
+                            <th>Sam</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {weeks.map((week, i) => (
+                            <tr key={i}>
+                                {week.map((day, idx) => {
+                                    const isCurrentMonth = day.getMonth() + 1 === currentMonth;
+                                    const dayStr = formatDate(day);
+                                    const isPast = dayStr < todayStr;
+                                    return (
+                                        <td
+                                            key={idx}
+                                            className={
+                                                `${isCurrentMonth ? 'current-month' : 'other-month'} ` +
+                                                `${selectedDate === dayStr ? 'selected-day' : ''}`
+                                            }
+                                            onClick={() => !isPast && setSelectedDate(dayStr)}
+                                            style={{ cursor: !isPast ? 'pointer' : 'not-allowed', opacity: !isPast ? 1 : 0.4 }}
                                         >
-                                            {idx + 1}
-                                        </div>
-                                    ))}
-
-                                </td>
-                            );
-                        })}
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            {monthReservations.length > 0 && (
-                <div className="agenda-reservations-list">
-                    <h3>Mes réservations ce mois-ci</h3>
-                    <ul>
-                        {monthReservations.map(r => (
-                            <li key={r.id}>
-                                <strong>{new Date(r.date_reservation).toLocaleDateString()} :</strong> {r.prestation_titre} <br/>— <em>{r.statut}</em>
-                                {r.commentaire && <> —<br/> <span className="agenda-reservation-comment">{r.commentaire}</span></>}
-                            </li>
+                                            <div className="day-number">{isCurrentMonth ? day.getDate() : ''}</div>
+                                        </td>
+                                    );
+                                })}
+                            </tr>
                         ))}
-                    </ul>
+                        </tbody>
+                    </table>
                 </div>
             )}
+
+            {/* Filtre jour */}
+            {selectedPrestation && (
+                <div className="agenda-date-filter">
+                    <label htmlFor="date-filter">Choisir un jour :</label>
+                    <input
+                        type="date"
+                        id="date-filter"
+                        value={selectedDate}
+                        min={minDate}
+                        max={maxDate}
+                        onChange={e => setSelectedDate(e.target.value)}
+                        disabled={loadingSlots || slots.length === 0}
+                    />
+                </div>
+            )}
+            {/* Créneaux du jour sélectionné */}
+            {selectedPrestation && selectedDate && (
+                <div className="agenda-slots">
+                    <h3>Créneaux pour le {selectedDate.split('-').reverse().join('/')}</h3>
+                    {loadingSlots ? (
+                        <p>Chargement des créneaux...</p>
+                    ) : (
+                        <ul className="slots-list">
+                            {slotsForDay.length === 0 && <li>Aucun créneau pour ce jour.</li>}
+                            {slotsForDay.map(slot => (
+                                <li key={slot.date + slot.heure}>
+                                    <button
+                                        className={
+                                            (selectedSlot && selectedSlot.date === slot.date && selectedSlot.heure === slot.heure ? 'selected ' : '') +
+                                            (!slot.disponible ? 'disabled-slot' : '')
+                                        }
+                                        onClick={() => handleSlotSelect(slot)}
+                                        disabled={!slot.disponible}
+                                    >
+                                        {slot.heure} {!slot.disponible && <span className="slot-indispo">indisponible</span>}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    <button
+                        className="validate-btn"
+                        disabled={!selectedSlot || !selectedSlot.disponible}
+                        onClick={handleValidate}
+                    >
+                        Valider ce créneau
+                    </button>
+                    {message && (
+                        <div className={`agenda-message ${messageType}`}>
+                            {message}
+                        </div>
+                    )}
+                </div>
+            )}
+            <button
+                className="dashboard-btn"
+                onClick={() => navigate('/profile')}
+            >
+                Accéder à mon tableau de bord
+            </button>
         </div>
     );
 }

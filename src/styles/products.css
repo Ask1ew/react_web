@@ -223,8 +223,7 @@ body.dark-mode {
     display: inline-block;
 }
 .price-tag .new-price {
-    color: #fff !important;
-    background: #04AA6D;
+    color: #fff;
     border-radius: 6px;
     padding: 0 6px;
     margin-right: 5px;
@@ -243,13 +242,14 @@ body.dark-mode {
 }
 .price-tag.on-sale .discount-badge { background: #fff; color: #ff0000; }
 .price-tag.dark-mode.on-sale .discount-badge { background: #fff; color: #ff6347; }
+
 .sale-label {
     font-size: 0.8em;
     text-transform: uppercase;
     margin-top: 5px;
 }
 
-/* === BOUTON AJOUTER AGRANDI === */
+/* === BOUTON AJOUTER === */
 .add-btn {
     margin-top: 12px;
     width: 90%;
@@ -275,7 +275,7 @@ body.dark-mode {
     background-color: #ff6347;
 }
 
-/* === BOUTONS RESTE === */
+/* === BOUTONS === */
 .shopping-list .item button,
 .cart .button,
 .item-list .item button {
@@ -378,7 +378,7 @@ body.dark-mode .sort-select {
     padding: 40px 0;
 }
 
-/* === CHECKOUT PAGE (résumé) === */
+/* === CHECKOUT PAGE === */
 .checkout-page {
     max-width: 1200px;
     margin: 48px auto;

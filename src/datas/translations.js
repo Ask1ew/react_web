@@ -1,0 +1,40 @@
+export const translations = {
+    fr: {
+        title: "Galactic Burgers",
+        slogan: "Des burgers cosmiques, un goût venu d'ailleurs !",
+        missionTitle: "Notre mission",
+        missionText: "Chez Galactic Burgers, nous avons une ambition simple : révolutionner le burger en alliant créativité, qualité et convivialité. Nos recettes uniques sont élaborées à partir d’ingrédients frais, locaux et savoureux, pour une expérience gustative inoubliable.",
+        valuesTitle: "Nos valeurs",
+        value1: "Qualité : Viandes sélectionnées, pains artisanaux, légumes de saison.",
+        value2: "Originalité : Des recettes exclusives et des sauces maison.",
+        value3: "Accueil : Un service chaleureux et une ambiance conviviale.",
+        value4: "Écoresponsabilité : Engagement pour le local et la réduction des déchets.",
+        servicesTitle: "Nos services",
+        service1: "Vente sur place et à emporter",
+        service2: "Livraison à domicile",
+        service3: "Food truck pour événements privés et professionnels",
+        service4: "Ateliers et animations culinaires",
+        ctaTitle: "Prêt pour une aventure culinaire ?",
+        ctaText: "Venez découvrir nos burgers galactiques dans une ambiance unique, ou commandez en ligne pour un voyage gustatif à domicile !",
+        contactBtn: "Nous contacter"
+    },
+    en: {
+        title: "Galactic Burgers",
+        slogan: "Cosmic burgers, a taste from beyond!",
+        missionTitle: "Our mission",
+        missionText: "At Galactic Burgers, our ambition is simple: revolutionize the burger by combining creativity, quality, and friendliness. Our unique recipes are made from fresh, local, and tasty ingredients for an unforgettable taste experience.",
+        valuesTitle: "Our values",
+        value1: "Quality: Selected meats, artisanal breads, seasonal vegetables.",
+        value2: "Originality: Exclusive recipes and homemade sauces.",
+        value3: "Welcome: Warm service and friendly atmosphere.",
+        value4: "Eco-responsibility: Commitment to local and waste reduction.",
+        servicesTitle: "Our services",
+        service1: "Eat-in and take-away",
+        service2: "Home delivery",
+        service3: "Food truck for private and professional events",
+        service4: "Cooking workshops and events",
+        ctaTitle: "Ready for a culinary adventure?",
+        ctaText: "Come discover our galactic burgers in a unique atmosphere, or order online for a taste journey at home!",
+        contactBtn: "Contact us"
+    }
+};
