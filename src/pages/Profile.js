@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import ProfileDetail from '../components/ProfileDetail';
 import { PreferencesContext } from '../context/PreferencesContext';
 import '../styles/login.css';
+import Dashboard from "../components/Dashboard";
 
 function Profile() {
     const { darkMode } = useContext(PreferencesContext);
@@ -14,6 +15,7 @@ function Profile() {
             <div className="connexion-inscription-page">
                 <div className="form-container">
                     <ProfileDetail />
+                    <Dashboard />
                 </div>
             </div>
             <Footer />

@@ -17,6 +17,7 @@ import Products from "./pages/Products";
 import Services from "./pages/Services";
 import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment";
+import Dashboard from "./components/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -37,6 +38,7 @@ root.render(
                                 <Route path="/services" element={<Services />} />
                                 <Route path="/checkout" element={<Checkout />} />
                                 <Route path="/payment" element={<Payment />}/>
+                                <Route path="/dashboard" element={<Dashboard/>}/>
                                 <Route path="*" element={<Error />} />
                             </Routes>
                         </Router>
