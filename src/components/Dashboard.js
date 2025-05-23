@@ -77,6 +77,9 @@ function Dashboard() {
                                         {r.prestation_titre}
                                         {" — "}
                                         <span className="dashboard-status">{r.statut}</span>
+                                        {r.commentaire && (
+                                            <span className="dashboard-comment"> — {r.commentaire}</span>
+                                        )}
                                         {r.statut === "à venir" && (
                                             <button
                                                 className="dashboard-cancel-btn"

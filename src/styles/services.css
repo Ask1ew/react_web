@@ -818,9 +818,7 @@ body.dark-mode .services-sort-select {
 .dashboard-status.annulée {
     color: #ff6347;
 }
-.dashboard-status["effectuée"] {
-    color: #888;
-}
+
 .dashboard-cancel-btn {
     margin-left: 12px;
     background: #ff6347;
@@ -840,3 +838,60 @@ body.dark-mode .services-sort-select {
     font-style: italic;
     margin-left: 8px;
 }
+
+.agenda-comment {
+    width: 100%;
+    margin: 12px 0 0 0;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    resize: vertical;
+    background: #f8f8f8;
+    color: #201244;
+}
+.agenda.dark-mode .agenda-comment {
+    background: #3a3a6d;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.agenda-popup-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30,18,68,0.25);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.agenda-popup {
+    background: #fff;
+    color: #201244;
+    border-radius: 12px;
+    padding: 28px 26px 22px 26px;
+    box-shadow: 0 4px 32px rgba(30, 18, 68, 0.18);
+    min-width: 320px;
+    max-width: 95vw;
+    text-align: center;
+}
+.agenda-popup h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.15em;
+}
+.agenda-popup-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+.agenda-popup .validate-btn,
+.agenda-popup .dashboard-btn {
+    width: auto;
+    min-width: 110px;
+}
+.agenda.dark-mode .agenda-popup {
+    background: #2c2c54;
+    color: #fff;
+}
+

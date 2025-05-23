@@ -45,6 +45,8 @@ function Agenda() {
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState(''); // 'success' ou 'error'
     const navigate = useNavigate();
+    const [commentaire, setCommentaire] = useState('');
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:3001/prestations')
@@ -131,7 +133,8 @@ function Agenda() {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
             body: JSON.stringify({
                 prestation_id: selectedPrestation.id,
-                date_reservation: `${selectedSlot.date} ${selectedSlot.heure}`
+                date_reservation: `${selectedSlot.date} ${selectedSlot.heure}`,
+                commentaire: commentaire // ajout ici
             })
         })
             .then(async res => {
@@ -140,6 +143,7 @@ function Agenda() {
                     setMessage("Votre réservation a bien été prise en compte !");
                     setMessageType('success');
                     setSelectedSlot(null);
+                    setCommentaire('');
                 } else {
                     setMessage(data.error || "Erreur lors de la réservation.");
                     setMessageType('error');
@@ -251,10 +255,18 @@ function Agenda() {
                             ))}
                         </ul>
                     )}
+                    <textarea
+                        className="agenda-comment"
+                        placeholder="Ajouter un commentaire (facultatif)"
+                        value={commentaire}
+                        onChange={e => setCommentaire(e.target.value)}
+                        rows={2}
+                        maxLength={250}
+                    />
                     <button
                         className="validate-btn"
                         disabled={!selectedSlot || !selectedSlot.disponible}
-                        onClick={handleValidate}
+                        onClick={() => setShowConfirm(true)}
                     >
                         Valider ce créneau
                     </button>
@@ -271,6 +283,25 @@ function Agenda() {
             >
                 Accéder à mon tableau de bord
             </button>
+            {showConfirm && (
+                <div className="agenda-popup-overlay">
+                    <div className="agenda-popup">
+                        <h4>Confirmer la réservation</h4>
+                        <p>
+                            Confirmer la réservation du {selectedSlot.date.split('-').reverse().join('/')} à {selectedSlot.heure}
+                            {commentaire && (<><br/><em>Commentaire&nbsp;: {commentaire}</em></>)}
+                        </p>
+                        <div className="agenda-popup-actions">
+                            <button className="validate-btn" onClick={() => { setShowConfirm(false); handleValidate(); }}>
+                                Confirmer
+                            </button>
+                            <button className="dashboard-btn" onClick={() => setShowConfirm(false)}>
+                                Annuler
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
