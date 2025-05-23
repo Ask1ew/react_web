@@ -7,7 +7,7 @@ import Item from "./Item";
 import '../styles/products.css';
 
 const DEVISE_SYMBOLS = { EUR: '€', USD: '$', GBP: '£' };
-const DEVISE_RATES = { EUR: 1, USD: 1.1, GBP: 0.85 }; // exemple de taux
+const DEVISE_RATES = { EUR: 1, USD: 1.1, GBP: 0.85 };
 
 function ShoppingList() {
     const { addToCart } = useCart();
@@ -40,7 +40,7 @@ function ShoppingList() {
         }
 
         if (filters.onSale) {
-            items = items.filter(item => item.onSale);
+            items = items.filter(item => item.onSale && item.onSale > 0 && item.onSale < 100);
         }
 
         if (filters.category !== 'all') {
@@ -48,9 +48,17 @@ function ShoppingList() {
         }
 
         if (sort === 'price-asc') {
-            items.sort((a, b) => (a.onSale ? a.price / 2 : a.price) - (b.onSale ? b.price / 2 : b.price));
+            items.sort((a, b) => {
+                const aFinal = a.onSale > 0 && a.onSale < 100 ? a.price * (1 - a.onSale / 100) : a.price;
+                const bFinal = b.onSale > 0 && b.onSale < 100 ? b.price * (1 - b.onSale / 100) : b.price;
+                return aFinal - bFinal;
+            });
         } else if (sort === 'price-desc') {
-            items.sort((a, b) => (b.onSale ? b.price / 2 : b.price) - (a.onSale ? a.price / 2 : a.price));
+            items.sort((a, b) => {
+                const aFinal = a.onSale > 0 && a.onSale < 100 ? a.price * (1 - a.onSale / 100) : a.price;
+                const bFinal = b.onSale > 0 && b.onSale < 100 ? b.price * (1 - b.onSale / 100) : b.price;
+                return bFinal - aFinal;
+            });
         } else if (sort === 'name-asc') {
             items.sort((a, b) => a.name.localeCompare(b.name));
         } else if (sort === 'name-desc') {
@@ -80,7 +88,6 @@ function ShoppingList() {
         setSort('default');
     };
 
-    // Conversion prix
     const convertPrice = (price) => {
         const rate = DEVISE_RATES[devise] || 1;
         return (price * rate).toFixed(2);
@@ -133,23 +140,38 @@ function ShoppingList() {
                 {filteredItems.length === 0 ? (
                     <li className="no-result">Aucun article ne correspond à votre recherche ou vos filtres.</li>
                 ) : (
-                    filteredItems.map((item) => (
-                        <li key={item.id} className={`item ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-                            <div className={`info-icon ${darkMode ? 'dark-mode' : ''}`} onClick={() => showDetails(item)}>i</div>
-                            <div className={`price-tag ${darkMode ? 'dark-mode' : ''} ${item.onSale ? 'on-sale' : ''}`}>
-                                {item.onSale ? (
-                                    <>
-                                        {convertPrice(item.price / 2)}{DEVISE_SYMBOLS[devise]}
-                                        <div className="sale-label">solde</div>
-                                    </>
-                                ) : (
-                                    `${convertPrice(item.price)}${DEVISE_SYMBOLS[devise]}`
-                                )}
-                            </div>
-                            <Item image={item.image} name={item.name} />
-                            <button className={`${darkMode ? 'dark-mode' : ''}`} onClick={() => addToCart(item)}>Ajouter</button>
-                        </li>
-                    ))
+                    filteredItems.map((item) => {
+                        const reduction = (item.onSale > 0 && item.onSale < 100) ? item.onSale : 0;
+                        const priceOriginal = Number(convertPrice(item.price));
+                        const priceFinal = reduction
+                            ? Number(convertPrice(item.price * (1 - reduction / 100)))
+                            : priceOriginal;
+
+                        return (
+                            <li key={item.id} className={`item ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+                                <div className={`info-icon ${darkMode ? 'dark-mode' : ''}`} onClick={() => showDetails(item)}>i</div>
+                                <div className={`price-tag ${darkMode ? 'dark-mode' : ''} ${reduction ? 'on-sale' : ''}`}>
+                                    {reduction ? (
+                                        <>
+                                            <span className="old-price">
+                                                <del>{priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}</del>
+                                            </span>
+                                            <span className="new-price">
+                                                {priceFinal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
+                                            </span>
+                                            <span className="discount-badge">-{reduction}%</span>
+                                        </>
+                                    ) : (
+                                        <span className="new-price">
+                                            {priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
+                                        </span>
+                                    )}
+                                </div>
+                                <Item image={item.image} name={item.name} />
+                                <button className={`${darkMode ? 'dark-mode' : ''}`} onClick={() => addToCart(item)}>Ajouter</button>
+                            </li>
+                        );
+                    })
                 )}
             </ul>
         </div>

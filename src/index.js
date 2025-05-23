@@ -16,6 +16,7 @@ import {DeviseProvider} from "./context/DeviseContext";
 import Products from "./pages/Products";
 import Services from "./pages/Services";
 import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -35,6 +36,7 @@ root.render(
                                 <Route path="/products" element={<Products />} />
                                 <Route path="/services" element={<Services />} />
                                 <Route path="/checkout" element={<Checkout />} />
+                                <Route path="/payment" element={<Payment />}/>
                                 <Route path="*" element={<Error />} />
                             </Routes>
                         </Router>

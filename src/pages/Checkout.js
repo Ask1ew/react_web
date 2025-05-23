@@ -7,7 +7,7 @@ import { PreferencesContext } from "../context/PreferencesContext";
 import "../styles/products.css";
 
 function Checkout() {
-    const { cartItems } = useContext(CartContext);
+    const { cartItems, clearCart } = useContext(CartContext);
     const { darkMode } = useContext(PreferencesContext);
     const [userInfos, setUserInfos] = useState({
         nom: "",
@@ -20,6 +20,10 @@ function Checkout() {
     const [showError, setShowError] = useState(false);
     const [backendError, setBackendError] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
+    const [promoCode, setPromoCode] = useState('');
+    const [promoError, setPromoError] = useState('');
+    const [discount, setDiscount] = useState(0);
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -31,14 +35,35 @@ function Checkout() {
         }
     }, [isLoggedIn, location, navigate]);
 
+    // Total AVANT remise globale
     const total = Object.values(cartItems).reduce(
-        (sum, item) => sum + item.price * item.count,
+        (sum, item) => {
+            const reduction = item.onSale > 0 && item.onSale < 100 ? item.onSale : 0;
+            const priceFinal = reduction
+                ? item.price * (1 - reduction / 100)
+                : item.price;
+            return sum + priceFinal * item.count;
+        },
         0
     );
+
+    // Remise globale (code promo)
+    const discountedTotal = total * (1 - discount);
+    const discountPercent = discount > 0 ? Math.round(discount * 100) : 0;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserInfos((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleApplyPromo = () => {
+        if (promoCode.trim().toUpperCase() === "PROMO10") {
+            setDiscount(0.10);
+            setPromoError('');
+        } else {
+            setDiscount(0);
+            setPromoError('Code promotionnel invalide.');
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -51,7 +76,6 @@ function Checkout() {
         }
         setShowError(false);
 
-        // Exemple d'envoi de la commande au backend
         try {
             const token = localStorage.getItem('token');
             const response = await fetch('http://localhost:3001/commandes', {
@@ -63,7 +87,8 @@ function Checkout() {
                 body: JSON.stringify({
                     infos: userInfos,
                     items: Object.values(cartItems),
-                    total: total
+                    total: discountedTotal,
+                    promoCode: promoCode
                 })
             });
             if (!response.ok) {
@@ -74,11 +99,18 @@ function Checkout() {
             }
             setSubmitted(true);
             setSuccessMsg("Merci pour votre commande ! Elle a bien été enregistrée.");
-            // Ici tu pourrais vider le panier, rediriger, etc.
+            clearCart();
         } catch (err) {
             setBackendError("Erreur réseau. Veuillez réessayer.");
             setSubmitted(false);
         }
+        navigate("/payment", {
+            state: {
+                userInfos,
+                promoCode,
+                discount
+            }
+        });
     };
 
     if (Object.values(cartItems).length === 0) {
@@ -100,7 +132,6 @@ function Checkout() {
         <>
             <Header />
             <div className={`checkout-page${darkMode ? " dark-mode" : ""}`}>
-                {/* Fil d'Ariane */}
                 <div className="checkout-steps">
                     <div className="step active">
                         <span>1</span>
@@ -117,27 +148,68 @@ function Checkout() {
                 </div>
 
                 <h1>Valider ma commande</h1>
-
                 <div className="checkout-content">
                     {/* Résumé du panier */}
                     <section className="checkout-summary">
                         <h2>Résumé de la commande</h2>
                         <ul>
-                            {Object.values(cartItems).map((item) => (
-                                <li key={item.id}>
-                                    <span>{item.name} x {item.count}</span>
-                                    <span>{(item.price * item.count).toFixed(2)}€</span>
-                                </li>
-                            ))}
+                            {Object.values(cartItems).map((item) => {
+                                const reduction = item.onSale > 0 && item.onSale < 100 ? item.onSale : 0;
+                                const priceOriginal = item.price * item.count;
+                                const priceFinal = reduction
+                                    ? item.price * (1 - reduction / 100) * item.count
+                                    : priceOriginal;
+                                return (
+                                    <li key={item.id}>
+                                        <span>{item.name} x {item.count}</span>
+                                        <span>
+                                            {reduction ? (
+                                                <>
+                                                    <span className="old-price" style={{ marginRight: 6 }}>
+                                                        <del>{priceOriginal.toFixed(2)}€</del>
+                                                    </span>
+                                                    <span className="new-price">
+                                                        {priceFinal.toFixed(2)}€
+                                                    </span>
+                                                    <span className="discount-badge" style={{ marginLeft: 4 }}>
+                                                        -{reduction}%
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span className="new-price">
+                                                    {priceFinal.toFixed(2)}€
+                                                </span>
+                                            )}
+                                        </span>
+                                    </li>
+                                );
+                            })}
                         </ul>
-                        <p className="checkout-total">
-                            Total&nbsp;: <strong>{total.toFixed(2)}€</strong>
-                        </p>
+                        <div className="checkout-total">
+                            Total : {discount > 0 ? (
+                                <>
+                                    <span className="old-price" aria-label="Prix original">
+                                        <del>{total.toFixed(2)}€</del>
+                                    </span>
+                                    <span className="new-price" aria-label="Prix remisé">
+                                        {discountedTotal.toFixed(2)}€
+                                    </span>
+                                    <span className="discount-badge">
+                                        -{discountPercent}%
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="new-price">{total.toFixed(2)}€</span>
+                            )}
+                        </div>
                     </section>
 
                     {/* Formulaire infos client */}
                     <section className="checkout-infos">
                         <h2>Informations de livraison</h2>
+                        <p className="checkout-info-message">
+                            Merci de renseigner soigneusement vos coordonnées pour la livraison. Après validation de votre commande, vous recevrez un email récapitulatif et votre panier sera automatiquement vidé.
+                        </p>
                         {!isLoggedIn && (
                             <div className="checkout-login-box">
                                 <p>Vous devez être connecté pour valider votre commande.</p>
@@ -198,6 +270,34 @@ function Checkout() {
                                 required
                                 disabled={!isLoggedIn}
                             />
+                            {isLoggedIn && (
+                                <>
+                                    <div className="checkout-form-row">
+                                        <input
+                                            type="text"
+                                            name="promoCode"
+                                            placeholder="Code promotionnel"
+                                            value={promoCode}
+                                            onChange={e => setPromoCode(e.target.value)}
+                                            disabled={!isLoggedIn}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="checkout-btn"
+                                            onClick={handleApplyPromo}
+                                            disabled={!isLoggedIn || !promoCode}
+                                        >
+                                            Appliquer
+                                        </button>
+                                    </div>
+                                    <p className="checkout-promo-info">
+                                        ⚠️ Les codes promotionnels ne peuvent pas être cumulés entre eux, mais ils peuvent s’ajouter à une promotion déjà appliquée sur un article soldé.
+                                    </p>
+                                </>
+                            )}
+                            {promoError && (
+                                <p className="checkout-error">{promoError}</p>
+                            )}
                             <button
                                 className="checkout-btn"
                                 type="submit"
