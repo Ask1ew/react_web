@@ -1,0 +1,110 @@
+.fidelite-root {
+    min-height: 100vh;
+    background: #f4f4f4;
+    color: #201244;
+}
+.fidelite-root.dark-mode {
+    background: #201244;
+    color: #fff;
+}
+.fidelite-main {
+    max-width: 600px;
+    margin: 48px auto 40px auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+.fidelite-root.dark-mode .fidelite-main {
+    background: #2c2c54;
+    color: #fff;
+}
+.fidelite-title {
+    text-align: center;
+    color: #04AA6D;
+    margin-bottom: 20px;
+}
+.fidelite-root.dark-mode .fidelite-title {
+    color: #1eb1d4;
+}
+.fidelite-points {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    font-size: 1.2em;
+    margin-bottom: 36px;
+}
+.fidelite-score {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #1eb1d4;
+}
+.fidelite-subtitle {
+    font-size: 1.1em;
+    margin-bottom: 14px;
+    color: #201244;
+}
+.fidelite-root.dark-mode .fidelite-subtitle {
+    color: #fff;
+}
+.fidelite-rewards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.fidelite-reward {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f8f8;
+    border-radius: 10px;
+    padding: 18px 16px;
+    box-shadow: 0 2px 8px rgba(30,18,68,0.05);
+}
+.fidelite-root.dark-mode .fidelite-reward {
+    background: #3a3a6d;
+    color: #fff;
+}
+.fidelite-reward-title {
+    font-weight: bold;
+    font-size: 1.08em;
+    margin-bottom: 4px;
+}
+.fidelite-reward-desc {
+    font-size: 0.98em;
+    color: #555;
+    margin-bottom: 2px;
+    display: block;
+}
+.fidelite-root.dark-mode .fidelite-reward-desc {
+    color: #bbb;
+}
+.fidelite-reward-cost {
+    font-size: 0.98em;
+    color: #1eb1d4;
+    font-weight: bold;
+}
+.fidelite-btn {
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.fidelite-btn:disabled {
+    background: #bbb;
+    cursor: not-allowed;
+}
+.fidelite-btn:hover:enabled {
+    background: #04AA6D;
+}
+.fidelite-message {
+    margin-top: 18px;
+    font-weight: bold;
+    color: #04AA6D;
+    text-align: center;
+}

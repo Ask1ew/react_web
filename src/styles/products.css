@@ -618,3 +618,117 @@ body.dark-mode .sort-select {
 .checkout-page.dark-mode .StripeElement {
     color: #fff;
 }
+
+.confirmation-page {
+    max-width: 600px;
+    margin: 48px auto 40px auto;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+    padding: 36px 24px 28px 24px;
+    color: #201244;
+    text-align: center;
+}
+
+.dark-mode .confirmation-page {
+    background: #2c2c54;
+    color: #fff;
+}
+
+.confirmation-page h1 {
+    color: #04AA6D;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.dark-mode .confirmation-page h1 {
+    color: #1eb1d4;
+}
+
+.confirmation-details {
+    margin: 28px 0 24px 0;
+    padding: 20px 18px;
+    background: #f8f8f8;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(30,18,68,0.07);
+}
+
+.dark-mode .confirmation-details {
+    background: #3a3a6d;
+    color: #fff;
+}
+
+.confirmation-details p {
+    margin: 0 0 7px 0;
+    font-size: 1.07em;
+}
+
+.confirmation-details ul {
+    margin: 12px 0 0 0;
+    padding-left: 18px;
+}
+
+.confirmation-details li {
+    font-size: 1em;
+    margin-bottom: 4px;
+}
+
+.checkout-btn {
+    margin-top: 22px;
+    background-color: #1eb1d4;
+    color: white;
+    padding: 12px 32px;
+    font-size: 1.1em;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: bold;
+}
+
+.checkout-btn:hover {
+    background-color: #04AA6D;
+}
+
+.dark-mode .checkout-btn {
+    background-color: #5a5a89;
+    color: #fff;
+}
+
+.dark-mode .checkout-btn:hover {
+    background-color: #04AA6D;
+}
+
+@media (max-width: 700px) {
+    .confirmation-page {
+        max-width: 98vw;
+        padding: 1.2rem;
+    }
+    .confirmation-details {
+        padding: 1rem;
+    }
+}
+
+.promo-code {
+    color: #1eb1d4;
+    font-weight: bold;
+}
+.discount-badge {
+    background: #04AA6D;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.97em;
+    margin-left: 4px;
+}
+.old-price {
+    color: #888;
+    font-size: 1em;
+    margin-right: 6px;
+}
+.new-price {
+    color: #1eb1d4;
+    font-weight: bold;
+    font-size: 1.1em;
+}

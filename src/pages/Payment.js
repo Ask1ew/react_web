@@ -1,25 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import PaymentForm from "../components/PaymentForm";
 import { CartContext } from "../context/CartContext";
 import { PreferencesContext } from "../context/PreferencesContext";
 import "../styles/products.css";
 
-const stripePromise = loadStripe("pk_test_XXXXXXXXXXXXXXXXXXXXXXXX");
-
 function Payment() {
-    const { cartItems } = useContext(CartContext);
+    const { cartItems, clearCart } = useContext(CartContext);
     const { darkMode } = useContext(PreferencesContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const { userInfos, promoCode, discount } = location.state || {};
+    const { userInfos = {}, discount } = location.state || {};
     const isLoggedIn = !!localStorage.getItem("token");
-
-    const [clientSecret, setClientSecret] = useState(null);
+    const [error, setError] = useState("");
 
     const total = Object.values(cartItems).reduce(
         (sum, item) => sum + item.price * item.count,
@@ -28,28 +22,47 @@ function Payment() {
     const discountValue = typeof discount === "number" ? discount : 0;
     const discountedTotal = total * (1 - discountValue);
 
-    useEffect(() => {
-        // Appel à ton backend pour créer le PaymentIntent et récupérer le clientSecret
-        fetch("http://localhost:3001/create-payment-intent", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: Math.round(discountedTotal * 100) }) // montant en centimes
-        })
-            .then(res => res.json())
-            .then(data => setClientSecret(data.clientSecret));
-    }, [discountedTotal]);
-
     if (!isLoggedIn) {
         navigate("/login", { state: { from: "payment" } });
         return null;
     }
 
-    if (!userInfos) {
-        navigate("/checkout");
-        return null;
-    }
+    // Envoie la commande au backend même si userInfos est vide
+    const handleFakePayment = async () => {
+        const commande = {
+            infos: {
+                nom: userInfos.nom || "",
+                prenom: userInfos.prenom || "",
+                email: userInfos.email || "",
+                adresse: userInfos.adresse || "",
+                telephone: userInfos.telephone || ""
+            },
+            items: Object.values(cartItems),
+            total: discountedTotal.toFixed(2)
+        };
 
-    const options = clientSecret ? { clientSecret } : undefined;
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch("http://localhost:3001/commandes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(commande)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                clearCart();
+                navigate("/confirmation", { state: { commande: data.commande } });
+            } else {
+                setError("Erreur lors de l'enregistrement de la commande.");
+            }
+        } catch (e) {
+            setError("Erreur réseau.");
+        }
+    };
 
     return (
         <>
@@ -95,12 +108,27 @@ function Payment() {
                         </div>
                     </section>
                     <section className="checkout-infos">
-                        <h2>Paiement sécurisé</h2>
-                        {clientSecret && (
-                            <Elements stripe={stripePromise} options={options}>
-                                <PaymentForm />
-                            </Elements>
-                        )}
+                        <h2>Paiement simulé</h2>
+                        <p>
+                            (Aucune transaction réelle n'est effectuée. Cliquez sur "Valider le paiement" pour simuler une commande.)
+                        </p>
+                        {error && <div className="payment-error">{error}</div>}
+                        <div style={{ display: "flex", gap: "18px", marginTop: "18px" }}>
+                            <button
+                                type="button"
+                                className="checkout-btn"
+                                onClick={() => navigate(-1)}
+                            >
+                                Retour
+                            </button>
+                            <button
+                                type="button"
+                                className="checkout-btn"
+                                onClick={handleFakePayment}
+                            >
+                                Valider le paiement
+                            </button>
+                        </div>
                     </section>
                 </div>
             </div>

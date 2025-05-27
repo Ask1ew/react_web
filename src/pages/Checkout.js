@@ -7,7 +7,7 @@ import { PreferencesContext } from "../context/PreferencesContext";
 import "../styles/products.css";
 
 function Checkout() {
-    const { cartItems, clearCart } = useContext(CartContext);
+    const { cartItems } = useContext(CartContext);
     const { darkMode } = useContext(PreferencesContext);
     const [userInfos, setUserInfos] = useState({
         nom: "",
@@ -16,10 +16,6 @@ function Checkout() {
         adresse: "",
         telephone: "",
     });
-    const [submitted, setSubmitted] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [backendError, setBackendError] = useState('');
-    const [successMsg, setSuccessMsg] = useState('');
     const [promoCode, setPromoCode] = useState('');
     const [promoError, setPromoError] = useState('');
     const [discount, setDiscount] = useState(0);
@@ -35,7 +31,6 @@ function Checkout() {
         }
     }, [isLoggedIn, location, navigate]);
 
-    // Total AVANT remise globale
     const total = Object.values(cartItems).reduce(
         (sum, item) => {
             const reduction = item.onSale > 0 && item.onSale < 100 ? item.onSale : 0;
@@ -47,7 +42,6 @@ function Checkout() {
         0
     );
 
-    // Remise globale (code promo)
     const discountedTotal = total * (1 - discount);
     const discountPercent = discount > 0 ? Math.round(discount * 100) : 0;
 
@@ -66,44 +60,8 @@ function Checkout() {
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleProceedToPayment = (e) => {
         e.preventDefault();
-        setBackendError('');
-        if (!isLoggedIn) {
-            setShowError(true);
-            setSubmitted(false);
-            return;
-        }
-        setShowError(false);
-
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3001/commandes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    infos: userInfos,
-                    items: Object.values(cartItems),
-                    total: discountedTotal,
-                    promoCode: promoCode
-                })
-            });
-            if (!response.ok) {
-                const data = await response.json();
-                setBackendError(data.error || "Erreur lors de la validation de la commande.");
-                setSubmitted(false);
-                return;
-            }
-            setSubmitted(true);
-            setSuccessMsg("Merci pour votre commande ! Elle a bien été enregistrée.");
-            clearCart();
-        } catch (err) {
-            setBackendError("Erreur réseau. Veuillez réessayer.");
-            setSubmitted(false);
-        }
         navigate("/payment", {
             state: {
                 userInfos,
@@ -146,10 +104,8 @@ function Checkout() {
                         <p>Confirmation</p>
                     </div>
                 </div>
-
                 <h1>Valider ma commande</h1>
                 <div className="checkout-content">
-                    {/* Résumé du panier */}
                     <section className="checkout-summary">
                         <h2>Résumé de la commande</h2>
                         <ul>
@@ -187,42 +143,25 @@ function Checkout() {
                         </ul>
                         <div className="checkout-total">
                             Total : {discount > 0 ? (
-                                <>
+                            <>
                                     <span className="old-price" aria-label="Prix original">
                                         <del>{total.toFixed(2)}€</del>
                                     </span>
-                                    <span className="new-price" aria-label="Prix remisé">
+                                <span className="new-price" aria-label="Prix remisé">
                                         {discountedTotal.toFixed(2)}€
                                     </span>
-                                    <span className="discount-badge">
+                                <span className="discount-badge">
                                         -{discountPercent}%
                                     </span>
-                                </>
-                            ) : (
-                                <span className="new-price">{total.toFixed(2)}€</span>
-                            )}
+                            </>
+                        ) : (
+                            <span className="new-price">{total.toFixed(2)}€</span>
+                        )}
                         </div>
                     </section>
-
-                    {/* Formulaire infos client */}
                     <section className="checkout-infos">
                         <h2>Informations de livraison</h2>
-                        <p className="checkout-info-message">
-                            Merci de renseigner soigneusement vos coordonnées pour la livraison. Après validation de votre commande, vous recevrez un email récapitulatif et votre panier sera automatiquement vidé.
-                        </p>
-                        {!isLoggedIn && (
-                            <div className="checkout-login-box">
-                                <p>Vous devez être connecté pour valider votre commande.</p>
-                                <button
-                                    className="checkout-btn"
-                                    onClick={() => navigate("/login", { state: { from: "checkout" } })}
-                                >
-                                    Se connecter
-                                </button>
-                            </div>
-                        )}
-                        <hr className="checkout-separator" />
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleProceedToPayment}>
                             <div className="checkout-form-row">
                                 <input
                                     type="text"
@@ -303,23 +242,8 @@ function Checkout() {
                                 type="submit"
                                 disabled={!isLoggedIn}
                             >
-                                Confirmer la commande
+                                Procéder au paiement
                             </button>
-                            {showError && (
-                                <p className="checkout-error">
-                                    Vous devez être connecté pour valider votre commande.
-                                </p>
-                            )}
-                            {backendError && (
-                                <p className="checkout-error">
-                                    {backendError}
-                                </p>
-                            )}
-                            {submitted && (
-                                <p className="checkout-success">
-                                    {successMsg}
-                                </p>
-                            )}
                         </form>
                     </section>
                 </div>

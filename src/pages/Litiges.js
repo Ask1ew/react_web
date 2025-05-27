@@ -21,7 +21,7 @@ function Litiges() {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.json())
-            .then(data => setCommandes(data))
+            .then(data => setCommandes(data.commandes || []))
             .catch(() => setCommandes([]));
     }, []);
 
