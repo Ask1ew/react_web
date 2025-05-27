@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PreferencesContext } from "../context/PreferencesContext";
@@ -12,6 +12,19 @@ function Litiges() {
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("");
 
+    const [commandes, setCommandes] = useState([]);
+    const [commandeId, setCommandeId] = useState(""); // id de la commande sélectionnée
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        fetch("http://localhost:3001/commandes", {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(data => setCommandes(data))
+            .catch(() => setCommandes([]));
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
@@ -19,6 +32,7 @@ function Litiges() {
         const formData = new FormData();
         formData.append("sujet", sujet);
         formData.append("description", description);
+        if (commandeId) formData.append("commande_id", commandeId);
         if (file) formData.append("file", file);
 
         try {
@@ -35,6 +49,7 @@ function Litiges() {
                 setSujet("");
                 setDescription("");
                 setFile(null);
+                setCommandeId("");
             } else {
                 setMessage("Erreur lors de l'envoi du litige.");
                 setMessageType("error");
@@ -65,6 +80,19 @@ function Litiges() {
                         placeholder="Ex : Livraison en retard, erreur de commande..."
                     />
 
+                    <label htmlFor="commande">Commande liée (optionnel) :</label>
+                    <select
+                        id="commande"
+                        value={commandeId}
+                        onChange={e => setCommandeId(e.target.value)}
+                    >
+                        <option value="">-- Sélectionner une commande --</option>
+                        {commandes.map(cmd => (
+                            <option key={cmd.id} value={cmd.id}>
+                                {cmd.id} — {cmd.nom} {cmd.prenom} — {cmd.date_creation ? new Date(cmd.date_creation).toLocaleDateString() : ""}
+                            </option>
+                        ))}
+                    </select>
                     <label htmlFor="description">Description :</label>
                     <textarea
                         id="description"

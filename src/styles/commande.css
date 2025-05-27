@@ -1,0 +1,140 @@
+.commande-container {
+    max-width: 900px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+    padding: 32px 22px;
+    color: #201244;
+}
+.commande-container.dark-mode {
+    background: #3a3a6d;
+    color: #fff;
+}
+.commande-search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.commande-search-form input {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+.commande-btn {
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.commande-btn:hover {
+    background: #167a94;
+}
+.commande-message.error {
+    color: #ff6347;
+    margin: 8px 0;
+}
+.commande-suivi-block {
+    background: #f8f8f8;
+    border-radius: 10px;
+    padding: 18px 14px;
+    margin-bottom: 20px;
+    margin-top: 8px;
+}
+.commande-container.dark-mode .commande-suivi-block {
+    background: #2c2c54;
+    color: #fff;
+}
+.commande-steps {
+    display: flex;
+    gap: 14px;
+    margin: 12px 0;
+}
+.step {
+    padding: 6px 14px;
+    border-radius: 5px;
+    background: #eee;
+    color: #201244;
+    font-weight: bold;
+    font-size: 0.97em;
+}
+.step.active {
+    background: #1eb1d4;
+    color: #fff;
+}
+.step.cancelled {
+    background: #ff6347;
+    color: #fff;
+}
+.commande-details ul {
+    margin: 0;
+    padding-left: 18px;
+}
+.commande-separator {
+    margin: 32px 0 20px 0;
+    border: none;
+    border-top: 2px solid #eee;
+}
+.commande-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+.commande-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.commande-table th, .commande-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 1em;
+}
+.commande-table th {
+    background: #f8f8f8;
+    color: #201244;
+    font-weight: bold;
+}
+.commande-table tr:last-child td {
+    border-bottom: none;
+}
+.commande-container.dark-mode .commande-table {
+    background: #3a3a6d;
+    color: #fff;
+}
+.commande-container.dark-mode .commande-table th {
+    background: #2c2c54;
+    color: #fff;
+}
+.commande-container.dark-mode .commande-table td {
+    border-bottom: 1px solid #444;
+}
+@media (max-width: 700px) {
+    .commande-container {
+        padding: 1rem;
+    }
+    .commande-table th, .commande-table td {
+        font-size: 0.95em;
+        padding: 7px 5px;
+    }
+}
+
+.commande-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 18px 0 0 0;
+}
+.commande-pagination .commande-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
