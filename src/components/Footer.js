@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../styles/footer.css';
 import { Link } from 'react-router-dom';
 import { PreferencesContext } from '../context/PreferencesContext';
+import Feedback from "./Feedback";
 
 function Footer() {
     const { darkMode } = useContext(PreferencesContext);
@@ -29,6 +30,7 @@ function Footer() {
                         <li><Link to="/about">À propos</Link></li>
                         <li><Link to="/contact">Contact</Link></li>
                         <li><Link to="/login">Connexion</Link></li>
+                        <li><Link to="/litiges">Litiges</Link></li>
                     </ul>
                 </div>
                 <div className="footer-section">
@@ -44,6 +46,12 @@ function Footer() {
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">IG</a>
                     </div>
                 </div>
+                {isLoggedIn && (
+                    <div className="footer-section">
+                        <h3>Laisser un avis</h3>
+                        <Feedback />
+                    </div>
+                )}
             </div>
             <div className="footer-bottom">
                 <p>&copy; 2025 GALACTIC BURGERS. Tous droits réservés.</p>

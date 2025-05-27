@@ -59,7 +59,6 @@ function Detail() {
                             <p><strong>Durée :</strong> {prestation.duree} min</p>
                             <p><strong>Description :</strong> {prestation.description || "Description non disponible"}</p>
                             <p><strong>Disponibilité :</strong> {prestation.disponible ? "Disponible" : "Indisponible"}</p>
-                            {/* Ajoute ici un bouton "Réserver" ou "Choisir un créneau" selon ton workflow */}
                         </div>
                     </div>
                 </div>

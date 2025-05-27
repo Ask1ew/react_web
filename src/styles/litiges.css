@@ -1,0 +1,154 @@
+.litiges-root {
+    min-height: 100vh;
+    color: #201244;
+    display: flex;
+    flex-direction: column;
+}
+
+.litiges-root.dark-mode {
+    background: #201244;
+    color: #fff;
+}
+
+.litiges-main {
+    max-width: 600px;
+    margin: 48px auto 40px auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    animation: slideIn 0.3s ease-out;
+}
+
+.litiges-root.dark-mode .litiges-main {
+    background: #2c2c54;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(30, 177, 212, 0.10);
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.litiges-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #04AA6D;
+    font-size: 1.4em;
+}
+
+.litiges-root.dark-mode .litiges-title {
+    color: #1eb1d4;
+}
+
+.litiges-desc {
+    margin-bottom: 22px;
+    text-align: center;
+    color: #444;
+}
+.litiges-root.dark-mode .litiges-desc {
+    color: #bbb;
+}
+
+.litiges-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+.litiges-form label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    display: block;
+    color: #201244;
+}
+.litiges-root.dark-mode .litiges-form label {
+    color: #fff;
+}
+
+.litiges-form input[type="text"],
+.litiges-form textarea {
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 1em;
+    background: #fafafa;
+    color: #201244;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.litiges-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+.litiges-form input[type="file"] {
+    margin-top: 2px;
+    margin-bottom: 6px;
+}
+
+.litiges-root.dark-mode .litiges-form input[type="text"],
+.litiges-root.dark-mode .litiges-form textarea {
+    background: #3a3a6d;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.litiges-btn {
+    margin-top: 15px;
+    padding: 10px 22px;
+    background-color: #1eb1d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    font-size: 1em;
+    width: fit-content;
+    align-self: flex-end;
+}
+.litiges-btn:hover {
+    background-color: #167a94;
+}
+.litiges-root.dark-mode .litiges-btn {
+    background-color: #5a5a89;
+}
+.litiges-root.dark-mode .litiges-btn:hover {
+    background-color: #ff6347;
+}
+
+.litiges-message {
+    margin-top: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 1em;
+    text-align: center;
+}
+.litiges-message.success {
+    background: #e8fae7;
+    color: #04AA6D;
+    border: 1px solid #04AA6D;
+}
+.litiges-message.error {
+    background: #fff0f0;
+    color: #ff6347;
+    border: 1px solid #ff6347;
+}
+
+@media (max-width: 700px) {
+    .litiges-main {
+        max-width: 98vw;
+        padding: 1rem;
+    }
+}

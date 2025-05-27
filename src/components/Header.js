@@ -7,7 +7,7 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-    const { darkMode, setDarkMode } = useContext(PreferencesContext);
+    const { darkMode } = useContext(PreferencesContext);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 900);
@@ -29,10 +29,6 @@ function Header() {
 
     const loginButtonText = isLoggedIn ? "Votre profil" : "Se connecter";
     const loginButtonPath = isLoggedIn ? "/profile" : "/login";
-
-    const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
-    };
 
     const renderNavButtons = () => (
         <>
