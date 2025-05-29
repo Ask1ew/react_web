@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartContext'; // Remplace par useCart si besoin
 import { PreferencesContext } from '../context/PreferencesContext';
 import { DeviseContext } from '../context/DeviseContext';
 import Item from "./Item";
@@ -10,7 +10,7 @@ const DEVISE_SYMBOLS = { EUR: '€', USD: '$', GBP: '£' };
 const DEVISE_RATES = { EUR: 1, USD: 1.1, GBP: 0.85 };
 
 function ShoppingList() {
-    const { addToCart } = useCart();
+    const { addToCart } = useCart(); // Remplace par useCart si besoin
     const { darkMode } = useContext(PreferencesContext);
     const { devise } = useContext(DeviseContext);
     const navigate = useNavigate();
@@ -23,30 +23,32 @@ function ShoppingList() {
         category: 'all'
     });
     const [sort, setSort] = useState('default');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6;
 
     useEffect(() => {
         fetch('http://localhost:3001/')
             .then(res => res.json())
-            .then(data => setItemsList(data));
+            .then(data => setItemsList(data || []))
+            .catch(err => {
+                console.error("Erreur chargement articles:", err);
+                setItemsList([]);
+            });
     }, []);
 
     useEffect(() => {
         let items = [...itemList];
-
         if (search.trim() !== '') {
             items = items.filter(item =>
-                item.name.toLowerCase().includes(search.toLowerCase())
+                item.name?.toLowerCase().includes(search.toLowerCase())
             );
         }
-
         if (filters.onSale) {
-            items = items.filter(item => item.onSale && item.onSale > 0 && item.onSale < 100);
+            items = items.filter(item => item.onSale && item.onSale > 0 && item.onSale < 100); // Corrige items2 en items si besoin
         }
-
         if (filters.category !== 'all') {
             items = items.filter(item => item.category === filters.category);
         }
-
         if (sort === 'price-asc') {
             items.sort((a, b) => {
                 const aFinal = a.onSale > 0 && a.onSale < 100 ? a.price * (1 - a.onSale / 100) : a.price;
@@ -60,12 +62,12 @@ function ShoppingList() {
                 return bFinal - aFinal;
             });
         } else if (sort === 'name-asc') {
-            items.sort((a, b) => a.name.localeCompare(b.name));
+            items.sort((a, b) => a.name?.localeCompare(b.name));
         } else if (sort === 'name-desc') {
-            items.sort((a, b) => b.name.localeCompare(a.name));
+            items.sort((a, b) => b.name?.localeCompare(a.name));
         }
-
         setFilteredItems(items);
+        setCurrentPage(1); // Reset à la première page lors d’un changement de filtre/tri
     }, [itemList, search, filters, sort]);
 
     const categories = ['all', ...Array.from(new Set(itemList.map(item => item.category).filter(Boolean)))];
@@ -84,7 +86,7 @@ function ShoppingList() {
 
     const handleReset = () => {
         setSearch('');
-        setFilters({ onSale: false, category: 'all' });
+        setFilters({ onSale: false, category: 'all' }); // Corrige set2Filters en setFilters si besoin
         setSort('default');
     };
 
@@ -92,6 +94,12 @@ function ShoppingList() {
         const rate = DEVISE_RATES[devise] || 1;
         return (price * rate).toFixed(2);
     };
+
+    // Pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
     return (
         <div className={`shopping-list ${darkMode ? 'dark-mode' : 'light-mode'}`}>
@@ -137,10 +145,10 @@ function ShoppingList() {
             </div>
 
             <ul className="item-list">
-                {filteredItems.length === 0 ? (
+                {currentItems.length === 0 ? (
                     <li className="no-result">Aucun article ne correspond à votre recherche ou vos filtres.</li>
                 ) : (
-                    filteredItems.map((item) => {
+                    currentItems.map((item) => {
                         const reduction = (item.onSale > 0 && item.onSale < 100) ? item.onSale : 0;
                         const priceOriginal = Number(convertPrice(item.price));
                         const priceFinal = reduction
@@ -149,24 +157,26 @@ function ShoppingList() {
 
                         return (
                             <li key={item.id} className={`item ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-                                <div className={`info-icon ${darkMode ? 'dark-mode' : ''}`} onClick={() => showDetails(item)}>i</div>
+                                <div className={`info-icon ${darkMode ? 'dark-mode' : ''}`} onClick={() => showDetails(item)}>
+                                    i
+                                </div>
                                 <Item image={item.image} name={item.name} />
-                                <div className={`price-zone`}>
+                                <div className="price-zone">
                                     <div className={`price-tag ${darkMode ? 'dark-mode' : ''} ${reduction ? 'on-sale' : ''}`}>
                                         {reduction ? (
                                             <>
-                                    <span className="old-price">
-                                        <del>{priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}</del>
-                                    </span>
+                                                <span className="old-price">
+                                                    <del>{priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}</del>
+                                                </span>
                                                 <span className="new-price">
-                                        {priceFinal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
-                                    </span>
+                                                    {priceFinal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
+                                                </span>
                                                 <span className="discount-badge">-{reduction}%</span>
                                             </>
                                         ) : (
                                             <span className="new-price">
-                                    {priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
-                                </span>
+                                                {priceOriginal.toFixed(2)}{DEVISE_SYMBOLS[devise]}
+                                            </span>
                                         )}
                                     </div>
                                 </div>
@@ -181,6 +191,23 @@ function ShoppingList() {
                     })
                 )}
             </ul>
+
+            {/* Pagination */}
+            <div className="pagination">
+                <button
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                >
+                    Précédent
+                </button>
+                <span>Page {currentPage} / {totalPages}</span>
+                <button
+                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage === totalPages || totalPages === 0}
+                >
+                    Suivant
+                </button>
+            </div>
         </div>
     );
 }

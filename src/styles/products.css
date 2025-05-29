@@ -429,6 +429,11 @@ body.dark-mode .sort-select {
 .step.active {
     color: #1eb1d4;
 }
+
+.step.active p {
+    color: #fff;
+}
+
 .step p {
     margin: 0;
     font-size: 1em;
@@ -715,7 +720,7 @@ body.dark-mode .sort-select {
     font-weight: bold;
 }
 .discount-badge {
-    background: #04AA6D;
+    background: #ff0000;
     color: #fff;
     border-radius: 4px;
     padding: 2px 8px;
@@ -731,4 +736,56 @@ body.dark-mode .sort-select {
     color: #1eb1d4;
     font-weight: bold;
     font-size: 1.1em;
+}
+
+/* === PAGINATION === */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.pagination button {
+    padding: 8px 14px;
+    background-color: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.pagination button:hover {
+    background-color: #167a94;
+    transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.pagination span {
+    font-size: 1.1em;
+    color: #201244;
+    font-weight: 500;
+}
+
+/* Mode sombre */
+.shopping-list.dark-mode .pagination span {
+    color: #fff;
+}
+
+.shopping-list.dark-mode .pagination button {
+    background-color: #5a5a89;
+}
+
+.shopping-list.dark-mode .pagination button:hover {
+    background-color: #ff6347;
 }
