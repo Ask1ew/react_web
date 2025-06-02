@@ -6,13 +6,20 @@ function GestionArticles() {
     const { darkMode } = useContext(PreferencesContext);
     const [articles, setArticles] = useState([]);
     const [editing, setEditing] = useState(null);
-    const [form, setForm] = useState({ name: "", description: "", price: "", image: null, category: "" });
+    const [form, setForm] = useState({
+        name: "",
+        description: "",
+        price: "",
+        image: null,
+        category: "",
+        onSale: 0
+    });
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const fileInputRef = useRef();
 
     const fetchArticles = () => {
-        fetch("http://localhost:3001/burgers", {
+        fetch("http://localhost:3001/produits", {
             headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => res.json())
@@ -39,7 +46,8 @@ function GestionArticles() {
             description: article.description || "",
             price: article.price || "",
             image: null,
-            category: article.category || ""
+            category: article.category || "",
+            onSale: article.onSale || 0
         });
         setMessage("");
         setError("");
@@ -48,7 +56,7 @@ function GestionArticles() {
 
     const handleCancel = () => {
         setEditing(null);
-        setForm({ name: "", description: "", price: "", image: null, category: "" });
+        setForm({ name: "", description: "", price: "", image: null, category: "", onSale: 0 });
         setMessage("");
         setError("");
         if (fileInputRef.current) fileInputRef.current.value = "";
@@ -56,7 +64,7 @@ function GestionArticles() {
 
     const handleDelete = (id) => {
         if (!window.confirm("Supprimer cet article ?")) return;
-        fetch(`http://localhost:3001/burgers/${id}`, {
+        fetch(`http://localhost:3001/produits/${id}`, {
             method: "DELETE",
             headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
         })
@@ -68,37 +76,58 @@ function GestionArticles() {
             .catch(err => setError(err.message || "Erreur réseau."));
     };
 
+    // Création ou modification d'un article (hors image)
     const handleSubmit = (e) => {
         e.preventDefault();
         setError("");
         setMessage("");
-        const formData = new FormData();
-        formData.append("name", form.name);
-        formData.append("description", form.description);
-        formData.append("price", form.price);
-        formData.append("category", form.category);
-        if (form.image) formData.append("image", form.image);
-
         const url = editing
-            ? `http://localhost:3001/burgers/${editing}`
-            : "http://localhost:3001/burgers";
+            ? `http://localhost:3001/produits/${editing}`
+            : "http://localhost:3001/produits";
         const method = editing ? "PUT" : "POST";
 
         fetch(url, {
             method,
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
-            body: formData
+            body: JSON.stringify({
+                name: form.name,
+                description: form.description,
+                price: form.price,
+                category: form.category,
+                onSale: form.onSale
+            })
         })
             .then(res => res.json())
             .then(data => {
                 if (data.error) throw new Error(data.error);
-                setMessage(editing ? "Article modifié !" : "Article ajouté !");
-                setEditing(null);
-                setForm({ name: "", description: "", price: "", image: null, category: "" });
-                if (fileInputRef.current) fileInputRef.current.value = "";
-                fetchArticles();
+                // Si une image a été sélectionnée, on l'upload ensuite
+                if (form.image && data.id) {
+                    const imgData = new FormData();
+                    imgData.append("image", form.image);
+                    imgData.append("burgerId", data.id);
+                    fetch("http://localhost:3001/upload", {
+                        method: "POST",
+                        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
+                        body: imgData
+                    })
+                        .then(res2 => res2.json())
+                        .then(() => {
+                            setMessage(editing ? "Article modifié !" : "Article ajouté !");
+                            setEditing(null);
+                            setForm({ name: "", description: "", price: "", image: null, category: "", onSale: 0 });
+                            if (fileInputRef.current) fileInputRef.current.value = "";
+                            fetchArticles();
+                        });
+                } else {
+                    setMessage(editing ? "Article modifié !" : "Article ajouté !");
+                    setEditing(null);
+                    setForm({ name: "", description: "", price: "", image: null, category: "", onSale: 0 });
+                    if (fileInputRef.current) fileInputRef.current.value = "";
+                    fetchArticles();
+                }
             })
             .catch(err => setError(err.message || "Erreur réseau."));
     };
@@ -109,6 +138,7 @@ function GestionArticles() {
             {message && <p className="success-message">{message}</p>}
             {error && <p className="error-message">{error}</p>}
             <form className="article-form" onSubmit={handleSubmit}>
+                <p>Nom :</p>
                 <input
                     type="text"
                     name="name"
@@ -117,6 +147,7 @@ function GestionArticles() {
                     onChange={handleFormChange}
                     required
                 />
+                <p>Catégorie :</p>
                 <input
                     type="text"
                     name="category"
@@ -125,6 +156,7 @@ function GestionArticles() {
                     onChange={handleFormChange}
                     required
                 />
+                <p>Description :</p>
                 <textarea
                     name="description"
                     placeholder="Description"
@@ -132,6 +164,7 @@ function GestionArticles() {
                     onChange={handleFormChange}
                     required
                 />
+                <p>Prix :</p>
                 <input
                     type="number"
                     name="price"
@@ -142,6 +175,17 @@ function GestionArticles() {
                     min="0"
                     step="0.01"
                 />
+                <p>Pourcentage de réduction :</p>
+                <input
+                    type="number"
+                    name="onSale"
+                    placeholder="Réduction (%)"
+                    value={form.onSale}
+                    onChange={handleFormChange}
+                    min="0"
+                    max="100"
+                />
+                <p>Image :</p>
                 <input
                     type="file"
                     name="image"
@@ -165,6 +209,7 @@ function GestionArticles() {
                     <th>Catégorie</th>
                     <th>Description</th>
                     <th>Prix</th>
+                    <th>Réduction</th>
                     <th>Image</th>
                     <th>Actions</th>
                 </tr>
@@ -176,6 +221,7 @@ function GestionArticles() {
                         <td>{article.category}</td>
                         <td>{article.description}</td>
                         <td>{article.price} €</td>
+                        <td>{article.onSale ? `${article.onSale}%` : "-"}</td>
                         <td>
                             {article.image && (
                                 <img src={article.image} alt={article.name} style={{ width: 50, borderRadius: 6 }} />

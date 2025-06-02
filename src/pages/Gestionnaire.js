@@ -6,16 +6,15 @@ import "../styles/gestionnaire.css";
 
 import GestionComptes from "../components/gestionnaire/GestionComptes";
 import GestionArticles from "../components/gestionnaire/GestionArticles";
-// import GestionPrestations from "../components/gestionnaire/GestionPrestations";
+import GestionPrestations from "../components/gestionnaire/GestionPrestations";
+import GestionCommandes from "../components/gestionnaire/GestionCommandes";
 // import GestionReservations from "../components/gestionnaire/GestionReservations";
 
 const onglets = [
     { key: "comptes", label: "Gestion des comptes" },
     { key: "articles", label: "Gestion des articles" },
     { key: "prestations", label: "Gestion des prestations" },
-    { key: "reservations", label: "Réservations" },
     { key: "commandes", label: "Commandes" },
-    { key: "stock", label: "Stock" },
     { key: "stats", label: "Statistiques" },
     { key: "promotions", label: "Promotions" },
     { key: "litiges", label: "Litiges" },
@@ -47,7 +46,7 @@ function Gestionnaire() {
                 if (data.statut === "gestionnaire") {
                     setIsGestionnaire(true);
                 } else {
-                    navigate("/"); // Redirection si pas gestionnaire
+                    navigate("/");
                 }
             })
             .catch(() => {
@@ -67,7 +66,6 @@ function Gestionnaire() {
     }
 
     if (!isGestionnaire) {
-        // Sécurité supplémentaire (ne devrait jamais s'afficher)
         return null;
     }
 
@@ -91,6 +89,8 @@ function Gestionnaire() {
                 <section className="gestionnaire-content">
                     {onglet === "comptes" && <GestionComptes />}
                     {onglet === "articles" && <GestionArticles />}
+                    {onglet === "prestations" && <GestionPrestations />}
+                    {onglet === "commandes" && <GestionCommandes />}
                 </section>
             </div>
             <Footer />
