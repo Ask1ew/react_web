@@ -1,0 +1,39 @@
+.gestionnaire-root {
+    min-height: 100vh;
+    background: #f8f8f8;
+}
+.gestionnaire-main {
+    display: flex;
+    min-height: 80vh;
+}
+.gestionnaire-menu {
+    width: 240px;
+    background: #201244;
+    color: #fff;
+    padding: 32px 0 0 0;
+}
+.gestionnaire-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.gestionnaire-menu li {
+    padding: 18px 28px;
+    cursor: pointer;
+    font-size: 1.07em;
+    border-left: 4px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+}
+.gestionnaire-menu li.active,
+.gestionnaire-menu li:hover {
+    background: #1eb1d4;
+    border-left: 4px solid #ff6347;
+    color: #fff;
+}
+.gestionnaire-content {
+    flex: 1;
+    background: #fff;
+    padding: 36px 40px;
+    min-height: 80vh;
+    overflow-x: auto;
+}
