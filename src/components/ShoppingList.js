@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext'; // Remplace par useCart si besoin
+import { useCart } from '../context/CartContext';
 import { PreferencesContext } from '../context/PreferencesContext';
 import { DeviseContext } from '../context/DeviseContext';
 import Item from "./Item";
@@ -9,8 +9,14 @@ import '../styles/products.css';
 const DEVISE_SYMBOLS = { EUR: '€', USD: '$', GBP: '£' };
 const DEVISE_RATES = { EUR: 1, USD: 1.1, GBP: 0.85 };
 
+function getColumnsPerRow() {
+    if (window.innerWidth <= 600) return 1;
+    if (window.innerWidth <= 1100) return 2;
+    return 4;
+}
+
 function ShoppingList() {
-    const { addToCart } = useCart(); // Remplace par useCart si besoin
+    const { addToCart } = useCart();
     const { darkMode } = useContext(PreferencesContext);
     const { devise } = useContext(DeviseContext);
     const navigate = useNavigate();
@@ -24,12 +30,22 @@ function ShoppingList() {
     });
     const [sort, setSort] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
+
+    // Responsive : 2 lignes par page, nombre de colonnes dynamique
+    const [columnsPerRow, setColumnsPerRow] = useState(getColumnsPerRow());
+    const itemsPerPage = columnsPerRow * 2;
+
+    // Met à jour le nombre de colonnes si la fenêtre est redimensionnée
+    useEffect(() => {
+        const handleResize = () => setColumnsPerRow(getColumnsPerRow());
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         fetch('http://localhost:3001/')
             .then(res => res.json())
-            .then(data => setItemsList(data || []))
+            .then(data => setItemsList(Array.isArray(data) ? data : []))
             .catch(err => {
                 console.error("Erreur chargement articles:", err);
                 setItemsList([]);
@@ -37,14 +53,14 @@ function ShoppingList() {
     }, []);
 
     useEffect(() => {
-        let items = [...itemList];
+        let items = Array.isArray(itemList) ? [...itemList] : [];
         if (search.trim() !== '') {
             items = items.filter(item =>
                 item.name?.toLowerCase().includes(search.toLowerCase())
             );
         }
         if (filters.onSale) {
-            items = items.filter(item => item.onSale && item.onSale > 0 && item.onSale < 100); // Corrige items2 en items si besoin
+            items = items.filter(item => item.onSale && item.onSale > 0 && item.onSale < 100);
         }
         if (filters.category !== 'all') {
             items = items.filter(item => item.category === filters.category);
@@ -67,10 +83,11 @@ function ShoppingList() {
             items.sort((a, b) => b.name?.localeCompare(a.name));
         }
         setFilteredItems(items);
-        setCurrentPage(1); // Reset à la première page lors d’un changement de filtre/tri
-    }, [itemList, search, filters, sort]);
+        setCurrentPage(1);
+    }, [itemList, search, filters, sort, columnsPerRow]);
 
-    const categories = ['all', ...Array.from(new Set(itemList.map(item => item.category).filter(Boolean)))];
+    // Catégories uniques
+    const categories = ['all', ...Array.from(new Set((itemList || []).map(item => item.category).filter(Boolean)))];
 
     const showDetails = (item) => {
         navigate('/detail', { state: { item } });
@@ -86,7 +103,7 @@ function ShoppingList() {
 
     const handleReset = () => {
         setSearch('');
-        setFilters({ onSale: false, category: 'all' }); // Corrige set2Filters en setFilters si besoin
+        setFilters({ onSale: false, category: 'all' });
         setSort('default');
     };
 
@@ -98,8 +115,8 @@ function ShoppingList() {
     // Pagination
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+    const currentItems = (filteredItems || []).slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil((filteredItems || []).length / itemsPerPage);
 
     return (
         <div className={`shopping-list ${darkMode ? 'dark-mode' : 'light-mode'}`}>
@@ -192,7 +209,6 @@ function ShoppingList() {
                 )}
             </ul>
 
-            {/* Pagination */}
             <div className="pagination">
                 <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}

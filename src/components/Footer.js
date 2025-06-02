@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../styles/footer.css';
 import { Link } from 'react-router-dom';
 import { PreferencesContext } from '../context/PreferencesContext';
-import Feedback from "./Feedback";
 
 function Footer() {
     const { darkMode } = useContext(PreferencesContext);
@@ -49,7 +48,6 @@ function Footer() {
                 {isLoggedIn && (
                     <div className="footer-section">
                         <h3>Laisser un avis</h3>
-                        <Feedback />
                     </div>
                 )}
             </div>

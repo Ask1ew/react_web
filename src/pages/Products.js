@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Cart from "../components/Cart";
 import ShoppingList from "../components/ShoppingList";
+import FidelityProgress from "../components/FidelityProgress";
 import { PreferencesContext } from "../context/PreferencesContext";
 
 function Products() {
@@ -14,6 +15,7 @@ function Products() {
             <div className="main-content">
                 <div className="container">
                     <div className="content">
+                        <FidelityProgress />
                         <ShoppingList />
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 .fidelite-root {
     min-height: 100vh;
-    background: #f4f4f4;
     color: #201244;
 }
 .fidelite-root.dark-mode {
@@ -108,3 +107,163 @@
     color: #04AA6D;
     text-align: center;
 }
+
+.fidelity-progress {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    text-align: center;
+    position: relative;
+}
+
+.fidelity-progress.dark-mode {
+    background: #3a3a6d;
+    color: #fff;
+}
+
+.fidelity-progress h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 1.2em;
+    color: #04AA6D;
+}
+.fidelity-progress.dark-mode h2 {
+    color: #1eb1d4;
+}
+
+.fidelity-bar-container {
+    position: relative;
+    height: 48px;
+    background: #e0e0e0;
+    border-radius: 24px;
+    margin: 0 auto 32px auto;
+    overflow: visible;
+    max-width: 800px;
+    box-shadow: 0 2px 10px rgba(30,18,68,0.08);
+}
+.fidelity-progress.dark-mode .fidelity-bar-container {
+    background: #2c2c54;
+}
+
+.fidelity-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #1eb1d4 60%, #04AA6D 100%);
+    border-radius: 24px;
+    transition: width 0.3s cubic-bezier(.4,2,.6,1);
+    box-shadow: 0 2px 8px rgba(30,177,212,0.09);
+}
+.fidelity-progress.dark-mode .fidelity-bar {
+    background: linear-gradient(90deg, #ff6347 60%, #1eb1d4 100%);
+}
+
+.fidelity-milestone {
+    position: absolute;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    background: #ff6347;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(30,18,68,0.18), 0 0 0 4px #fff;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.fidelity-progress.dark-mode .fidelity-milestone {
+    background: #1eb1d4;
+    border: 4px solid #2c2c54;
+    box-shadow: 0 4px 16px rgba(30,177,212,0.18), 0 0 0 4px #2c2c54;
+}
+
+/* Pour la dernière milestone, on décale vers la gauche pour qu'elle reste dans la barre */
+.fidelity-milestone:last-child {
+    transform: translate(-100%, -50%);
+}
+
+/* Labels sous les milestones */
+.fidelity-milestone-labels {
+    position: relative;
+    height: 32px;
+    margin-bottom: 10px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    pointer-events: none;
+}
+
+.fidelity-milestone-label {
+    position: absolute;
+    top: 34px;
+    font-size: 1em;
+    color: #ff6347;
+    background: rgba(255,255,255,0.92);
+    border-radius: 7px;
+    padding: 2px 10px;
+    font-weight: bold;
+    min-width: 90px;
+    text-align: center;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(30,18,68,0.06);
+    white-space: nowrap;
+    left: 0;
+    transform: translateX(-50%);
+}
+.fidelity-progress.dark-mode .fidelity-milestone-label {
+    color: #1eb1d4;
+    background: rgba(44,44,84,0.92);
+}
+
+/* Pour la dernière label, on décale aussi vers la gauche */
+.fidelity-milestone-label:last-child {
+    transform: translateX(-100%);
+}
+
+.fidelity-points {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1.12em;
+    color: #201244;
+}
+.fidelity-progress.dark-mode .fidelity-points {
+    color: #fff;
+}
+
+.fidelity-btn {
+    margin-top: 16px;
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 22px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(30,177,212,0.09);
+}
+.fidelity-btn:hover {
+    background: #04AA6D;
+}
+.fidelity-progress.dark-mode .fidelity-btn {
+    background: #ff6347;
+}
+.fidelity-progress.dark-mode .fidelity-btn:hover {
+    background: #1eb1d4;
+}
+
+@media (max-width: 700px) {
+    .fidelity-bar-container,
+    .fidelity-milestone-labels {
+        max-width: 98vw;
+    }
+    .fidelity-milestone-label {
+        min-width: 60px;
+        font-size: 0.93em;
+    }
+}
+

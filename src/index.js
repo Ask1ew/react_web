@@ -20,6 +20,8 @@ import Payment from "./pages/Payment";
 import Dashboard from "./components/Dashboard";
 import Litiges from "./pages/Litiges";
 import Confirmation from "./pages/Confirmation";
+import Fidelity from "./pages/Fidelity";
+import Feedbacks from "./pages/Feedbacks";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -43,6 +45,8 @@ root.render(
                                 <Route path="/dashboard" element={<Dashboard/>}/>
                                 <Route path="/litiges" element={<Litiges/>}/>
                                 <Route path="/confirmation" element={<Confirmation/>}/>
+                                <Route path="/fidelity" element={<Fidelity/>}/>
+                                <Route path="/feedbacks" element={<Feedbacks />} />
                                 <Route path="*" element={<Error />} />
                             </Routes>
                         </Router>
