@@ -74,7 +74,16 @@ function Confirmation() {
                     <ul>
                         {commande.items && commande.items.map((item, idx) => (
                             <li key={idx}>
-                                {item.name} x{item.count} — {item.price} €
+                                {item.name} x{item.count}
+                                {item.fidelityDiscount && (
+                                    <span style={{ color: "#04AA6D", fontWeight: "bold", marginLeft: 6 }}>
+                                        (Fidélité)
+                                    </span>
+                                )}
+                                {" — "}
+                                {item.fidelityDiscount
+                                    ? "0.00 €"
+                                    : (item.price * item.count).toFixed(2) + " €"}
                             </li>
                         ))}
                     </ul>

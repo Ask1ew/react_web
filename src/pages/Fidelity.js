@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { PreferencesContext } from "../context/PreferencesContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import FidelityExchangeModal from "../components/FidelityExchangeModal";
 import "../styles/fidelity.css";
 
 function Fidelity() {
@@ -9,17 +10,19 @@ function Fidelity() {
     const [points, setPoints] = useState(0);
     const [rewards, setRewards] = useState([]);
     const [message, setMessage] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalType, setModalType] = useState("");
+    const [pendingRewardId, setPendingRewardId] = useState(null);
+    const [pendingCost, setPendingCost] = useState(0);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        // Récupère les points de fidélité de l'utilisateur
         fetch("http://localhost:3001/fidelite", {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.json())
             .then(data => setPoints(data.points || 0));
 
-        // Récupère la liste des récompenses
         fetch("http://localhost:3001/recompenses", {
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -27,11 +30,31 @@ function Fidelity() {
             .then(data => setRewards(data));
     }, []);
 
-    const handleExchange = (rewardId, cost) => {
+    const handleExchange = (rewardId, cost, type) => {
         if (points < cost) {
             setMessage("Vous n'avez pas assez de points pour cette récompense.");
             return;
+        } else if (type === "burger" || type === "boisson") {
+            setPendingRewardId(rewardId);
+            setPendingCost(cost);
+            setModalType(type);
+            setModalOpen(true);
         }
+    };
+
+
+    // Appelé après sélection dans le modal (choix burger/boisson)
+    const handleModalExchange = () => {
+        if (pendingRewardId && pendingCost) {
+            doExchange(pendingRewardId, pendingCost);
+        }
+        setModalOpen(false);
+        setPendingRewardId(null);
+        setPendingCost(0);
+    };
+
+    // Effectue la requête d'échange (consomme les points)
+    const doExchange = (rewardId, cost) => {
         const token = localStorage.getItem("token");
         fetch(`http://localhost:3001/fidelite/echange`, {
             method: "POST",
@@ -77,7 +100,7 @@ function Fidelity() {
                                 <button
                                     className="fidelite-btn"
                                     disabled={points < r.cout}
-                                    onClick={() => handleExchange(r.id, r.cout)}
+                                    onClick={() => handleExchange(r.id, r.cout, r.type)}
                                 >
                                     Échanger
                                 </button>
@@ -87,6 +110,12 @@ function Fidelity() {
                 </div>
                 {message && <div className="fidelite-message">{message}</div>}
             </div>
+            <FidelityExchangeModal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                type={modalType}
+                onExchange={handleModalExchange}
+            />
             <Footer />
         </div>
     );

@@ -33,6 +33,7 @@ function Checkout() {
 
     const total = Object.values(cartItems).reduce(
         (sum, item) => {
+            if (item.fidelityDiscount) return sum;
             const reduction = item.onSale > 0 && item.onSale < 100 ? item.onSale : 0;
             const priceFinal = reduction
                 ? item.price * (1 - reduction / 100)
@@ -115,6 +116,21 @@ function Checkout() {
                                 const priceFinal = reduction
                                     ? item.price * (1 - reduction / 100) * item.count
                                     : priceOriginal;
+
+                                if (item.fidelityDiscount) {
+                                    return (
+                                        <li key={item.id}>
+                                            <span>
+                                                {item.name} x {item.count}
+                                                <span style={{ color: "#04AA6D", fontWeight: "bold", marginLeft: 6 }}>
+                                                    (Fidélité)
+                                                </span>
+                                            </span>
+                                            <span>0.00€</span>
+                                        </li>
+                                    );
+                                }
+
                                 return (
                                     <li key={item.id}>
                                         <span>{item.name} x {item.count}</span>

@@ -16,7 +16,10 @@ function Payment() {
     const [error, setError] = useState("");
 
     const total = Object.values(cartItems).reduce(
-        (sum, item) => sum + item.price * item.count,
+        (sum, item) => {
+            if (item.fidelityDiscount) return sum;
+            return sum + item.price * item.count;
+        },
         0
     );
     const discountValue = typeof discount === "number" ? discount : 0;
@@ -90,8 +93,19 @@ function Payment() {
                         <ul>
                             {Object.values(cartItems).map((item) => (
                                 <li key={item.id}>
-                                    <span>{item.name} x {item.count}</span>
-                                    <span>{(item.price * item.count).toFixed(2)}€</span>
+                                    <span>
+                                        {item.name} x {item.count}
+                                        {item.fidelityDiscount && (
+                                            <span style={{ color: "#04AA6D", fontWeight: "bold", marginLeft: 6 }}>
+                                                (Fidélité)
+                                            </span>
+                                        )}
+                                    </span>
+                                    <span>
+                                        {item.fidelityDiscount
+                                            ? "0.00€"
+                                            : (item.price * item.count).toFixed(2) + "€"}
+                                    </span>
                                 </li>
                             ))}
                         </ul>

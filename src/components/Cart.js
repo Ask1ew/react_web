@@ -10,6 +10,7 @@ function Cart() {
     const navigate = useNavigate();
 
     const total = Object.values(cartItems).reduce((sum, item) => {
+        if (item.fidelityDiscount) return sum;
         const reduction = item.onSale > 0 && item.onSale < 100 ? item.onSale : 0;
         const finalPrice = reduction
             ? item.price * (1 - reduction / 100)
@@ -29,49 +30,67 @@ function Cart() {
             ) : (
                 <>
                     <ul>
-                        {Object.values(cartItems).map((item) => {
-                            const reduction = item.onSale > 0 && item.onSale < 100 ? item.onSale : 0;
-                            const priceOriginal = item.price;
-                            const priceFinal = reduction
-                                ? item.price * (1 - reduction / 100)
-                                : item.price;
+                        <div className={`cart${darkMode ? ' dark-mode' : ''}`}>
+                            <h1>Panier</h1>
+                            {Object.values(cartItems).map((item) => {
+                                const reduction = item.onSale > 0 && item.onSale < 100 ? item.onSale : 0;
+                                const priceOriginal = item.price;
+                                const priceFinal = reduction
+                                    ? item.price * (1 - reduction / 100)
+                                    : item.price;
 
-                            return (
-                                <li key={item.id} className="cart-row">
-                                    <span className="cart-col cart-name">{item.name}</span>
-                                    <div className="cart-col cart-qty">
-                                        <button
-                                            className={`quantity-btn${darkMode ? ' dark-mode' : ''}`}
-                                            onClick={() => updateQuantity(item.id, item.count - 1)}
-                                        >-</button>
-                                        <span className="cart-count">{item.count}</span>
-                                        <button
-                                            className={`quantity-btn${darkMode ? ' dark-mode' : ''}`}
-                                            onClick={() => updateQuantity(item.id, item.count + 1)}
-                                        >+</button>
-                                    </div>
-                                    <span className="cart-col cart-price">
-                                        {reduction ? (
-                                            <>
-                                                <span className="old-price" style={{ marginRight: 6 }}>
-                                                    <del>{(priceOriginal * item.count).toFixed(2)}€</del>
-                                                </span>
-                                                <span className="new-price">
-                                                    {(priceFinal * item.count).toFixed(2)}€
-                                                </span>
-                                                <span className="discount-badge" style={{ marginLeft: 4 }}>
-                                                    -{reduction}%
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <span className="new-price">
-                                                {(priceFinal * item.count).toFixed(2)}€
-                                            </span>
-                                        )}
-                                    </span>
-                                </li>
-                            );
-                        })}
+                                if (item.fidelityDiscount) {
+                                    return (
+                                        <li key={item.id} className="cart-row">
+                                            <span className="cart-col cart-name">{item.name} <span style={{color: "#04AA6D", fontWeight: "bold"}}>(Fidélité)</span></span>
+                                            <div className="cart-col cart-qty">
+                                                <span className="cart-count">{item.count}</span>
+                                            </div>
+                                            <span className="cart-col cart-price">
+                            <span className="new-price">0.00€</span>
+                            </span>
+                                        </li>
+                                    );
+                                }
+
+                                // Affichage normal sinon
+                                return (
+                                    <li key={item.id} className="cart-row">
+                                        <span className="cart-col cart-name">{item.name}</span>
+                                        <div className="cart-col cart-qty">
+                                            <button
+                                                className={`quantity-btn${darkMode ? ' dark-mode' : ''}`}
+                                                onClick={() => updateQuantity(item.id, item.count - 1)}
+                                            >-</button>
+                                            <span className="cart-count">{item.count}</span>
+                                            <button
+                                                className={`quantity-btn${darkMode ? ' dark-mode' : ''}`}
+                                                onClick={() => updateQuantity(item.id, item.count + 1)}
+                                            >+</button>
+                                        </div>
+                                        <span className="cart-col cart-price">
+                        {reduction ? (
+                            <>
+                                <span className="old-price" style={{ marginRight: 6 }}>
+                                    <del>{(priceOriginal * item.count).toFixed(2)}€</del>
+                                </span>
+                                <span className="new-price">
+                                    {(priceFinal * item.count).toFixed(2)}€
+                                </span>
+                                <span className="discount-badge" style={{ marginLeft: 4 }}>
+                                    -{reduction}%
+                                </span>
+                            </>
+                        ) : (
+                            <span className="new-price">
+                            {(priceFinal * item.count).toFixed(2)}€
+                            </span>
+                        )}
+                        </span>
+                                    </li>
+                                );
+                            })}
+                        </div>
                     </ul>
 
                     <p>Total : {total.toFixed(2)}€</p>
