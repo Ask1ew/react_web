@@ -1,5 +1,4 @@
 .feedbacks-root {
-    background: #f8f8f8;
     min-height: 100vh;
     color: #333;
 }
@@ -11,6 +10,7 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    background: white;
 }
 .feedbacks-title {
     margin-top: 0;
@@ -258,4 +258,94 @@
 .feedbacks-root.dark-mode .feedbacks-section {
     background: #3a3a6d;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.profile-avis-box {
+    margin: 28px 0;
+    background: #f8f8f8;
+    border-radius: 10px;
+    padding: 18px 16px;
+    box-shadow: 0 2px 10px rgba(30,18,68,0.06);
+}
+.profile-avis-box.dark-mode {
+    background: #2c2c54;
+    color: #fff;
+}
+.profile-avis-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.profile-avis-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0 8px 0;
+}
+.profile-avis-box.dark-mode .profile-avis-item {
+    border-bottom: 1px solid #444;
+}
+.profile-avis-note {
+    font-size: 1.2em;
+    color: #ffb400;
+    margin-bottom: 2px;
+}
+.profile-avis-comment {
+    margin-bottom: 3px;
+    font-size: 1em;
+}
+.profile-avis-meta {
+    font-size: 0.93em;
+    color: #666;
+}
+.profile-avis-box.dark-mode .profile-avis-meta {
+    color: #bbb;
+}
+
+.profile-avis-edit-form input[type="number"] {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 3px 6px;
+}
+.profile-avis-edit-form textarea {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 4px 7px;
+    resize: vertical;
+}
+.profile-avis-edit-form button {
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.profile-avis-edit-form button:hover {
+    background: #04AA6D;
+}
+.profile-avis-actions button {
+    background: #eee;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: 0.97em;
+    margin-right: 4px;
+    transition: background 0.2s;
+}
+.profile-avis-actions button:hover {
+    background: #1eb1d4;
+    color: #fff;
+}
+.profile-avis-actions button:last-child:hover {
+    background: #ff6347;
+    color: #fff;
+}
+.success-message {
+    color: #04AA6D;
+    margin-bottom: 7px;
+}
+.error-message {
+    color: #ff6347;
+    margin-bottom: 7px;
 }

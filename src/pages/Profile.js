@@ -7,6 +7,7 @@ import '../styles/login.css';
 import Dashboard from "../components/Dashboard";
 import LitigeDetail from "../components/LitigeDetail";
 import CommandeDetail from "../components/CommandeDetail";
+import ProfileAvis from "../components/ProfileAvis";
 
 function Profile() {
     const { darkMode } = useContext(PreferencesContext);
@@ -19,6 +20,7 @@ function Profile() {
                     <div className="profile-columns">
                         <div className="profile-left">
                             <ProfileDetail />
+                            <ProfileAvis/>
                             <hr className="profile-separator" />
                             <LitigeDetail />
                         </div>

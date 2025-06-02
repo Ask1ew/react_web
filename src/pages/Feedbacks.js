@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PreferencesContext } from "../context/PreferencesContext";
 import "../styles/feedbacks.css";
-import "../styles/footer.css";
 
 function Feedbacks() {
     const { darkMode } = useContext(PreferencesContext);
@@ -28,17 +27,14 @@ function Feedbacks() {
     const [messageTypeGlobal, setMessageTypeGlobal] = useState("");
 
     useEffect(() => {
-        // Charger la liste des produits
-        fetch("http://localhost:3001/burgers")
+        fetch("http://localhost:3001/produits")
             .then(res => res.json())
             .then(data => setProducts(data))
             .catch(err => console.error("Erreur chargement burgers:", err));
-        // Charger la liste des prestations
         fetch("http://localhost:3001/prestations")
             .then(res => res.json())
             .then(data => setPrestations(data))
             .catch(err => console.error("Erreur chargement prestations:", err));
-        // Charger les avis globaux (avis sans product_id ni prestation_id)
         fetch("http://localhost:3001/avis")
             .then(res => res.json())
             .then(data => {
@@ -51,7 +47,6 @@ function Feedbacks() {
         if (!selectedId) return;
         setIsLoading(true);
 
-        // Récupérer tous les avis filtrés selon le type et l'id sélectionné
         fetch("http://localhost:3001/avis")
             .then(res => res.json())
             .then(data => {
@@ -61,8 +56,6 @@ function Feedbacks() {
                         : a.prestation_id === parseInt(selectedId)
                 );
                 setAvis(filteredAvis);
-
-                // On ne peut pas savoir si l'utilisateur a déjà posté un avis ici sans userId
                 setMonAvis(null);
             })
             .catch(err => console.error("Erreur chargement avis:", err))
@@ -113,7 +106,6 @@ function Feedbacks() {
             setCommentaire("");
             setCriteres({ qualite: 0, rapportQualitePrix: 0 });
 
-            // Recharger les avis
             fetch("http://localhost:3001/avis")
                 .then(res => res.json())
                 .then(data => {
@@ -149,7 +141,6 @@ function Feedbacks() {
             setMessage("Votre avis a bien été supprimé.");
             setMessageType("success");
             setMonAvis(null);
-            // Recharger les avis
             fetch("http://localhost:3001/avis")
                 .then(res => res.json())
                 .then(data => {
@@ -203,12 +194,10 @@ function Feedbacks() {
             .finally(() => setIsLoading(false));
     };
 
-    // Calcul de la moyenne et de la distribution des notes
     const moyenne = avis.length ? (avis.reduce((acc, a) => acc + a.note, 0) / avis.length).toFixed(1) : 0;
     const distribution = [0, 0, 0, 0, 0];
     avis.forEach(a => distribution[a.note - 1]++);
 
-    // Moyenne des avis globaux
     const moyenneGlobale = avisGlobaux.length ? (avisGlobaux.reduce((acc, a) => acc + a.note, 0) / avisGlobaux.length).toFixed(1) : 0;
 
     return (
