@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { PreferencesContext } from "../context/PreferencesContext";
 import "../styles/feedbacks.css";
+import Breadcrumb from "../components/Breadcrumb";
 
 function Feedbacks() {
     const { darkMode } = useContext(PreferencesContext);
@@ -165,9 +166,13 @@ function Feedbacks() {
         setMessageGlobal("");
         setMessageTypeGlobal("");
         setIsLoading(true);
+        const token = localStorage.getItem("token");
         fetch("http://localhost:3001/avis", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify({ note: noteGlobal, commentaire: avisGlobal })
         })
             .then(async res => {
@@ -204,6 +209,10 @@ function Feedbacks() {
         <div className={`feedbacks-root${darkMode ? " dark-mode" : ""}`}>
             <Header />
             <div className="feedbacks-main">
+                <Breadcrumb items={[
+                    { label: "Accueil", to: "/" },
+                    { label: "Avis" }
+                ]} />
                 <h1 className="feedbacks-title">Avis clients</h1>
                 <p className="feedbacks-desc">
                     Consultez les avis laissés par nos clients et donnez votre avis sur un produit ou une prestation.
@@ -336,15 +345,20 @@ function Feedbacks() {
                         <h3>Note moyenne : <span className="note">{moyenneGlobale}</span>/5</h3>
                     </div>
                     <div className="feedbacks-list">
-                        <h3>Derniers commentaires</h3>
+                        <h3>Derniers commentaires (5 max)</h3>
                         {avisGlobaux.length === 0 ? (
                             <p>Aucun avis global pour le moment.</p>
                         ) : (
                             <ul>
-                                {avisGlobaux.map(a => (
+                                {avisGlobaux.slice(0, 5).map(a => (
                                     <li key={a.id}>
                                         <div className="avis-note">{a.note}/5</div>
                                         <div className="avis-commentaire">{a.commentaire}</div>
+                                        {a.reponse && (
+                                            <div className="avis-reponse">
+                                                <strong>Réponse gestionnaire :</strong> {a.reponse}
+                                            </div>
+                                        )}
                                     </li>
                                 ))}
                             </ul>

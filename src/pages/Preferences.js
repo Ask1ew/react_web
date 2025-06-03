@@ -5,6 +5,7 @@ import { PreferencesContext } from "../context/PreferencesContext";
 import { LanguageContext } from "../context/LanguageContext";
 import { DeviseContext } from "../context/DeviseContext";
 import '../styles/preferences.css';
+import Breadcrumb from "../components/Breadcrumb";
 
 function Preferences() {
     const { darkMode, setDarkMode } = useContext(PreferencesContext);
@@ -31,6 +32,10 @@ function Preferences() {
         <div className={`preferences-root ${darkMode ? "dark-mode" : "light-mode"}`}>
             <Header />
             <div className={`main-content about-page ${darkMode ? "dark-mode" : "light-mode"}`}>
+                <Breadcrumb items={[
+                    { label: "Accueil", to: "/" },
+                    { label: "Préférences" }
+                ]} />
                 <h1>Préférences utilisateurs</h1>
                 <h2>Thème</h2>
                 <ul className="theme-options">

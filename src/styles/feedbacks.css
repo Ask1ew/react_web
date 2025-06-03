@@ -349,3 +349,12 @@
     color: #ff6347;
     margin-bottom: 7px;
 }
+
+.avis-reponse {
+    background: #e6f7ff;
+    border-left: 4px solid #1eb1d4;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    font-size: 0.95em;
+}

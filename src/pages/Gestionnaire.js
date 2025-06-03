@@ -8,14 +8,17 @@ import GestionComptes from "../components/gestionnaire/GestionComptes";
 import GestionArticles from "../components/gestionnaire/GestionArticles";
 import GestionPrestations from "../components/gestionnaire/GestionPrestations";
 import GestionCommandes from "../components/gestionnaire/GestionCommandes";
-// import GestionReservations from "../components/gestionnaire/GestionReservations";
+import GestionPromotions from "../components/gestionnaire/GestionPromotions";
+import GestionLitiges from "../components/gestionnaire/GestionLitiges";
+import GestionFidelite from "../components/gestionnaire/GestionFidelite";
+import GestionAvis from "../components/gestionnaire/GestionAvis";
+import GestionAccueil from "../components/gestionnaire/GestionAccueil";
 
 const onglets = [
     { key: "comptes", label: "Gestion des comptes" },
     { key: "articles", label: "Gestion des articles" },
     { key: "prestations", label: "Gestion des prestations" },
     { key: "commandes", label: "Commandes" },
-    { key: "stats", label: "Statistiques" },
     { key: "promotions", label: "Promotions" },
     { key: "litiges", label: "Litiges" },
     { key: "fidelite", label: "Points fidélité" },
@@ -91,6 +94,11 @@ function Gestionnaire() {
                     {onglet === "articles" && <GestionArticles />}
                     {onglet === "prestations" && <GestionPrestations />}
                     {onglet === "commandes" && <GestionCommandes />}
+                    {onglet === "promotions" && <GestionPromotions />}
+                    {onglet === "litiges" && <GestionLitiges />}
+                    {onglet === "fidelite" && <GestionFidelite />}
+                    {onglet === "avis" && <GestionAvis />}
+                    {onglet === "accueil" && <GestionAccueil />}
                 </section>
             </div>
             <Footer />

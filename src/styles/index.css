@@ -163,3 +163,112 @@ body {
   font-size: 16px;
   margin: 4px 2px;
 }
+
+.home-map-section {
+  margin: 40px 0;
+  text-align: center;
+}
+.home-map-container {
+  margin: 20px auto;
+  max-width: 900px;
+}
+.home-map-iframe {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.home-map-markers {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.home-map-marker {
+  background: #1eb1d4;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.home-map-marker:hover {
+  background: #04AA6D;
+}
+
+.home-featured-section {
+  margin: 40px 0;
+  text-align: center;
+}
+.home-featured-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 16px;
+}
+.home-featured-item {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 16px;
+  width: 240px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.home-featured-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+.home-featured-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.home-featured-item h3 {
+  margin: 8px 0;
+  color: #222;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+.home-featured-item p {
+  color: #555;
+  font-size: 0.95em;
+  margin-bottom: 12px;
+}
+.home-featured-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #1eb1d4;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8em;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.home-featured-item-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+@media (max-width: 900px) {
+  .home-featured-grid {
+    gap: 16px;
+  }
+  .home-featured-item {
+    width: calc(50% - 20px);
+    min-width: 180px;
+  }
+}
+@media (max-width: 600px) {
+  .home-featured-item {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+

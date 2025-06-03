@@ -31,6 +31,7 @@ function Footer() {
                             ? <li><Link to="/profile">Votre Profil</Link></li>
                             : <li><Link to="/login">Connexion</Link></li>
                         }
+                        {isLoggedIn && <li><Link to="/feedbacks">Avis</Link></li>}
                         <li><Link to="/litiges">Litiges</Link></li>
                     </ul>
                 </div>
