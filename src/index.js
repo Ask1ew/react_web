@@ -24,6 +24,7 @@ import Fidelity from "./pages/Fidelity";
 import Feedbacks from "./pages/Feedbacks";
 import Gestionnaire from "./pages/Gestionnaire";
 import Promotion from "./pages/Promotion";
+import LivreDor from "./pages/LivreDor";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -51,6 +52,7 @@ root.render(
                                 <Route path="/feedbacks" element={<Feedbacks />} />
                                 <Route path="/gestionnaire" element={<Gestionnaire />} />
                                 <Route path="/promotion" element={<Promotion />} />
+                                <Route path="/livredor" element={<LivreDor />} />
                                 <Route path="*" element={<Error />} />
                             </Routes>
                         </Router>

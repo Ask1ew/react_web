@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FidelityExchangeModal from "../components/FidelityExchangeModal";
 import "../styles/fidelity.css";
+import Breadcrumb from "../components/Breadcrumb";
 
 function Fidelity() {
     const { darkMode } = useContext(PreferencesContext);
@@ -80,6 +81,10 @@ function Fidelity() {
         <div className={`fidelite-root${darkMode ? " dark-mode" : ""}`}>
             <Header />
             <div className="fidelite-main">
+                <Breadcrumb items={[
+                    { label: "Produits", to: "/products" },
+                    { label: "Détails" }
+                ]} />
                 <h1 className="fidelite-title">Programme de Fidélité</h1>
                 <div className="fidelite-points">
                     <span>Mes points de fidélité :</span>

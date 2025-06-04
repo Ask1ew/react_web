@@ -159,6 +159,12 @@ function ShoppingList() {
                     <option value="name-desc">Nom Z-A</option>
                 </select>
                 <button className="reset-btn" onClick={handleReset}>Réinitialiser</button>
+                <button
+                    className="promotion-btn"
+                    onClick={() => navigate('/promotion')}
+                >
+                    Voir les promotions
+                </button>
             </div>
 
             <ul className="item-list">

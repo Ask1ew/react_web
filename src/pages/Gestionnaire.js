@@ -13,6 +13,7 @@ import GestionLitiges from "../components/gestionnaire/GestionLitiges";
 import GestionFidelite from "../components/gestionnaire/GestionFidelite";
 import GestionAvis from "../components/gestionnaire/GestionAvis";
 import GestionAccueil from "../components/gestionnaire/GestionAccueil";
+import GestionLivreDor from "../components/gestionnaire/GestionLivreDor";
 
 const onglets = [
     { key: "comptes", label: "Gestion des comptes" },
@@ -24,6 +25,7 @@ const onglets = [
     { key: "fidelite", label: "Points fidélité" },
     { key: "avis", label: "Modération des avis" },
     { key: "accueil", label: "Accueil & Mise en avant" },
+    { key: "livredor", label: "Livre d'or" },
 ];
 
 function Gestionnaire() {
@@ -99,6 +101,7 @@ function Gestionnaire() {
                     {onglet === "fidelite" && <GestionFidelite />}
                     {onglet === "avis" && <GestionAvis />}
                     {onglet === "accueil" && <GestionAccueil />}
+                    {onglet === "livredor" && <GestionLivreDor />}
                 </section>
             </div>
             <Footer />

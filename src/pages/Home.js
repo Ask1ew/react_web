@@ -69,6 +69,22 @@ function Home() {
 
     useEffect(() => {
         fetchAllData();
+        const handleScroll = () => {
+            const elements = document.querySelectorAll('.slide-in, .fade-in');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const isVisible = (rect.top <= window.innerHeight * 0.8) && (rect.bottom >= 0);
+                if (isVisible) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        handleScroll();
+        // Écouteur d’événement pour le défilement
+        window.addEventListener('scroll', handleScroll);
+
+        // Nettoyage de l’écouteur
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     // Trouver un élément par son id
@@ -143,7 +159,7 @@ function Home() {
                     </section>
                 )}
 
-                <section className="home-section">
+                <section className="home-section slide-in">
                     <div className="home-section-content">
                         <h2>{t.missionTitle}</h2>
                         <p>{t.missionText}</p>
@@ -155,7 +171,7 @@ function Home() {
                     />
                 </section>
 
-                <section className="home-section reverse">
+                <section className="home-section reverse fade-in">
                     <div className="home-section-content">
                         <h2>{t.valuesTitle}</h2>
                         <ul>
@@ -172,7 +188,7 @@ function Home() {
                     />
                 </section>
 
-                <section className="home-section">
+                <section className="home-section slide-in">
                     <div className="home-section-content">
                         <h2>{t.servicesTitle}</h2>
                         <ul>

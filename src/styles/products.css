@@ -792,3 +792,24 @@ body.dark-mode .sort-select {
 .shopping-list.dark-mode .pagination button:hover {
     background-color: #ff6347;
 }
+
+.promotion-btn {
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    margin-left: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.promotion-btn:hover {
+    background: #04AA6D;
+}
+.shopping-list.dark-mode .promotion-btn {
+    background: #ff6347;
+}
+.shopping-list.dark-mode .promotion-btn:hover {
+    background: #d13c1f;
+}

@@ -1769,3 +1769,127 @@
         padding: 8px 4px;
     }
 }
+/* Gestion Livre d'Or – Styles spécifiques */
+.gestion-livredor {
+    min-height: 100vh;
+    background: #f9f9f9;
+    color: #201244;
+}
+.gestion-livredor-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 16px 44px 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+.livredor-success-message {
+    color: #04AA6D;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+.livredor-error-message {
+    color: #ff6347;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+.livredor-stats {
+    margin-bottom: 32px;
+}
+.livredor-stat-item {
+    margin-bottom: 16px;
+}
+.livredor-graph {
+    display: flex;
+    height: 30px;
+    margin-top: 8px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.livredor-bar-oui {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.9em;
+    font-weight: 500;
+    background: #04AA6D;
+}
+.livredor-bar-non {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.9em;
+    font-weight: 500;
+    background: #ff6347;
+}
+.livredor-no-result {
+    color: #666;
+    margin: 24px 0;
+}
+.livredor-temoignages-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 24px;
+}
+.livredor-temoignage {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.livredor-reponses {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #e6f7ff;
+    border-radius: 6px;
+    border-left: 4px solid #1eb1d4;
+}
+.livredor-reponse {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #e6f7ff;
+    border-radius: 6px;
+    border-left: 4px solid #1eb1d4;
+}
+.livredor-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+.livredor-btn {
+    background: #1eb1d4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.livredor-btn:hover {
+    background: #04AA6D;
+}
+.livredor-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+.livredor-reponse-form {
+    margin-top: 24px;
+    background: #f8f8f8;
+    padding: 16px;
+    border-radius: 8px;
+}
+.livredor-reponse-form textarea {
+    width: 100%;
+    min-height: 100px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+}
+
