@@ -1,0 +1,224 @@
+/* === PROMOTION PAGE === */
+.promotion-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #201244;
+}
+.promotion-page.dark-mode {
+    background: #201244;
+    color: #fff;
+}
+.promotion-main {
+    flex: 1;
+    max-width: 1200px;
+    width: calc(100% - 32px);
+    margin: 20px auto 40px auto;
+    padding: 24px 16px 44px 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+.promotion-page.dark-mode .promotion-main {
+    background: #2c2c54;
+    color: #fff;
+}
+
+.promotion-main h2 {
+    margin-top: 0;
+    color: #1eb1d4;
+    font-size: 1.8em;
+    margin-bottom: 12px;
+}
+.promotion-page.dark-mode .promotion-main h2 {
+    color: #ff6347;
+}
+.promotion-main p {
+    margin-bottom: 24px;
+    font-size: 1.1em;
+    color: #555;
+}
+.promotion-page.dark-mode .promotion-main p {
+    color: #bbb;
+}
+.no-result {
+    text-align: center;
+    margin: 40px 0;
+    color: #666;
+    font-size: 1.2em;
+}
+.promotion-page.dark-mode .no-result {
+    color: #bbb;
+}
+
+/* === GRILLE DES PRODUITS === */
+.item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+@media (max-width: 600px) {
+    .item-list {
+        grid-template-columns: 1fr;
+    }
+}
+.item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 12px 20px 12px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    min-height: 350px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(30, 18, 68, 0.07);
+    transition: transform 0.3s, box-shadow 0.2s;
+}
+.promotion-page.dark-mode .item {
+    background: #3a3a6d;
+    border: 1px solid #555;
+}
+.item:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(30, 18, 68, 0.13);
+}
+
+/* === IMAGES === */
+.item-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+/* === NOMS DES PRODUITS === */
+.item h3 {
+    margin: 8px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* === PRIX ET SOLDES === */
+.price-zone {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 18px 0 6px 0;
+}
+.price-tag {
+    background-color: #04AA6D;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.15em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+    justify-content: center;
+}
+.price-tag.on-sale {
+    background-color: #ff0000;
+    color: #fff;
+}
+.price-tag.dark-mode {
+    background-color: #ff6347;
+    color: #fff;
+}
+.price-tag.on-sale .old-price {
+    color: #fff;
+    background: #ff0000;
+    border-radius: 6px;
+    padding: 0 6px;
+    margin-right: 7px;
+    text-decoration: line-through;
+    vertical-align: middle;
+    display: inline-block;
+}
+.price-tag.on-sale .new-price {
+    color: #fff;
+    border-radius: 6px;
+    padding: 0 6px;
+    margin-right: 5px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.discount-badge {
+    background: #ff6347;
+    color: #fff;
+    font-size: 0.95em;
+    font-weight: bold;
+    border-radius: 14px;
+    padding: 2px 8px;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+.price-tag.on-sale .discount-badge {
+    background: #fff;
+    color: #ff0000;
+}
+.price-tag.dark-mode.on-sale .discount-badge {
+    background: #fff;
+    color: #ff6347;
+}
+
+
+/* === INFO ICON === */
+.info-icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #1eb1d4;
+    color: #fff;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.info-icon:hover {
+    background: #04AA6D;
+}
+.info-icon.dark-mode {
+    background: #5a5a89;
+}
+.info-icon:hover.dark-mode {
+    background: #ff6347;
+}
+
+/* ... (garder ton CSS existant) ... */
+
+.item.featured {
+    border: 2px solid #1eb1d4;
+    box-shadow: 0 0 0 3px rgba(30, 177, 212, 0.2);
+    position: relative;
+}
+.promotion-page.dark-mode .item.featured {
+    border: 2px solid #ff6347;
+    box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.2);
+}
+.featured-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #1eb1d4;
+    color: #fff;
+    border-radius: 16px;
+    padding: 4px 10px;
+    font-size: 0.8em;
+    font-weight: bold;
+    z-index: 1;
+}
+.promotion-page.dark-mode .featured-badge {
+    background: #ff6347;
+}

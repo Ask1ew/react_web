@@ -8,19 +8,39 @@ function GestionPromotions() {
         produitId: "",
         onSale: ""
     });
+    const [featuredIds, setFeaturedIds] = useState([]);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
+    // Récupérer les produits
     const fetchProduits = () => {
         fetch("http://localhost:3001/produits", {
             headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => res.json())
-            .then(data => setProduits(Array.isArray(data) ? data : []));
+            .then(data => setProduits(Array.isArray(data) ? data : []))
+            .catch(err => console.error("Erreur fetch produits :", err));
+    };
+
+    // Récupérer la sélection des produits à mettre en avant
+    const fetchFeatured = () => {
+        fetch("http://localhost:3001/promotion/selection", {
+            headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data && Array.isArray(data.produits)) setFeaturedIds(data.produits);
+                else setFeaturedIds([]);
+            })
+            .catch(err => {
+                console.error("Erreur fetch sélection :", err);
+                setFeaturedIds([]);
+            });
     };
 
     useEffect(() => {
         fetchProduits();
+        fetchFeatured();
     }, []);
 
     const handleFormChange = (e) => {
@@ -66,6 +86,8 @@ function GestionPromotions() {
                 if (data.error) throw new Error(data.error);
                 setMessage("Promotion supprimée !");
                 fetchProduits();
+                // Retirer le produit de la sélection mise en avant s'il y est
+                setFeaturedIds(prev => prev.filter(p => p !== id));
             })
             .catch(err => setError(err.message || "Erreur réseau."));
     };
@@ -97,6 +119,33 @@ function GestionPromotions() {
                 fetchProduits();
             })
             .catch(err => setError(err.message || "Erreur réseau."));
+    };
+
+    // Gestion de la mise en avant
+    const toggleFeatured = (id) => {
+        setFeaturedIds(prev =>
+            prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
+        );
+    };
+
+    const saveFeatured = () => {
+        setError("");
+        setMessage("");
+        fetch("http://localhost:3001/promotion/selection", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ produits: featuredIds })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) throw new Error(data.error);
+                setMessage("Mise en avant sauvegardée !");
+                fetchFeatured();
+            })
+            .catch(err => setError(err.message || "Erreur lors de la sauvegarde"));
     };
 
     return (
@@ -142,6 +191,7 @@ function GestionPromotions() {
                 <tr>
                     <th>Produit</th>
                     <th>Réduction</th>
+                    <th>Mettre en avant</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -153,6 +203,16 @@ function GestionPromotions() {
                             <td>{p.name}</td>
                             <td>{p.onSale}%</td>
                             <td>
+                                <label className="toggle-featured">
+                                    <input
+                                        type="checkbox"
+                                        checked={featuredIds.includes(p.id)}
+                                        onChange={() => toggleFeatured(p.id)}
+                                    />
+                                    {featuredIds.includes(p.id) ? "Oui" : "Non"}
+                                </label>
+                            </td>
+                            <td>
                                 <button onClick={() => handleEdit(p)}>Modifier</button>
                                 <button onClick={() => handleDelete(p.id)} style={{ marginLeft: 8, color: "red" }}>
                                     Supprimer
@@ -162,6 +222,9 @@ function GestionPromotions() {
                     ))}
                 </tbody>
             </table>
+            <button onClick={saveFeatured} className="save-featured-btn">
+                Sauvegarder la mise en avant
+            </button>
         </div>
     );
 }
