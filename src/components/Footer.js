@@ -33,6 +33,7 @@ function Footer() {
                         }
                         {isLoggedIn && <li><Link to="/feedbacks">Avis</Link></li>}
                         <li><Link to="/litiges">Litiges</Link></li>
+                        <li><Link to="/livredor">Livre d'or</Link></li>
                     </ul>
                 </div>
                 <div className="footer-section">

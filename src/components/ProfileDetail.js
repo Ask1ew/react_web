@@ -1,124 +1,129 @@
-import React, { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import { PreferencesContext } from '../context/PreferencesContext';
-import { LanguageContext } from '../context/LanguageContext';
-import { DeviseContext } from '../context/DeviseContext';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { PreferencesContext } from "../context/PreferencesContext";
+import { LanguageContext } from "../context/LanguageContext";
+import { DeviseContext } from "../context/DeviseContext";
 
 function ProfileDetail() {
     const [user, setUser] = useState(null);
     const [form, setForm] = useState({});
     const [loading, setLoading] = useState(true);
     const [editMode, setEditMode] = useState(false);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
     const [saving, setSaving] = useState(false);
     const { resetPreferences } = useContext(PreferencesContext);
-    const { resetLanguage } = useContext(LanguageContext);
+    const { reset1: resetLanguage } = useContext(LanguageContext);
     const { resetDevise } = useContext(DeviseContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-            window.location.href = '/login';
+            navigate("/login");
             return;
         }
 
-        fetch('http://localhost:3001/profile', {
+        fetch("http://localhost:3001/profile", {
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
         })
-            .then(res => {
-                if (!res.ok) throw new Error('Non autorisé');
+            .then((res) => {
+                if (!res.ok) throw new Error("Non autorisé");
                 return res.json();
             })
-            .then(data => {
+            .then((data) => {
                 setUser(data);
                 setForm({
-                    nom: data.nom || '',
-                    prenom: data.prenom || '',
-                    email: data.email || '',
-                    password: '',
-                    adresse: data.adresse || '',
-                    telephone: data.telephone || '',
+                    nom: data.nom || "",
+                    prenom: data.prenom || "",
+                    email: data.email || "",
+                    password: "",
+                    adresse: data.adresse || "",
+                    telephone: data.telephone || "",
                 });
                 setLoading(false);
             })
             .catch(() => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('userId');
-                window.location.href = '/login';
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+                navigate("/login");
             });
-    }, []);
+    }, [navigate]);
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm(prev => ({ ...prev, [name]: value }));
+        setForm((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleEdit = () => {
         setEditMode(true);
-        setMessage('');
-        setError('');
+        setMessage("");
+        setError("");
     };
 
     const handleCancel = () => {
         setEditMode(false);
-        setMessage('');
-        setError('');
-        setForm(prev => ({
-            nom: user.nom || '',
-            prenom: user.prenom || '',
-            email: user.email || '',
-            password: '',
-            adresse: user.adresse || '',
-            telephone: user.telephone || '',
-        }));
+        setMessage("");
+        setError("");
+        setForm({
+            nom: user.nom || "",
+            prenom: user.prenom || "",
+            email: user.email || "",
+            password: "",
+            adresse: user.adresse || "",
+            telephone: user.telephone || "",
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-        setMessage('');
+        setError("");
+        setMessage("");
         setSaving(true);
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const updateData = { ...form };
         if (!updateData.password) delete updateData.password;
 
         try {
-            const res = await fetch('http://localhost:3001/profile', {
-                method: 'PUT',
+            const res = await fetch("http://localhost:3001/profile", {
+                method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(updateData)
+                body: JSON.stringify(updateData),
             });
 
             const data = await res.json();
-            if (!res.ok) throw new Error(data.error || 'Erreur de mise à jour');
+            if (!res.ok) throw new Error(data.error || "Erreur de mise à jour");
 
             setUser(data);
             setEditMode(false);
-            setMessage('Profil mis à jour avec succès !');
-            setForm(prev => ({ ...prev, password: '' }));
+            setMessage("Profil mis à jour avec succès !");
+            setForm((prev) => ({ ...prev, password: "" }));
         } catch (err) {
-            setError(err.message || 'Erreur lors de la mise à jour');
+            setError(err.message || "Erreur lors de la mise à jour");
         }
         setSaving(false);
     };
 
     const handleLogout = () => {
         if (window.confirm("Voulez-vous vraiment vous déconnecter ?")) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
             resetPreferences();
             resetLanguage();
             resetDevise();
-            window.location.href = '/login';
+            navigate("/login");
         }
     };
+
+    // Vérifie si l'utilisateur est gestionnaire
+    const isGestionnaire = user?.statut === "gestionnaire";
 
     if (loading) {
         return (
@@ -132,15 +137,17 @@ function ProfileDetail() {
 
     const avatarUrl = user.photo
         ? user.photo
-        : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.prenom || '')}+${encodeURIComponent(user.nom || '')}&background=201244&color=fff`;
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            user.prenom || ""
+        )}+${encodeURIComponent(user.nom || "")}&background=201244&color=fff`;
 
     return (
         <div className="form-box" style={{ marginTop: 40 }}>
-            <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <div style={{ textAlign: "center", marginBottom: 24 }}>
                 <img
                     src={avatarUrl}
                     alt="Avatar utilisateur"
-                    style={{ borderRadius: '50%', width: 80, height: 80, marginBottom: 12 }}
+                    style={{ borderRadius: "50%", width: 80, height: 80, marginBottom: 12 }}
                 />
                 <h2 style={{ margin: 0 }}>Profil utilisateur</h2>
             </div>
@@ -156,7 +163,6 @@ function ProfileDetail() {
                         value={form.nom}
                         onChange={handleChange}
                     />
-
                     <label htmlFor="prenom">Prénom :</label>
                     <input
                         type="text"
@@ -165,7 +171,6 @@ function ProfileDetail() {
                         value={form.prenom}
                         onChange={handleChange}
                     />
-
                     <label htmlFor="email">Email :</label>
                     <input
                         type="email"
@@ -175,8 +180,9 @@ function ProfileDetail() {
                         onChange={handleChange}
                         required
                     />
-
-                    <label htmlFor="password">Mot de passe (laisser vide pour ne pas changer) :</label>
+                    <label htmlFor="password">
+                        Mot de passe (laisser vide pour ne pas changer) :
+                    </label>
                     <input
                         type="password"
                         id="password"
@@ -185,7 +191,6 @@ function ProfileDetail() {
                         onChange={handleChange}
                         autoComplete="new-password"
                     />
-
                     <label htmlFor="adresse">Adresse :</label>
                     <input
                         type="text"
@@ -194,7 +199,6 @@ function ProfileDetail() {
                         value={form.adresse}
                         onChange={handleChange}
                     />
-
                     <label htmlFor="telephone">Téléphone :</label>
                     <input
                         type="tel"
@@ -203,21 +207,34 @@ function ProfileDetail() {
                         value={form.telephone}
                         onChange={handleChange}
                     />
-
                     <div className="button-group">
                         {!saving && <button type="submit">Enregistrer</button>}
-                        <button type="button" onClick={handleCancel}>Annuler</button>
+                        <button type="button" onClick={handleCancel}>
+                            Annuler
+                        </button>
                     </div>
                 </form>
             ) : (
                 <>
                     <div style={{ marginBottom: 24 }}>
-                        <p><strong>ID :</strong> {user.id}</p>
-                        <p><strong>Email :</strong> {user.email}</p>
-                        <p><strong>Nom :</strong> {user.nom || '-'}</p>
-                        <p><strong>Prénom :</strong> {user.prenom || '-'}</p>
-                        <p><strong>Adresse :</strong> {user.adresse || '-'}</p>
-                        <p><strong>Téléphone :</strong> {user.telephone || '-'}</p>
+                        <p>
+                            <strong>ID :</strong> {user.id}
+                        </p>
+                        <p>
+                            <strong>Email :</strong> {user.email}
+                        </p>
+                        <p>
+                            <strong>Nom :</strong> {user.nom || "-"}
+                        </p>
+                        <p>
+                            <strong>Prénom :</strong> {user.prenom || "-"}
+                        </p>
+                        <p>
+                            <strong>Adresse :</strong> {user.adresse || "-"}
+                        </p>
+                        <p>
+                            <strong>Téléphone :</strong> {user.telephone || "-"}
+                        </p>
                     </div>
                     <div className="button-group">
                         <button type="button" onClick={handleEdit}>
@@ -227,6 +244,15 @@ function ProfileDetail() {
                             Déconnexion
                         </button>
                     </div>
+                    {isGestionnaire && (
+                        <button
+                            type="button"
+                            onClick={() => navigate("/gestionnaire")}
+                            className="gestionnaire-button"
+                        >
+                            Gestionnaire
+                        </button>
+                    )}
                 </>
             )}
         </div>

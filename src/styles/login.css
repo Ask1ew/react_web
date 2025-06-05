@@ -308,5 +308,35 @@ form input:focus {
     .profile-separator {
         margin: 24px 0;
     }
+    .gestionnaire-button {
+        max-width: 100%;
+    }
 }
 
+/* Bouton Gestionnaire */
+.gestionnaire-button {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    background-color: #1eb1d4;
+    color: white;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto 12px auto;
+    transition: background 0.2s;
+}
+
+.gestionnaire-button:hover {
+    background-color: #3a3a6d;
+}
+
+.dark-mode .gestionnaire-button {
+    background-color: #1eb1d4;
+}
+
+.dark-mode .gestionnaire-button:hover {
+    background-color: #0e8fb8;
+}
